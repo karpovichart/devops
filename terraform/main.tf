@@ -52,6 +52,22 @@ resource "aws_instance" "db_server"{
     }
 }
 
+#EIP for aws_instances
+resource "aws_eip" "static_ip_ci_cd_server" {
+      instance = aws_instance.ci_cd_server.id
+      vpc      = true
+}
+
+resource "aws_eip" "static_ip_wordpress_server" {
+      instance = aws_instance.wordpress_server.id
+      vpc      = true
+}
+
+resource "aws_eip" "static_ip_db_server" {
+      instance = aws_instance.db_server.id
+      vpc      = true
+}
+
 #security groups
 resource "aws_security_group" "security_group" {
   name        = "DevOps project security_group"
@@ -147,9 +163,9 @@ provider "template" {
 data "template_file" "inventory" {
     template = file("inventory_template.tpl")
     vars = {
-        ci_cd_server_public_ip = aws_instance.ci_cd_server.public_ip
-        wordpress_server_public_ip = aws_instance.wordpress_server.public_ip
-        db_server_public_ip = aws_instance.db_server.public_ip
+        ci_cd_server_public_ip = aws_eip.static_ip_ci_cd_server.public_ip
+        wordpress_server_public_ip = aws_eip.static_ip_wordpress_server.public_ip
+        db_server_public_ip = aws_eip.static_ip_db_server.public_ip
     }
 }
 
