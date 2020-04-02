@@ -138,3 +138,26 @@ output "key_name_db_server" {
   value = tls_private_key.key_name_db_server.private_key_pem
   sensitive = true
 }
+
+#IP addresses for resources
+provider "template" {
+    version = "~> 2.1"
+}
+
+data "template_file" "inventory" {
+    template = file("inventory_template.tpl")
+    vars = {
+        ci_cd_server_public_ip = aws_instance.ci_cd_server.public_ip
+        wordpress_server_public_ip = aws_instance.wordpress_server.public_ip
+        db_server_public_ip = aws_instance.db_server.public_ip
+    }
+}
+
+provider "local" {
+    version = "~> 1.4"
+}
+
+resource "local_file" "save_inventory" {
+    content  = data.template_file.inventory.rendered
+    filename = "hosts.txt"
+}
