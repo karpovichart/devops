@@ -1,0 +1,6 @@
+---
+# defaults file for install_tomcat
+   tomcat_url :  https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-9/v9.0.33/bin/apache-tomcat-9.0.33.tar.gz
+   tomcat_dir : /opt/apache-tomcat-9.0.33.tar.gz
+
+

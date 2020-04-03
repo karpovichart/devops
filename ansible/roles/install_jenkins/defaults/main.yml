@@ -1,0 +1,5 @@
+---
+# defaults file for install_jenkins
+   jenkins_url : http://mirrors.jenkins.io/war/latest/jenkins.war
+  
+
