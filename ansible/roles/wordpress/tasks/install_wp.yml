@@ -1,0 +1,27 @@
+---
+    - name: mysql install
+      become: yes
+      apt:
+       name: mysql-server 
+       state: latest
+       update_cache: yes
+    - name: download core
+      become: yes
+      ignore_errors: yes
+      shell:
+       cmd: "wp core download --allow-root"
+       chdir: /var/www/html/
+      
+    - name: configure core
+      become: yes
+      ignore_errors: yes
+      shell:
+       cmd: "wp core config --dbhost={{wp_db_host}} --dbname={{wp_db_name}} --dbuser={{wp_db_user}} --dbpass={{wp_db_password}}  --allow-root"
+       chdir: "/var/www/html/"
+    
+    - name: install wp
+      become: yes
+      ignore_errors: yes
+      shell:
+       cmd: "wp core install --url=http://{{web_server_host}}/ --title=WordPress --admin_user=myusername --admin_password=mypassword --admin_email=tfirdaus@outlook.com  --allow-root"
+       chdir: "/var/www/html/"

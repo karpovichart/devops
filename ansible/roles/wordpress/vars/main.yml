@@ -1,0 +1,9 @@
+---
+  wp_db_user: wordpress3
+  wp_db_password: qwerty1
+  wp_db_host: 13.49.69.170
+  wp_db_name: wpbd3
+  root_user: root
+  new_root_pass: newROOTpass
+  web_server_host: 13.53.108.213
+  # vars file for wordpress

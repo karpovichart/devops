@@ -1,0 +1,3 @@
+---
+  programs: "apache2, php, libapache2-mod-php, php-mysql"
+# vars file for apache_conf

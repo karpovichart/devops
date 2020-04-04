@@ -1,0 +1,13 @@
+---
+ - name: Roles config
+   hosts: mysql
+   roles:
+   - mysql
+
+ - name: Roles config
+   hosts: web-server
+   roles:
+   - web-server
+   - wordpress
+
+   #todo добавить идемпотентность в вп и исправить варнинги
