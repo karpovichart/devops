@@ -29,6 +29,11 @@ key_3_p1 = subprocess.Popen(['terraform', 'output', 'key_name_wordpress_server']
 key_3_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server.pem"], stdin=key_3_p1.stdout, stdout=subprocess.PIPE)
 output3 = key_3_p2.communicate()[0]
 
+#setting access rights to keys
+subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
+subprocess.call("chmod 400 key_name_db_server.pem", shell=True)
+subprocess.call("chmod 400 key_name_wordpress_server.pem", shell=True)
+
 #make new directory for keys 'ansible/keys'
 os.chdir(ansible_dir)
 subprocess.call(['mkdir', 'keys'])
