@@ -1,8 +1,15 @@
 import os
+from os.path import abspath, dirname, join
 import subprocess
 
-#set workind directory
-os.chdir("/home/egor/devops/terraform")
+#define paths
+project_dir = dirname(dirname(dirname(abspath(__file__))))
+terraform_dir = join(project_dir, 'terraform')
+ansible_dir = join(project_dir, 'ansible')
+ansible_keys_dir = join(ansible_dir, 'keys') + '/'
+
+#set terraform workind directory
+os.chdir(terraform_dir)
 
 #run terraform 
 subprocess.run(['terraform', 'init'])
@@ -22,9 +29,13 @@ key_3_p1 = subprocess.Popen(['terraform', 'output', 'key_name_wordpress_server']
 key_3_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server.pem"], stdin=key_3_p1.stdout, stdout=subprocess.PIPE)
 output3 = key_3_p2.communicate()[0]
 
-#move kyes to new directory
-subprocess.call("mkdir /home/egor/devops/ansible/keys/", shell=True)
-subprocess.call("mv *.pem /home/egor/devops/ansible/keys/", shell=True)
+#make new directory for keys 'ansible/keys'
+os.chdir(ansible_dir)
+subprocess.call(['mkdir', 'keys'])
 
-#move file with hosts to new directory
-subprocess.call("mv hosts.txt /home/egor/devops/ansible", shell=True)
+#move keys to new directory
+os.chdir(terraform_dir)
+subprocess.call("mv " + "*.pem " + ansible_keys_dir, shell=True)
+
+#move file with hosts to ansible directory
+subprocess.call("mv " + "hosts.txt " + ansible_dir, shell=True)
