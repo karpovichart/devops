@@ -5,23 +5,38 @@
        name: mysql-server 
        state: latest
        update_cache: yes
+    - name: Check that wp core download exists
+      stat:
+       path: /var/www/html/wp-config-sample.php
+      register: stat_result
     - name: download core
       become: yes
       ignore_errors: yes
       shell:
        cmd: "wp core download --allow-root"
        chdir: /var/www/html/
-      
-    - name: configure core
+      when: stat_result.stat.exists == False 
+    - name: Check that wp core configured exists
+      stat:
+       path: /var/www/html/wp-config.php
+      register: stat_result
+    - name: check if isset conf file
       become: yes
       ignore_errors: yes
       shell:
        cmd: "wp core config --dbhost={{wp_db_host}} --dbname={{wp_db_name}} --dbuser={{wp_db_user}} --dbpass={{wp_db_password}}  --allow-root"
        chdir: "/var/www/html/"
-    
+      when: stat_result.stat.exists == False 
+    - name: configure core
+      command: 
+        "mysql --user={{wp_db_user}} --password={{wp_db_password}}  --database={{wp_db_name}}
+        --host={{wp_db_host}} --batch --skip-column-names
+        --execute='show tables from wpbd3;'"
+      register: stuff
     - name: install wp
       become: yes
       ignore_errors: yes
       shell:
        cmd: "wp core install --url=http://{{web_server_host}}/ --title=WordPress --admin_user=myusername --admin_password=mypassword --admin_email=tfirdaus@outlook.com  --allow-root"
        chdir: "/var/www/html/"
+      when: stuff.stdout_lines|length == 0
