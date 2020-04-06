@@ -4,12 +4,10 @@
      mysql_user: 
       name: "{{root_user}}"
       password: "{{new_root_pass}}"
-      #check_implicit_admin: yes
       login_user: "{{root_user}}"
       login_password: "{{new_root_pass}}"
       state: present
       login_unix_socket: /var/run/mysqld/mysqld.sock
-      # update_password: always
    - name: Removes all anonymous user accounts
      mysql_user:
        name: ''
@@ -31,7 +29,6 @@
       state: present
       update_password: on_create
       priv: "{{wp_db_name}}.*:ALL"
-      #priv: "{{wp_db_username}}@'%'"
       host: "{{wp_db_host}}"
       login_user: root
       login_password: "{{new_root_pass}}"
@@ -46,9 +43,15 @@
      become: yes
      lineinfile: 
       dest: '/etc/mysql/my.cnf'
-      regexp: ''
-      insertafter: EOF
-      line: "[mysqld]\nbind-address=0.0.0.0"
+      regexp: '^[mysqld]'
+      insertafter: '^[mysqld]'
+      line: "[mysqld]"
+   - name: allow access
+     become: yes
+     lineinfile: 
+      dest: '/etc/mysql/my.cnf'
+      regexp: '^bind-address=0.0.0.0'
+      line: "bind-address=0.0.0.0"
    - name: restart mysql
      become: yes
      systemd:
