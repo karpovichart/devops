@@ -1,6 +1,7 @@
 import os
 from os.path import abspath, dirname, join
 import subprocess
+from getpass import getpass
 
 #define paths
 project_dir = dirname(dirname(dirname(abspath(__file__))))
@@ -10,6 +11,17 @@ ansible_keys_dir = join(ansible_dir, 'keys') + '/'
 
 #set terraform workind directory
 os.chdir(terraform_dir)
+
+#create terraform file with vars (AWS credentials)
+subprocess.call("touch terraform.tfvars", shell=True)
+
+#get keys and write them to terraform.tfvars file
+access_key = getpass("Enter access key : ") 
+secret_key = getpass("Enter secret key : ") 
+f = open("terraform.tfvars", "a")
+f.write('AWS_ACCESS_KEY = "{}" \n'.format(access_key))
+f.write('AWS_SECRET_KEY = "{}"'.format(secret_key))
+f.close()
 
 #run terraform 
 subprocess.run(['terraform', 'init'])
