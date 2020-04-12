@@ -12,21 +12,18 @@ ansible_keys_dir = join(ansible_dir, 'keys') + '/'
 #set terraform workind directory
 os.chdir(terraform_dir)
 
-print('Welcome to setup script for NetCracker DevOps project')
+print('Welcome to setup script for NetCracker DevOps project \n')
 
-if isfile('terraform.tfvars'):
-    pass
-else:
-    #create terraform file with vars (AWS credentials)
-    subprocess.call("touch terraform.tfvars", shell=True)
+#get keys and export as env vars
+access_key = getpass("Enter AWS access key : ") 
+secret_key = getpass("Enter AWS secret key : ") 
 
-    #get keys and write them to terraform.tfvars file
-    access_key = getpass("Enter access key : ") 
-    secret_key = getpass("Enter secret key : ") 
-    f = open("terraform.tfvars", "a")
-    f.write('AWS_ACCESS_KEY = "{}" \n'.format(access_key))
-    f.write('AWS_SECRET_KEY = "{}"'.format(secret_key))
-    f.close()
+aws_vars = {
+    'AWS_ACCESS_KEY_ID' : access_key ,
+    'AWS_SECRET_ACCESS_KEY' : secret_key
+}
+
+os.environ.update(aws_vars)
 
 print('Choose option: \n 1 - terraform apply \n 2 - terraform destroy')
 select = input('Enter number: ')
