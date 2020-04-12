@@ -1,9 +1,7 @@
 ---
- - name: install tomcat
-   hosts: server_linux
-   become: yes
-   become_method: sudo
-
-   roles: 
-    - install_tomcat
-
+- name: install tomcat
+  hosts: server_linux
+  become: yes
+  become_method: sudo
+  roles:
+   - install_tomcat
