@@ -252,3 +252,17 @@ resource "local_file" "save_inventory" {
     content  = data.template_file.inventory.rendered
     filename = "hosts.txt"
 }
+
+#Config for NGINX load balancer
+data "template_file" "nginx_default" {
+    template = file("nginx_default_template.tpl")
+    vars = {
+        wordpress_server_1_public_ip = aws_eip.static_ip_wordpress_server_1.public_ip
+        wordpress_server_2_public_ip = aws_eip.static_ip_wordpress_server_2.public_ip
+    }
+}
+
+resource "local_file" "save_nginx_default" {
+    content  = data.template_file.nginx_default.rendered
+    filename = "default"
+}

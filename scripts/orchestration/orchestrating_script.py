@@ -72,5 +72,8 @@ if select=='1':
 
     #move file with hosts to ansible directory
     subprocess.call("mv " + "hosts.txt " + ansible_dir, shell=True)
+
+    #move file with nginx load balancer config to ansible directory
+    subprocess.call("mv " + "default " + ansible_dir, shell=True)
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])

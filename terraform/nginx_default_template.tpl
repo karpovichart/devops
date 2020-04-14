@@ -1,6 +1,6 @@
 upstream web_backend {
-	server 3.127.35.144;
-	server 18.195.117.227;
+	server ${wordpress_server_1_public_ip}/wordpress/;
+	server ${wordpress_server_2_public_ip}/wordpress/;
 }
 
 server {
