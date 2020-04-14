@@ -1,0 +1,6 @@
+---
+    - name: configure nginx
+      become: yes
+      copy:
+        src: ../../../default
+        dest: /etc/nginx/sites-available/
