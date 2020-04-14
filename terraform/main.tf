@@ -26,7 +26,7 @@ resource "aws_instance" "wordpress_server_1"{
     security_groups = [ aws_security_group.security_group.name ]
     key_name = aws_key_pair.key_pair_wordpress_server_1.key_name
     tags = {
-        Name = "WordPress Server"
+        Name = "WordPress Server 1"
     }
 }
 
@@ -36,7 +36,7 @@ resource "aws_instance" "wordpress_server_2"{
     security_groups = [ aws_security_group.security_group.name ]
     key_name = aws_key_pair.key_pair_wordpress_server_2.key_name
     tags = {
-        Name = "WordPress Server"
+        Name = "WordPress Server 2"
     }
 }
 
@@ -64,26 +64,41 @@ resource "aws_instance" "load_balancer_server"{
 resource "aws_eip" "static_ip_ci_cd_server" {
       instance = aws_instance.ci_cd_server.id
       vpc      = true
+      tags = {
+                Name = "Jenkins Server EIP"
+            }
 }
 
 resource "aws_eip" "static_ip_wordpress_server_1" {
       instance = aws_instance.wordpress_server_1.id
       vpc      = true
+      tags = {
+                Name = "WordPress Server 1 EIP"
+            }
 }
 
 resource "aws_eip" "static_ip_wordpress_server_2" {
       instance = aws_instance.wordpress_server_2.id
       vpc      = true
+      tags = {
+                Name = "WordPress Server 2 EIP"
+            }
 }
 
 resource "aws_eip" "static_ip_db_server" {
       instance = aws_instance.db_server.id
       vpc      = true
+      tags = {
+                Name = "MySQL Server EIP"
+            }
 }
 
 resource "aws_eip" "static_ip_load_balancer_server" {
       instance = aws_instance.load_balancer_server.id
       vpc      = true
+      tags = {
+                Name = "Load Balancer EIP"
+            }
 }
 
 #security groups
