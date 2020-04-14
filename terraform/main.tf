@@ -32,11 +32,21 @@ EOF
     }
 }
 
-resource "aws_instance" "wordpress_server"{
+resource "aws_instance" "wordpress_server_1"{
     ami           = "ami-0b418580298265d5c"
     instance_type = "t2.micro"
     security_groups = [ aws_security_group.security_group.name ]
-    key_name = aws_key_pair.key_pair_wordpress_server.key_name
+    key_name = aws_key_pair.key_pair_wordpress_server_1.key_name
+    tags = {
+        Name = "WordPress Server"
+    }
+}
+
+resource "aws_instance" "wordpress_server_2"{
+    ami           = "ami-0b418580298265d5c"
+    instance_type = "t2.micro"
+    security_groups = [ aws_security_group.security_group.name ]
+    key_name = aws_key_pair.key_pair_wordpress_server_2.key_name
     tags = {
         Name = "WordPress Server"
     }
@@ -52,19 +62,39 @@ resource "aws_instance" "db_server"{
     }
 }
 
+resource "aws_instance" "load_balancer_server"{
+    ami           = "ami-0b418580298265d5c"
+    instance_type = "t2.micro"
+    security_groups = [ aws_security_group.security_group.name ]
+    key_name = aws_key_pair.key_pair_db_server.key_name
+    tags = {
+        Name = "Load Balancer Server"
+    }
+}
+
 #EIP for aws_instances
 resource "aws_eip" "static_ip_ci_cd_server" {
       instance = aws_instance.ci_cd_server.id
       vpc      = true
 }
 
-resource "aws_eip" "static_ip_wordpress_server" {
-      instance = aws_instance.wordpress_server.id
+resource "aws_eip" "static_ip_wordpress_server_1" {
+      instance = aws_instance.wordpress_server_1.id
+      vpc      = true
+}
+
+resource "aws_eip" "static_ip_wordpress_server_2" {
+      instance = aws_instance.wordpress_server_2.id
       vpc      = true
 }
 
 resource "aws_eip" "static_ip_db_server" {
       instance = aws_instance.db_server.id
+      vpc      = true
+}
+
+resource "aws_eip" "static_ip_load_balancer_server" {
+      instance = aws_instance.load_balancer_server.id
       vpc      = true
 }
 
@@ -115,23 +145,43 @@ output "key_name_ci_cd_server" {
   sensitive = true
 }
 
-#key for wordpress_server
-variable "key_name_wordpress_server" {
+#key for wordpress_server 1
+variable "key_name_wordpress_server_1" {
     type = string
-    default = "key_name_wordpress_server"
+    default = "key_name_wordpress_server_1"
 }
 
-resource "tls_private_key" "key_name_wordpress_server" {
+resource "tls_private_key" "key_name_wordpress_server_1" {
     algorithm = "RSA" 
     rsa_bits = 4096
 }
-resource "aws_key_pair" "key_pair_wordpress_server" {
-    key_name = var.key_name_wordpress_server
-    public_key = tls_private_key.key_name_wordpress_server.public_key_openssh
+resource "aws_key_pair" "key_pair_wordpress_server_1" {
+    key_name = var.key_name_wordpress_server_1
+    public_key = tls_private_key.key_name_wordpress_server_1.public_key_openssh
 }
 
-output "key_name_wordpress_server" {
-  value = tls_private_key.key_name_wordpress_server.private_key_pem
+output "key_name_wordpress_server_1" {
+  value = tls_private_key.key_name_wordpress_server_1.private_key_pem
+  sensitive = true
+}
+
+#key for wordpress_server 2
+variable "key_name_wordpress_server_2" {
+    type = string
+    default = "key_name_wordpress_server_2"
+}
+
+resource "tls_private_key" "key_name_wordpress_server_2" {
+    algorithm = "RSA" 
+    rsa_bits = 4096
+}
+resource "aws_key_pair" "key_pair_wordpress_server_2" {
+    key_name = var.key_name_wordpress_server_2
+    public_key = tls_private_key.key_name_wordpress_server_2.public_key_openssh
+}
+
+output "key_name_wordpress_server_2" {
+  value = tls_private_key.key_name_wordpress_server_2.private_key_pem
   sensitive = true
 }
 
@@ -155,6 +205,26 @@ output "key_name_db_server" {
   sensitive = true
 }
 
+#key for load_balancer_server
+variable "key_name_load_balancer_server" {
+    type = string
+    default = "key_name_load_balancer_server"
+}
+
+resource "tls_private_key" "key_name_load_balancer_server" {
+    algorithm = "RSA" 
+    rsa_bits = 4096
+}
+resource "aws_key_pair" "key_pair_load_balancer_server" {
+    key_name = var.key_name_load_balancer_server
+    public_key = tls_private_key.key_name_load_balancer_server.public_key_openssh
+}
+
+output "key_name_load_balancer_server" {
+  value = tls_private_key.key_name_load_balancer_server.private_key_pem
+  sensitive = true
+}
+
 #IP addresses for resources
 provider "template" {
     version = "~> 2.1"
@@ -164,8 +234,10 @@ data "template_file" "inventory" {
     template = file("inventory_template.tpl")
     vars = {
         ci_cd_server_public_ip = aws_eip.static_ip_ci_cd_server.public_ip
-        wordpress_server_public_ip = aws_eip.static_ip_wordpress_server.public_ip
+        wordpress_server_1_public_ip = aws_eip.static_ip_wordpress_server_1.public_ip
+        wordpress_server_2_public_ip = aws_eip.static_ip_wordpress_server_2.public_ip
         db_server_public_ip = aws_eip.static_ip_db_server.public_ip
+        load_balancer_server_public_ip = aws_eip.static_ip_load_balancer_server.public_ip
     }
 }
 
