@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+   </head>
+   <body>
+      <div style="display: flex; 
+                  flex-direction: column;
+                  justify-content: center; 
+                  align-items: center;">
+         <h1>Dashboard</h1>
+         <table class="pure-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Public IP</th>
+                    <th>ID</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for instance in instances %}
+                <tr>
+                    <td>{{ instance.tags[0]['Value'] }}</td>
+                    <td>{{ instance.public_ip_address }}</td>
+                    <td>{{ instance.id }}</td>
+                    <td>{{ instance.state['Name'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+         </table> 
+      </div>
+   </body>
+</html>
