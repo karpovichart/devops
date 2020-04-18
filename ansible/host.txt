@@ -1,4 +1,4 @@
-[web-server]
+[wordpress_server]
 13.53.108.213 ansible_user=ubuntu ansible_ssh_private_key_file=keys/stockholm.pem
-[mysql]
+[db_server]
 13.49.69.170 ansible_user=ubuntu ansible_ssh_private_key_file=keys/stockholm.pem
