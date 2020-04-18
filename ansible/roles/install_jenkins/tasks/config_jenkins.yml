@@ -26,7 +26,7 @@
  - name: create user
    shell:
     cmd: >
-      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("user5", "password123")' | java -jar jenkins-cli.jar -s http://localhost:8080/jenkins groovy =
+      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount({{jenkins_username}}, {{jenkins_password}})' | java -jar jenkins-cli.jar -s http://localhost:8080/jenkins groovy =
     chdir: "/home/jenkins"
  - name: avalible registration
    become: yes
@@ -42,7 +42,7 @@
     line: '<disableSignup>true</disableSignup>'
  - name: restart jenkins
    command:
-    cmd: "java -jar jenkins-cli.jar -auth user5:password123 -s http://localhost:8080/jenkins safe-restart"
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
     chdir: "/home/jenkins"
  - name: wait for jenkins start
    uri:
