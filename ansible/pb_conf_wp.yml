@@ -1,0 +1,11 @@
+---
+ - name: Roles config
+   hosts: db_server
+   roles:
+   - mysql
+
+ - name: Roles config
+   hosts: wordpress_server
+   roles:
+   - web-server
+   - wordpress 
