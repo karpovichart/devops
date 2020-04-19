@@ -1,12 +1,12 @@
 ---
   - name: Check that the wpcli exists
     stat:
-      path: /usr/local/bin/wp
+      path: "{{wp_cli_path}}"
     register: stat_result
   - name: download wpcli
     become: yes
     get_url: 
-     url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-     dest: /usr/local/bin/wp
+     url: "{{wp_cli_url_download}}"
+     dest: "{{wp_cli_path}}"
      mode: "u+x"
     when: stat_result.stat.exists == False 

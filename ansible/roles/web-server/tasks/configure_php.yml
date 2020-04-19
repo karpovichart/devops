@@ -6,9 +6,11 @@
    regexp: "DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm"
    line: "\tDirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm"
    state: present
+  register: php
 - name: restart apache
   become: yes
   systemd:
    state: restarted
    daemon_reload: yes
    name: apache2
+  when: php is changed

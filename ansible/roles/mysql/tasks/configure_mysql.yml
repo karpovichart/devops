@@ -1,60 +1,68 @@
 ---
-   - name: Set root user password
-     become: yes
-     mysql_user: 
-      name: "{{root_user}}"
-      password: "{{new_root_pass}}"
-      login_user: "{{root_user}}"
-      login_password: "{{new_root_pass}}"
-      state: present
-      login_unix_socket: /var/run/mysqld/mysqld.sock
-   - name: Removes all anonymous user accounts
-     mysql_user:
-       name: ''
-       host_all: yes
-       state: absent
-       login_user: root
-       login_password: "{{new_root_pass}}"
-       host: "{{wp_db_host}}"
-   - name: Removes the MySQL test database
-     mysql_db:
-       name: test
-       state: absent
-       login_user: root
-       login_password: "{{new_root_pass}}"
-   - name: "Create user {{wp_db_name}} for WP"
-     mysql_user:
-      name: "{{wp_db_username}}"
-      password: "{{wp_db_password}}"
-      state: present
-      update_password: on_create
-      priv: "{{wp_db_name}}.*:ALL"
-      host: "{{wp_db_host}}"
+  - name: Set root user password
+    become: yes
+    mysql_user: 
+     name: "{{root_user}}"
+     password: "{{new_root_pass}}"
+     login_user: "{{root_user}}"
+     login_password: "{{new_root_pass}}"
+     state: present
+     login_unix_socket: /var/run/mysqld/mysqld.sock
+  - name: Removes all anonymous user accounts
+    mysql_user:
+      name: ''
+      host_all: yes
+      state: absent
       login_user: root
       login_password: "{{new_root_pass}}"
-      login_unix_socket: /var/run/mysqld/mysqld.sock
-   - name: "create db {{wp_db_name}}}"
-     mysql_db:
-      db: "{{wp_db_name}}"
-      state: present
-      login_user: "{{wp_db_username}}"
-      login_password: "{{wp_db_password}}"
-   - name: allow access
-     become: yes
-     lineinfile: 
-      dest: '/etc/mysql/my.cnf'
-      regexp: '^[mysqld]'
-      insertafter: '^[mysqld]'
-      line: "[mysqld]"
-   - name: allow access
-     become: yes
-     lineinfile: 
-      dest: '/etc/mysql/my.cnf'
-      regexp: '^bind-address=0.0.0.0'
-      line: "bind-address=0.0.0.0"
-   - name: restart mysql
-     become: yes
-     systemd:
-      state: restarted
-      daemon_reload: yes
-      name: mysql
+      host: "{{wp_db_host}}"
+  - name: Removes the MySQL test database
+    mysql_db:
+      name: test
+      state: absent
+      login_user: root
+      login_password: "{{new_root_pass}}"
+  - name: "Create user {{wp_db_name}} for WP"
+    mysql_user:
+     name: "{{wp_db_username}}"
+     password: "{{wp_db_password}}"
+     state: present
+     update_password: on_create
+     priv: "{{wp_db_name}}.*:ALL"
+     host: "{{wp_db_host}}"
+     login_user: root
+     login_password: "{{new_root_pass}}"
+     login_unix_socket: /var/run/mysqld/mysqld.sock
+  - name: "create db {{wp_db_name}}}"
+    mysql_db:
+     db: "{{wp_db_name}}"
+     state: present
+     login_user: "{{wp_db_username}}"
+     login_password: "{{wp_db_password}}"
+  - name: allow access
+    become: yes
+    lineinfile: 
+       dest: '/etc/mysql/my.cnf'
+       regexp: '^[mysqld]'
+       insertafter: '^[mysqld]'
+       line: "[mysqld]"
+    register: mysql_conf1
+  - name: allow access
+    become: yes
+    lineinfile: 
+       dest: '/etc/mysql/my.cnf'
+       regexp: '^bind-address=0.0.0.0'
+       line: "bind-address=0.0.0.0"
+    register: mysql_conf2
+   # - name: allow access
+   
+     # become: yes
+     
+   
+  - name: restart mysql
+    become: yes
+    systemd:
+     state: restarted
+     daemon_reload: yes
+     name: mysql
+    when: mysql_conf1 is changed or mysql_conf2 is changed
