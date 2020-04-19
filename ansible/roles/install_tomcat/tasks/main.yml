@@ -1,0 +1,37 @@
+---
+# tasks file for install_tomcat
+# tasks file for install_tomcat_and_jenkins
+  - name: Install wget package
+    become: yes
+    apt:
+      update_cache: yes #здесь происходит выполнение apt-get update
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - python3-pip
+      - wget
+      - openjdk-8-jdk
+    tags: install_packages #это тэг, чтобы можно было запустить отдельно эту таску
+  - name: Add tomcat group
+    group:
+      name: tomcat
+  - name: Add tomcat user
+    user:
+      name: tomcat
+      group: tomcat
+      home: "{{tomcat_home}}"
+      createhome: no
+      system: yes
+  - name: Download Tomcat
+    get_url:
+      url: "{{ tomcat_url }}"
+      dest : "{{ tomcat_dir }}" 
+  - name: Extract tomcat archive
+    unarchive:
+      src: "{{ tomcat_dir }}"
+      dest: "{{tomcat_home}}" 
+      owner: tomcat
+      group: tomcat
+      remote_src: yes
+      extra_opts: "--strip-components=1"
+      creates: "{{tomcat_home}}/bin" 

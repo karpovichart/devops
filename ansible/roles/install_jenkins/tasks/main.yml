@@ -1,0 +1,77 @@
+---
+#tasks file for install_jenkins
+     
+     - name: add java opts
+       become: yes
+       lineinfile:
+        dest: '/etc/environment'
+        regexp: '^JAVA_OPTS'
+        insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
+        line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
+       register: task_result1
+     - name: add java args
+       become: yes
+       lineinfile:
+        dest: '/etc/environment'
+        regexp: '^JAVA_ARGS'
+        insertafter: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
+        line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
+       register: task_result2
+     - name: add jenkins home
+       become: yes
+       lineinfile:
+        dest: '/etc/environment'
+        regexp: '^JENKINS_HOME'
+        insertafter: "^JENKINS_HOME=\"{{jenkins_home}}\""
+        line: "JENKINS_HOME=\"{{jenkins_home}}\""
+       register: task_result3
+     - name: restart server
+       block:
+       - name: stop tomcat
+         shell: "nohup {{tomcat_home}}/bin/shutdown.sh"
+       - name: Reboot immediately if there was a change.
+         shell: "sleep 5 && reboot"
+         async: 1
+         poll: 0
+       - name: Wait for the reboot to complete if there was a change.
+         wait_for_connection:
+          connect_timeout: 20
+          sleep: 5
+          delay: 5
+          timeout: 300
+       when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+     - name: if jenkins war isset
+       stat:
+        path: "{{tomcat_home}}/webapps/jenkins.war"
+       register: stat_result
+     - name: download jenkins
+       get_url:
+         url: "{{ jenkins_url  }}"
+         dest: "{{tomcat_home}}/webapps/"
+         mode: '0777'
+       when: not stat_result.stat.exists
+     - name: start tomcat
+       shell: "nohup {{tomcat_home}}/bin/startup.sh"
+     - name: wait for tomcat start
+       uri:
+        url: "http://localhost:8080/"
+        follow_redirects: safe
+        method: GET
+       register: _result
+       until: _result.status == 200
+       retries: 20 
+       delay: 5 
+     - name: wait for jenkins start
+       uri:
+        url: "http://localhost:8080/jenkins/login"
+        follow_redirects: all
+        method: GET
+       register: _result
+       until: _result.status == 200
+       retries: 100
+       delay: 5 
+     - include: config_jenkins.yml
+     
+#todo сделать удаление переменных системы
+#todo попробовать оптимизировать скрипт
+#todo вынести переменные и одинаковые куски кода в отедельные части

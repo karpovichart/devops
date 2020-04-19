@@ -1,0 +1,98 @@
+---
+
+ - name: download cli
+   get_url:
+    url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
+    dest: "{{jenkins_home}}"
+  
+ - name: check avalible registration
+   become: yes
+   lineinfile:
+    dest: "{{jenkins_home}}/config.xml"
+    regexp: "hudson.security.SecurityRealm+"
+    line: ""
+    state: absent
+    
+   
+        #failed_when: presence is changed 
+    #regexp: "hudson.security.SecurityRealm+"
+   check_mode: yes
+   register: avilable_reg_res1
+ 
+   
+ - name: avalible registration
+   block: 
+   - name: avalible registration
+     become: yes
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      state: present
+      regexp: "hudson.security.SecurityRealm+"
+      line: "<securityRealm class=\"hudson.security.HudsonPrivateSecurityRealm\">\n<disableSignup>false</disableSignup>\n<enableCaptcha>false</enableCaptcha>\n</securityRealm>"
+   - name: restart jenkins
+     command: 
+      cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins safe-restart"
+      chdir: "/home/jenkins"
+   - name: wait for jenkins start
+     uri:
+      url: "http://localhost:8080/jenkins/login"
+      follow_redirects: all
+      method: GET
+     register: _result
+     until: _result.status == 200
+     retries: 100 
+     delay: 5 
+   when: avilable_reg_res1 is changed
+ - name: check user isset
+   become: yes
+   lineinfile:
+    dest: "{{jenkins_home}}/users/users.xml"
+    regexp: "<string>user5</string>"
+    line: ""
+    state: absent
+   check_mode: yes
+   register: avilable_reg_res1
+ - name: create user
+   shell: 
+    cmd: >
+      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("{{jenkins_username}}", "{{jenkins_password}}")' | java -jar jenkins-cli.jar -s http://localhost:8080/jenkins groovy =
+    chdir: "{{jenkins_home}}"
+   when: not avilable_reg_res1 is changed
+ - name: check disable anon sing in
+   become: yes
+   lineinfile:
+    dest: "{{jenkins_home}}/config.xml"
+    regexp: "hudson.security.AuthorizationStrategy+"
+    line: ""
+    state: absent
+   check_mode: yes
+   register: disable_anon_res
+ - name: restart jenkins
+   block:
+   - name: disable anon sing in
+     become: yes
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      regexp: "hudson.security.AuthorizationStrategy+"
+      line: "<authorizationStrategy class=\"hudson.security.FullControlOnceLoggedInAuthorizationStrategy\">\n<denyAnonymousReadAccess>true</denyAnonymousReadAccess>\n</authorizationStrategy>"
+   - name: disable register jenkins
+     become: yes
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      regexp: 'disableSignup+'
+      line: '<disableSignup>true</disableSignup>'
+   - name: restart jenkins
+     command: 
+       cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
+       chdir: "{{jenkins_home}}"
+   - name: wait for jenkins start
+     uri:
+      url: "http://localhost:8080/jenkins/login"
+      follow_redirects: all
+      method: GET
+     register: _result
+     until: _result.status == 200
+     retries: 100 
+     delay: 5 
+   when: disable_anon_res is changed 
+ 
