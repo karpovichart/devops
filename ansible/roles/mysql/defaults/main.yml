@@ -1,2 +1,11 @@
 ---
 # defaults file for mysql
+  wp_db_username: wordpress3
+  wp_db_password: qwerty1
+  wp_db_name: wpbd3
+  wp_db_host: "%"
+  mysql_root_password: qwerty333
+  mysql_user: ubuntu
+  mysql_old_root_password: qwerty
+  root_user: root
+  new_root_pass: newROOTpass
