@@ -4,14 +4,14 @@
   - name: Install wget package
     become: yes
     apt:
-      update_cache: yes #здесь происходит выполнение apt-get update
+      update_cache: yes #here is apt-get update
       name: "{{ item }}"
       state: present
     with_items:
       - python3-pip
       - wget
       - openjdk-8-jdk
-    tags: install_packages #это тэг, чтобы можно было запустить отдельно эту таску
+    tags: install_packages #tag for run only this task 
   - name: Add tomcat group
     group:
       name: tomcat

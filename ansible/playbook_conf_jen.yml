@@ -1,6 +1,0 @@
-- name: install jenkins
-  hosts: server_linux
-  become: yes
-  become_method: sudo
-  roles:
-    - configure_jenkins
