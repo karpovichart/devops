@@ -1,4 +1,2 @@
 ---
 # vars file for install_jenkins
- jenkins_username: user
- jenkins_password: password123

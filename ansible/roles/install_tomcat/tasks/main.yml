@@ -15,33 +15,23 @@
   - name: Add tomcat group
     group:
       name: tomcat
-
-  - name: create dir
-    command:
-      cmd: "{{ item }}"
-    with_items:
-    - mkdir -p /opt/tomcat/
-    - chmod 777 -R /opt/tomcat
-
   - name: Add tomcat user
     user:
       name: tomcat
       group: tomcat
-      home: /opt/tomcat/
+      home: "{{tomcat_home}}"
       createhome: no
       system: yes
-
   - name: Download Tomcat
     get_url:
       url: "{{ tomcat_url }}"
-      dest : "{{ tomcat_dir }}"
-
+      dest : "{{ tomcat_dir }}" 
   - name: Extract tomcat archive
     unarchive:
       src: "{{ tomcat_dir }}"
-      dest: /opt/tomcat/
+      dest: "{{tomcat_home}}" 
       owner: tomcat
       group: tomcat
       remote_src: yes
       extra_opts: "--strip-components=1"
-      creates: /opt/tomcat/bin
+      creates: "{{tomcat_home}}/bin" 
