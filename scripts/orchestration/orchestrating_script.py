@@ -5,15 +5,20 @@ from getpass import getpass
 
 #install terraform
 subprocess.call("wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip", shell=True)
+subprocess.call("sudo apt install unzip", shell=True)
 subprocess.call("unzip terraform_0.12.24_linux_amd64.zip", shell=True)
 subprocess.call("rm terraform_0.12.24_linux_amd64.zip", shell=True)
 subprocess.call("sudo mv terraform /bin/", shell=True)
-subprocess.call("terraform --version", shell=True)
 
 #install ansible
 subprocess.call("sudo apt-add-repository ppa:ansible/ansible -y", shell=True)
 subprocess.call("sudo apt-get update", shell=True)
 subprocess.call("sudo apt-get install ansible -y", shell=True)
+
+#check installation and output versions
+print('\n Terraform version \n')
+subprocess.call("terraform --version", shell=True)
+print('\n Ansible version \n')
 subprocess.call("ansible --version", shell=True)
 
 #define paths
