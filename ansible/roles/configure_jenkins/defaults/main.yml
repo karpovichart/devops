@@ -1,3 +1,0 @@
----
-# defaults file for configure_jenkins
-url_server : "http://{{groups['jenkins'][0]}}:8080/jenkins"
