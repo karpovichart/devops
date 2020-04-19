@@ -1,4 +1,3 @@
 --- 
    - include: download_apache_php.yml
    - include: configure_php.yml
-   - include: restart_apache.yml
