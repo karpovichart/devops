@@ -1,0 +1,12 @@
+---
+  - name: mysql, pip3, python3 install
+    become: yes
+    apt:
+     name: python3, mysql-server, python3-pip 
+     state: latest
+     update_cache: yes
+  - name: Make sure pymysql is present
+    become: yes 
+    pip:
+     name: pymysql
+     state: present

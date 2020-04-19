@@ -1,0 +1,15 @@
+---
+# defaults file for wordpress
+  wp_db_user: wordpress3
+  wp_db_password: qwerty1
+  wp_db_host: "{{groups['db_server'][0]}}"
+  wp_db_name: wpbd3
+  root_user: root
+  new_root_pass: newROOTpass
+  web_server_host: "{{groups['wordpress_server'][0]}}"
+  wp_cli_path: "/usr/local/bin/wp"
+  wp_cli_url_download: "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+  wp_path: "/var/www/html/"
+  wp_username: admin
+  wp_password: qwerty
+  wp_email: test@test.ru

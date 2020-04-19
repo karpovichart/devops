@@ -1,0 +1,7 @@
+---
+   - name: install apache + php
+     become: yes
+     apt:
+      name: "{{programs}}"
+      state: latest
+      update_cache: yes 
