@@ -250,7 +250,7 @@ provider "local" {
 
 resource "local_file" "save_inventory" {
     content  = data.template_file.inventory.rendered
-    filename = "hosts.txt"
+    filename = "hosts.ini"
 }
 
 #Config for NGINX load balancer

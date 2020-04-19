@@ -8,5 +8,5 @@ wordpress_server_host_2 ansible_host=${wordpress_server_2_public_ip} ansible_use
 [db_server]
 db_server_host ansible_host=${db_server_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=keys/key_name_db_server.pem.pem
 
-[load_balanser_server]
+[load_balancer_server]
 load_balancer_server_host ansible_host=${load_balancer_server_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=keys/key_name_load_balancer_server.pem.pem
