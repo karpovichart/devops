@@ -43,6 +43,13 @@ aws_vars = {
 
 os.environ.update(aws_vars)
 
+#get password for ansible
+os.chdir(ansible_dir)
+ansible_password = getpass("Enter password to decrypt keys for Ansible : ")
+subprocess.call("echo " + ansible_password + "> " "pass.txt", shell=True)
+
+os.chdir(terraform_dir)
+
 print('Choose option: \n 1 - terraform apply \n 2 - terraform destroy')
 select = input('Enter number: ')
 
