@@ -261,3 +261,8 @@ resource "local_file" "save_nginx_default" {
     content  = data.template_file.nginx_default.rendered
     filename = "default"
 }
+
+#output ci_cd_server IP
+output "ci_cd_server_public_ip" {
+  value = aws_eip.static_ip_ci_cd_server.public_ip
+}

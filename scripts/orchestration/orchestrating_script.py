@@ -80,6 +80,8 @@ if select=='1':
     key_4_p2 = subprocess.Popen(["tee", "-a", "key_name_load_balancer_server.pem"], stdin=key_4_p1.stdout, stdout=subprocess.PIPE)
     output2 = key_4_p2.communicate()[0]
 
+    ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+
     #setting access rights to keys
     subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
     subprocess.call("chmod 400 key_name_db_server.pem", shell=True)
@@ -106,5 +108,9 @@ if select=='1':
     print('\n CI/CD server configuration \n')
 
     subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
+
+    subprocess.call("wget " + ci_cd_server_public_ip + ":8080/jenkins/jnlpJars/jenkins-cli.jar", shell=True)
+    subprocess.call("java -jar jenkins-cli.jar -s " + ci_cd_server_public_ip + ":8080/jenkins " + "-auth user5:password123 build test1", shell=True)
+
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
