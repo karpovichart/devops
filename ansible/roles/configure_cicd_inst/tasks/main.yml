@@ -2,14 +2,14 @@
 # tasks file for configure_cicd_inst
  - name: test
    ping:
- - name: copy ansible
-   copy:
-    decrypt: no
-    src: "{{host_ansible_dir}}"
-    dest: "{{remote_ansible_dir}}"
-    owner: root
-    group: root
-    mode: '0400'
+# - name: copy ansible
+#   copy:
+#    decrypt: no
+#    src: "{{host_ansible_dir}}"
+#    dest: "{{remote_ansible_dir}}"
+#    owner: root
+#    group: root
+#    mode: '0400'
 # - name: copy pass
 #   copy:
 #    src: "{{host_vault_key}}"
