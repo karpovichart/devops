@@ -5,3 +5,5 @@
    roles:
    - install_ansible
    - configure_cicd_inst
+   - install_tomcat
+   - install_jenkins

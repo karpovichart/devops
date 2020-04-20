@@ -1,7 +1,5 @@
 ---
  - name: Roles config
-   hosts: localhost
+   hosts: ci_cd_server
    become: yes #todo убрать и расставить правильно где надо
    roles:
-   - install_tomcat
-   - install_jenkins
