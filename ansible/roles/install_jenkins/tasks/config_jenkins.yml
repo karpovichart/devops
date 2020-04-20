@@ -13,22 +13,22 @@
  - name: install plugin ansicolor
    jenkins_plugin:
      name: AnsiColor
-     url: "{{ jenkins_url }}"
+     url: "{{ jenkins_server_url }}"
      state: present
  - name: install plugin timestamper
    jenkins_plugin:
      name: timestamper
-     url: "{{ jenkins_url }}"
+     url: "{{ jenkins_server_url }}"
      state: present
  - name: intsall plugin ansibe
    jenkins_plugin:
      name: Ansible
-     url: "{{ jenkins_url }}"
+     url: "{{ jenkins_server_url }}"
      state: present
  - name: install plugin Pipeline
    jenkins_plugin:
      name: Pipeline
-     url: "{{ jenkins_url }}"
+     url: "{{ jenkins_server_url }}"
      state: present
  - name: check avalible registration
    become: yes
