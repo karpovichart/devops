@@ -1,6 +1,6 @@
 ---
  - name: Roles config
-   hosts: jenkins
+   hosts: ci_cd_server
    become: yes #todo убрать и расставить правильно где надо
    roles:
    - install_ansible
