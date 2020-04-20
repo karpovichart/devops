@@ -4,7 +4,26 @@
    get_url:
     url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
     dest: "{{jenkins_home}}"
-  
+ - name: install plugin ansicolor
+   jenkins_plugin:
+     name: AnsiColor
+     url: "{{ jenkins_url }}"
+     state: present
+ - name: install plugin timestamper
+   jenkins_plugin:
+     name: timestamper
+     url: "{{ jenkins_url }}"
+     state: present
+ - name: intsall plugin ansibe
+   jenkins_plugin:
+     name: Ansible
+     url: "{{ jenkins_url }}"
+     state: present
+ - name: install plugin Pipeline
+   jenkins_plugin:
+     name: Pipeline
+     url: "{{ jenkins_url }}"
+     state: present
  - name: check avalible registration
    become: yes
    lineinfile:
@@ -12,14 +31,8 @@
     regexp: "hudson.security.SecurityRealm+"
     line: ""
     state: absent
-    
-   
-        #failed_when: presence is changed 
-    #regexp: "hudson.security.SecurityRealm+"
    check_mode: yes
    register: avilable_reg_res1
- 
-   
  - name: avalible registration
    block: 
    - name: avalible registration
