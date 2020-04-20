@@ -10,11 +10,6 @@ resource "aws_instance" "ci_cd_server"{
     instance_type = "t2.micro"
     security_groups = [ aws_security_group.security_group.name ]
     key_name = aws_key_pair.key_pair_ci_cd_server.key_name
-	  user_data = <<EOF
-#!/bin/bash
-sudo apt update
-sudo apt install openjdk-8-jdk openjdk-8-jre -y
-EOF
     tags = {
         Name = "Jenkins Server"
     }
