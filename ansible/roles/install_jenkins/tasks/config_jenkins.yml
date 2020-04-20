@@ -47,7 +47,7 @@
    become: yes
    lineinfile:
     dest: "{{jenkins_home}}/users/users.xml"
-    regexp: "<string>user5</string>"
+    regexp: "<string>{{jenkins_username}}</string>"
     line: ""
     state: absent
    check_mode: yes

@@ -3,48 +3,51 @@
 - name: install python-jenkins
   pip:
    name: python-jenkins
+- name: sleep 10s
+  pause:
+   seconds: 10
 - name: install plugin ansicolor
   jenkins_plugin:
     name: AnsiColor
     url: "{{ url_server }}"
-    url_password: "{{jenkins_password}}"
-    url_username: "{{jenkins_username}}"
+    url_username: "{{ jenkins_username }}"
+    url_password: "{{ jenkins_password }}"
     state: present
 
 - name: install plugin timestamper
   jenkins_plugin:
     name: timestamper
     url: "{{ url_server }}"
-    url_password: "{{jenkins_password}}"
-    url_username: "{{jenkins_username}}"
+    url_username: "{{ jenkins_username }}"
+    url_password: "{{ jenkins_password }}"
     state: present
 
 - name: intsall plugin ansibe
   jenkins_plugin:
     name: Ansible
     url: "{{ url_server }}"
-    url_password: "{{jenkins_password}}"
-    url_username: "{{jenkins_username}}"
+    url_username: "{{ jenkins_username }}"
+    url_password: "{{ jenkins_password }}"
     state: present
 
 - name: install plugin Pipeline
   jenkins_plugin:
     name: Pipeline
     url: "{{ url_server }}"
-    url_password: "{{jenkins_password}}"
-    url_username: "{{jenkins_username}}"
+    url_username: "{{ jenkins_username }}"
+    url_password: "{{ jenkins_password }}"
     state: present
-
-
 - include: config.yml
-
+- name: sleep 10s
+  pause:
+   seconds: 10
 - name: make a jenkins  job
   jenkins_job:
     config: "{{ lookup('template', 'templates/test.xml.j2') }}"
     name: test1
-    password: "{{jenkins_password}}"
     url: "{{ url_server }}"
-    user: "{{jenkins_username}}"
+    user: "{{ jenkins_username }}"
+    password: "{{ jenkins_password }}"
 
 #- name : start job
 #  shell:
