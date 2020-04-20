@@ -1,0 +1,4 @@
+---
+# defaults file for configure_jenkins
+url_server : "http://3.18.221.14:8080/jenkins"
+jenkins_home: /home/jenkins
