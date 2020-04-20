@@ -1,6 +1,6 @@
 ---
 # defaults file for install_jenkins
-   jenkins_url : http://mirrors.jenkins.io/war/latest/jenkins.war
+   jenkins_url : http://mirrors.jenkins.io/war/2.232/jenkins.war
    jenkins_home: /home/jenkins
    tomcat_home: /opt/tomcat
    jenkins_username: user
