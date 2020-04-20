@@ -105,6 +105,6 @@ if select=='1':
 
     print('\n CI/CD server configuration \n')
 
-    subprocess.call("ansible-playbook " + "pb_conf_ci_cd", shell=True)
+    subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
