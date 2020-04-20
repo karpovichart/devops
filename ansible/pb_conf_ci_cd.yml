@@ -7,3 +7,4 @@
    - configure_cicd_inst
    - install_tomcat
    - install_jenkins
+   - configure_jenkins
