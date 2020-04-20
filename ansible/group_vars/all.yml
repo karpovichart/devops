@@ -1,3 +1,5 @@
 ---
  ansible_user: ubuntu
  key_dir: "/home/ubuntu/devops/ansible/keys/"
+ jenkins_username: user
+ jenkins_password: password1

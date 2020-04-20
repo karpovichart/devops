@@ -7,32 +7,32 @@
   jenkins_plugin:
     name: AnsiColor
     url: "{{ url_server }}"
-    url_password: password123
-    url_username: user5
+    url_password: "{{jenkins_password}}"
+    url_username: "{{jenkins_username}}"
     state: present
 
 - name: install plugin timestamper
   jenkins_plugin:
     name: timestamper
     url: "{{ url_server }}"
-    url_password: password123
-    url_username: user5
+    url_password: "{{jenkins_password}}"
+    url_username: "{{jenkins_username}}"
     state: present
 
 - name: intsall plugin ansibe
   jenkins_plugin:
     name: Ansible
     url: "{{ url_server }}"
-    url_password: password123
-    url_username: user5
+    url_password: "{{jenkins_password}}"
+    url_username: "{{jenkins_username}}"
     state: present
 
 - name: install plugin Pipeline
   jenkins_plugin:
     name: Pipeline
     url: "{{ url_server }}"
-    url_password: password123
-    url_username: user5
+    url_password: "{{jenkins_password}}"
+    url_username: "{{jenkins_username}}"
     state: present
 
 
@@ -42,12 +42,12 @@
   jenkins_job:
     config: "{{ lookup('template', 'templates/test.xml.j2') }}"
     name: test1
-    password: password123
+    password: "{{jenkins_password}}"
     url: "{{ url_server }}"
-    user: user5
+    user: "{{jenkins_username}}"
 
-- name : start job
-  shell:
-   cmd: java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth user5:password123 build test1
-   chdir: "/home/jenkins"
+#- name : start job
+#  shell:
+#   cmd: java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth "{{jenkins_username}}":"{{jenkins_password}}" build test1
+#   chdir: "/home/jenkins"
 
