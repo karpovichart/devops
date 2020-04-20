@@ -1,6 +1,0 @@
-ansible.cfg
-[defaults]
-host_key_checking=false
-inventory=./hosts.ini
-interpreter_python=/usr/bin/python3.6
-
