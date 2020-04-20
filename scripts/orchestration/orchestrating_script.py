@@ -110,7 +110,7 @@ if select=='1':
     subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
 
     subprocess.call("wget " + ci_cd_server_public_ip + ":8080/jenkins/jnlpJars/jenkins-cli.jar", shell=True)
-    subprocess.call("java -jar jenkins-cli.jar -s " + ci_cd_server_public_ip + ":8080/jenkins " + "-auth user5:password123 build test1", shell=True)
+    subprocess.call("java -jar jenkins-cli.jar -s " + ci_cd_server_public_ip + ":8080/jenkins " + "-auth user:password123 build test1", shell=True)
 
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
