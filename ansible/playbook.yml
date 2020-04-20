@@ -1,5 +1,0 @@
----
-  - name: NGINX
-    hosts: lb_server
-    roles:
-    - nginx

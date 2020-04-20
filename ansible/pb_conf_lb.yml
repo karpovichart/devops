@@ -1,0 +1,5 @@
+---
+  - name: Roles config
+    hosts: load_balancer_server
+    roles:
+    - nginx
