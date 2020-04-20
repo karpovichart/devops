@@ -100,5 +100,11 @@ if select=='1':
 
     #move file with nginx load balancer config to ansible directory
     subprocess.call("mv " + "default " + ansible_dir, shell=True)
+
+    os.chdir(ansible_dir)
+
+    print('\n CI/CD server configuration \n')
+
+    subprocess.call("ansible-playbook " + "pb_conf_ci_cd", shell=True)
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
