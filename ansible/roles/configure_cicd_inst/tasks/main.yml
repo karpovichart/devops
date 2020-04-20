@@ -2,55 +2,56 @@
 # tasks file for configure_cicd_inst
  - name: test
    ping:
- - name: copy keys
-   copy:
-    src: "{{host_keys_dir}}"
-    dest: "{{remote_keys_dir}}"
-    owner: root
-    group: root
-    mode: '0400'
- - name: copy pass
-   copy:
-    src: "{{host_vault_key}}"
-    dest: "{{remote_vault_key}}"
-    owner: root
-    group: root
-    mode: '0400'
- - name: copy roles
+ - name: copy ansible
    copy:
     decrypt: no
-    src: "{{host_ansible_dir}}/roles/"
-    dest: "{{remote_ansible_dir}}/roles/"
+    src: "{{host_ansible_dir}}"
+    dest: "{{remote_ansible_dir}}"
     owner: root
     group: root
     mode: '0400'
- - name: copy playbooks1
-   copy:
-    src: "{{host_ansible_dir}}/pb_conf_wp.yml"
-    dest: "{{remote_ansible_dir}}/pb_conf_wp.yml"
-    owner: root
-    group: root
-    mode: '0400'
- - name: copy playbooks2
-   copy:
-    src: "{{host_ansible_dir}}/pb_conf_t_j.yml"
-    dest: "{{remote_ansible_dir}}/pb_conf_t_j.yml"
-    owner: root
-    group: root
-    mode: '0400'
- - name: copy group vars
-   copy:
-    decrypt: no
-    src: "{{host_ansible_group_vars_dir}}"
-    dest: "{{remote_ansible_group_vars_dir}}"
-    owner: root
-    group: root
-    mode: '0400'
- - name: copy jenkins piplines
-   copy:
-    src: "{{host_jenkins_dir}}"
-    dest: "{{remote_jenkins_dir}}"
-    owner: root
-    group: root
-    mode: '0400'
+# - name: copy pass
+#   copy:
+#    src: "{{host_vault_key}}"
+#    dest: "{{remote_vault_key}}"
+#    owner: root
+#    group: root
+#    mode: '0400'
+# - name: copy roles
+#   copy:
+#    decrypt: no
+#    src: "{{host_ansible_dir}}/roles/"
+#    dest: "{{remote_ansible_dir}}/roles/"
+#    owner: root
+#    group: root
+#    mode: '0400'
+# - name: copy playbooks1
+#   copy:
+#    src: "{{host_ansible_dir}}/pb_conf_wp.yml"
+#    dest: "{{remote_ansible_dir}}/pb_conf_wp.yml"
+#    owner: root
+#    group: root
+#    mode: '0400'
+# - name: copy playbooks2
+#   copy:
+#    src: "{{host_ansible_dir}}/pb_conf_t_j.yml"
+#    dest: "{{remote_ansible_dir}}/pb_conf_t_j.yml"
+#    owner: root
+#    group: root
+#    mode: '0400'
+# - name: copy group vars
+#   copy:
+#    decrypt: no
+#    src: "{{host_ansible_group_vars_dir}}"
+#    dest: "{{remote_ansible_group_vars_dir}}"
+#    owner: root
+#    group: root
+#    mode: '0400'
+# - name: copy jenkins piplines
+#   copy:
+#    src: "{{host_jenkins_dir}}"
+#    dest: "{{remote_jenkins_dir}}"
+#    owner: root
+#    group: root
+#    mode: '0400'
  
