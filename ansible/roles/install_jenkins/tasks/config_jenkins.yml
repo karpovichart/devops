@@ -4,6 +4,12 @@
    get_url:
     url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
     dest: "{{jenkins_home}}"
+ - name: install python-jenkins
+   pip:
+    name: python-jenkins
+ - name: sleep 10s
+   pause:
+    seconds: 10
  - name: install plugin ansicolor
    jenkins_plugin:
      name: AnsiColor
