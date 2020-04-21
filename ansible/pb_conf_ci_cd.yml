@@ -4,7 +4,7 @@
    become: yes #todo убрать и расставить правильно где надо
    roles:
    - install_ansible
-   - configure_cicd_inst
    - install_tomcat
    - install_jenkins
    - configure_jenkins
+   - configure_cicd_inst
