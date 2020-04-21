@@ -9,6 +9,14 @@
         insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
         line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
        register: task_result1
+     - name: add ANSIBLE_CONFIG
+       become: yes
+       lineinfile:
+        dest: '/etc/environment'
+        regexp: '^ANSIBLE_CONFIG'
+        insertafter: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
+        line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
+       register: task_result1
      - name: add java args
        become: yes
        lineinfile:

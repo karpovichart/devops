@@ -6,7 +6,7 @@
   wp_db_name: wpbd3
   root_user: root
   new_root_pass: newROOTpass
-  web_server_host: "{{groups['wordpress_server'][0]}}"
+  web_server_host: "{{groups['wordpress_server_1'][0]}}"
   wp_cli_path: "/usr/local/bin/wp"
   wp_cli_url_download: "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
   wp_path: "/var/www/html/"
