@@ -135,7 +135,7 @@
     seconds: 10
  - name: create job
    command:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job test1 < {{ lookup('template', 'templates/test.xml.j2') }}"
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job test1 < test.xml"
     chdir: "{{jenkins_home}}"
 # - name: make a jenkins  job
 #   jenkins_job:
