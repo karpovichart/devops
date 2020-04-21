@@ -12,19 +12,19 @@
     seconds: 10
  - name: install AnsiColor
    command:
-     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin AnsiColor"
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin AnsiColor"
      chdir: "{{jenkins_home}}"
  - name: install timestamper
    command:
-     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin timestamper"
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
      chdir: "{{jenkins_home}}"
  - name: install Ansible
    command:
-     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin Ansible"
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin Ansible"
      chdir: "{{jenkins_home}}"
  - name: install Pipeline
    command:
-     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
      chdir: "{{jenkins_home}}"
 # - name: install plugin ansicolor
 #   jenkins_plugin:
