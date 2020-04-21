@@ -4,28 +4,28 @@
    get_url:
     url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
     dest: "{{jenkins_home}}"
- - name: install python-jenkins
-   pip:
-    name: python-jenkins
- - name: sleep 10s
-   pause:
-    seconds: 10
- - name: install AnsiColor
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin AnsiColor"
-     chdir: "{{jenkins_home}}"
- - name: install timestamper
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
-     chdir: "{{jenkins_home}}"
- - name: install Ansible
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin Ansible"
-     chdir: "{{jenkins_home}}"
- - name: install Pipeline
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
-     chdir: "{{jenkins_home}}"
+# - name: install python-jenkins
+#   pip:
+#    name: python-jenkins
+# - name: sleep 10s
+#   pause:
+#    seconds: 10
+# - name: install AnsiColor
+#   command:
+#     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin AnsiColor"
+#     chdir: "{{jenkins_home}}"
+# - name: install timestamper
+#   command:
+#     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
+#     chdir: "{{jenkins_home}}"
+# - name: install Ansible
+#   command:
+#     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin Ansible"
+#     chdir: "{{jenkins_home}}"
+# - name: install Pipeline
+#   command:
+#     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
+#     chdir: "{{jenkins_home}}"
 # - name: install plugin ansicolor
 #   jenkins_plugin:
 #     name: AnsiColor
@@ -130,14 +130,14 @@
      retries: 100 
      delay: 5 
    when: disable_anon_res is changed
-   - name: sleep 10s
-     pause:
-      seconds: 10
-   - name: make a jenkins  job
-     jenkins_job:
-       config: "{{ lookup('template', 'templates/test.xml.j2') }}"
-       name: test1
-       url: "{{ jenkins_server_url }}"
-       user: "{{ jenkins_username }}"
-       password: "{{ jenkins_password }}"
+ - name: sleep 10s
+   pause:
+    seconds: 10
+ - name: make a jenkins  job
+   jenkins_job:
+     config: "{{ lookup('template', 'templates/test.xml.j2') }}"
+     name: test1
+     url: "{{ jenkins_server_url }}"
+     user: "{{ jenkins_username }}"
+     password: "{{ jenkins_password }}"
  
