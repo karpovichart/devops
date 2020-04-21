@@ -24,7 +24,7 @@
      chdir: "{{jenkins_home}}"
  - name: install Pipeline
    command:
-     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin Pipeline"
+     cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins  install-plugin Pipeline: Declarative"
      chdir: "{{jenkins_home}}"
 # - name: install plugin ansicolor
 #   jenkins_plugin:
