@@ -3,45 +3,28 @@ from os.path import abspath, dirname, join, isfile
 import subprocess
 from getpass import getpass
 
-#install terraform
-subprocess.call("wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip", shell=True)
-subprocess.call("sudo apt install unzip", shell=True)
-subprocess.call("unzip terraform_0.12.24_linux_amd64.zip", shell=True)
-subprocess.call("rm terraform_0.12.24_linux_amd64.zip", shell=True)
-subprocess.call("sudo mv terraform /bin/", shell=True)
-
-#install ansible
-subprocess.call("sudo apt-add-repository ppa:ansible/ansible -y", shell=True)
-subprocess.call("sudo apt-get update", shell=True)
-subprocess.call("sudo apt-get install ansible -y", shell=True)
-
 #check installation and output versions
-print('\n Terraform version \n')
+print('\n Terraform version: \n')
 subprocess.call("terraform --version", shell=True)
-print('\n Ansible version \n')
+print('\n Ansible version: \n')
 subprocess.call("ansible --version", shell=True)
 
 #define paths
+user_dir = dirname(dirname(dirname(dirname(abspath(__file__)))))
 project_dir = dirname(dirname(dirname(abspath(__file__))))
 terraform_dir = join(project_dir, 'terraform')
 ansible_dir = join(project_dir, 'ansible')
 ansible_keys_dir = join(ansible_dir, 'keys') + '/'
 
-#set terraform workind directory
+#set user working directory
+os.chdir(user_dir)
+#move cred file to terraform dir
+subprocess.call("mv terraform.tfvars " + terraform_dir, shell=True)
+
+#set terraform working directory
 os.chdir(terraform_dir)
 
 print('\n Welcome to setup script for NetCracker DevOps project \n')
-
-#get keys and export as env vars
-access_key = getpass("Enter AWS access key : ") 
-secret_key = getpass("Enter AWS secret key : ") 
-
-aws_vars = {
-    'AWS_ACCESS_KEY_ID' : access_key ,
-    'AWS_SECRET_ACCESS_KEY' : secret_key
-}
-
-os.environ.update(aws_vars)
 
 #get password for ansible
 os.chdir(ansible_dir)
@@ -108,9 +91,6 @@ if select=='1':
     print('\n CI/CD server configuration \n')
 
     subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
-
-    subprocess.call("wget " + ci_cd_server_public_ip + ":8080/jenkins/jnlpJars/jenkins-cli.jar", shell=True)
-    subprocess.call("java -jar jenkins-cli.jar -s " + ci_cd_server_public_ip + ":8080/jenkins " + "-auth user:password123 build test1", shell=True)
 
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
