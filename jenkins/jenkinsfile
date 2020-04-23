@@ -15,7 +15,10 @@ pipeline {
              }
         stage('copy folder to dest') {
             steps{
-                 cp /home/jenkins/workspace/projecktname/ansible/devops/ansible/  /home/ubuntu/devops/
+                 cp /home/jenkins/workspace/projecktname/ansible/devops/ansible/pb_conf_wp.yml  /home/ubuntu/devops/ansible
+                 cp /home/jenkins/workspace/projecktname/ansible/devops/ansible/ansible.cfg  /home/ubuntu/devops/ansible
+                 cp -r /home/jenkins/workspace/projecktname/ansible/devops/ansible/roles  /home/ubuntu/devops/ansible
+                 
              }
         }
         stage('running ansible playbook') {
