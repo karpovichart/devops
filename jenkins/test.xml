@@ -30,9 +30,10 @@
                     dir(&apos;devops&apos;){
                         sh &quot;pwd&quot;
                         sh &quot;git checkout dev&quot;
-                        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/devops/ansible&quot;
-                        sh &quot;cp ansible/ansible.cfg /home/tomcat/devops/ansible&quot;
-                        sh &quot;cp -r ansible/roles /home/tomcat/devops/ansible/roles&quot;
+                        sh "mkdir -p /home/tomcat/ansible/"
+                        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
+                        sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
+                        sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
                     }
                 }
              }
@@ -41,8 +42,8 @@
                 ansiblePlaybook(
                 becomeUser: &quot;tomcat&quot;,
                 colorized: true,
-                inventory: &quot;home/tomcat/devops/ansible/hosts.ini&quot;,
-                playbook: &quot;/home/tomcat/devops/ansible/pb_conf_wp.yml&quot;)
+                inventory: &quot;home/tomcat/ansible/hosts.ini&quot;,
+                playbook: &quot;/home/tomcat/ansible/pb_conf_wp.yml&quot;)
                 }
             }
     }
