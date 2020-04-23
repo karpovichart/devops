@@ -1,44 +1,57 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<project>
-  <actions/>
+<flow-definition plugin="workflow-job@2.38">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.6.0">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties/>
-  <scm class="hudson.scm.NullSCM"/>
-  <canRoam>true</canRoam>
-  <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
+    <script>pipeline {
+    agent{
+        label &apos;master&apos;
+        }
+    options {
+        timestamps()
+        ansiColor(&apos;xterm&apos;)
+    }
+    stages {
+            stage(&apos;download files from git&apos;) {
+                steps {
+                    sh &quot;rm -rf devops&quot;
+                    sh &quot;git clone  https://github.com/karpovichart/devops.git&quot;
+                    dir(&apos;devops&apos;){
+                        sh &quot;pwd&quot;
+                        sh &quot;git checkout dev&quot;
+                        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/devops/ansible&quot;
+                        sh &quot;cp ansible/ansible.cfg /home/tomcat/devops/ansible&quot;
+                        sh &quot;cp -r ansible/roles /home/tomcat/devops/ansible/roles&quot;
+                    }
+                }
+             }
+            stage(&quot;running ansible playbook&quot;) {
+            steps {
+                ansiblePlaybook(
+                becomeUser: &quot;tomcat&quot;,
+                colorized: true,
+                inventory: &quot;home/tomcat/devops/ansible/hosts.ini&quot;,
+                playbook: &quot;/home/tomcat/devops/ansible/pb_conf_wp.yml&quot;)
+                }
+            }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
   <triggers/>
-  <concurrentBuild>false</concurrentBuild>
-  <builders>
-    <org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder plugin="ansible@1.0">
-      <playbook>/home/ubuntu/devops/ansible/pb_conf_wp.yml</playbook>
-      <inventory class="org.jenkinsci.plugins.ansible.InventoryDoNotSpecify"/>
-      <limit></limit>
-      <tags></tags>
-      <skippedTags></skippedTags>
-      <startAtTask></startAtTask>
-      <credentialsId></credentialsId>
-      <vaultCredentialsId></vaultCredentialsId>
-      <become>false</become>
-      <becomeUser></becomeUser>
-      <sudo>false</sudo>
-      <sudoUser></sudoUser>
-      <forks>5</forks>
-      <unbufferedOutput>true</unbufferedOutput>
-      <colorizedOutput>false</colorizedOutput>
-      <disableHostKeyChecking>false</disableHostKeyChecking>
-      <additionalParameters></additionalParameters>
-      <copyCredentialsInWorkspace>false</copyCredentialsInWorkspace>
-    </org.jenkinsci.plugins.ansible.AnsiblePlaybookBuilder>
-  </builders>
-  <publishers/>
-  <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.11.3"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.6.3">
-      <colorMapName>xterm</colorMapName>
-    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-  </buildWrappers>
-</project>
+  <authToken>pipeline_token.txt</authToken>
+  <disabled>false</disabled>
+</flow-definition>
+
 
