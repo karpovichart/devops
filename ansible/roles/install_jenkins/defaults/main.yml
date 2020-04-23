@@ -1,8 +1,9 @@
 ---
 # defaults file for install_jenkins
-   jenkins_url : http://mirrors.jenkins.io/war/2.232/jenkins.war
-   jenkins_home: /home/jenkins
-   tomcat_home: /opt/tomcat
-   jenkins_username: user
-   jenkins_password: password1
-   jenkins_server_url: "http://{{ groups['ci_cd_server'][0] }}:8080/jenkins"
+ tomcat_srv_path: /opt/tomcat
+ jenkins_url : http://mirrors.jenkins.io/war/2.232/jenkins.war
+ jenkins_home: /home/tomcat/jenkins_home
+ jenkins_username: user
+ jenkins_password: password1
+ jenkins_server_url: "http://{{ groups['ci_cd_server'][0] }}:8080/jenkins"
+ job_name: test3

@@ -1,14 +1,26 @@
 ---
 # defaults file for configure_cicd_inst
  remoute_devops: "/home/ubuntu/devops/"
+ # keys
+ host_keys_dir: "/home/ubuntu/devops/ansible/keys/"
+ remote_keys_dir: "/home/tomcat/keys/"
+ #vault
+ host_vault_path: "/home/ubuntu/devops/ansible/pass"
+ remote_vault_path: "/home/tomcat/pass"
+ #jenkins token
+ host_jenkins_token_path: "/home/ubuntu/devops/ansible/pipeline_token.txt"
+ remove_jenkins_token_path: "/home/tomcat/pipeline_token.txt"
+ #jenkins_xml
+ host_jenkins_xml: "/home/ubuntu/devops/jenkins/test.xml"
+ remote_jenkins_xml: "/home/tomcat/test.xml"
+ #host
+ host_ansible_host: "/home/ubuntu/devops/ansible/hosts.ini"
+ remote_ansible_host: "/home/tomcat/hosts.ini"
+ 
+ host_ansible_group_vars_dir: "{{host_ansible_dir}}group_vars/"
+ remote_ansible_group_vars_dir: "/home/tomcat/group_vars/"
+ 
+ 
+ 
  host_ansible_dir: "/home/ubuntu/devops/ansible/"
  remote_ansible_dir: "{{remoute_devops}}ansible/"
- host_keys_dir: "/home/ubuntu/devops/ansible/keys/"
- remote_keys_dir: "/home/ubuntu/devops/ansible/keys/"
-# host_vault_key: "{{host_ansible_dir}}pass.txt"
- host_vault_key: "/home/ubuntu/devops/ansible/pass.txt"
- remote_vault_key: "/home/ubuntu/devops/ansible/pass.txt"
- host_jenkins_dir: "/home/ubuntu/devops/jenkins/"
- remote_jenkins_dir: "/home/ubuntu/devops/jenkins/"
- host_ansible_group_vars_dir: "{{host_ansible_dir}}group_vars/"
- remote_ansible_group_vars_dir: "{{remoute_devops}}ansible/group_vars/"
