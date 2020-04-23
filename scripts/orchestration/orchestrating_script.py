@@ -100,7 +100,7 @@ if select=='1':
 
     print('\n CI/CD server configuration \n')
 
-    subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
+    subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml --vault-password-file pass.txt", shell=True)
 
     build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/build?token=' + token
     build = requests.get(build_url, auth=HTTPBasicAuth('user', 'password1'))
