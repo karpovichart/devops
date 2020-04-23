@@ -2,6 +2,10 @@ import os
 from os.path import abspath, dirname, join, isfile
 import subprocess
 from getpass import getpass
+import requests
+import secrets
+from requests.auth import HTTPBasicAuth
+import time
 
 #check installation and output versions
 print('\n Terraform version: \n')
@@ -88,9 +92,56 @@ if select=='1':
 
     os.chdir(ansible_dir)
 
+    token = secrets.token_urlsafe(20)
+
+    f = open('pipeline_token.txt','w')
+    f.write(token)
+    f.close()
+
     print('\n CI/CD server configuration \n')
 
     subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml", shell=True)
+
+    build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/build?token=' + token
+    build = requests.get(build_url, auth=HTTPBasicAuth('user', 'password1'))
+    
+    if build.status_code == 201:
+        print('Pipeline build has begun')
+    else:
+        print(build.text)
+
+    time.sleep(10)
+
+    open("file1", "w").close()
+
+    while True:
+        status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/1/consoleText?token=' + token
+        status = requests.get(status_url, auth=HTTPBasicAuth('user', 'password1'))
+
+        f2 = open("file2","w")
+        f2.write(status.text)
+        f2.close()
+
+        f1_read = open("file1","r")
+        f1_read_text = f1_read.readlines()
+        f1_read.close()
+
+        f2_read = open("file2","r")
+        f2_read_text = f2_read.readlines()
+        f2_read.close()
+
+        start = len(f1_read_text)
+        new = f2_read_text[start:]
+        
+        if ''.join(new):
+            print(''.join(new))
+
+        f1_write = open("file1","w")
+        f1_write.write(status.text)
+        f1_write.close()
+
+        if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
+            break
 
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
