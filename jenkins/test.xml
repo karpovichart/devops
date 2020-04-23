@@ -42,7 +42,7 @@
                 ansiblePlaybook(
                 becomeUser: &apos;tomcat&apos;,
                 colorized: true,
-                inventory: &apos;/home/jenkins/workspace/ansible/devops/ansible/hosts.ini&apos;,
+                inventory: &apos;home/ubuntu/devops/ansible/hosts.ini&apos;,
                 playbook: &apos;/home/ubuntu/devops/ansible/pb_conf_wp.yml&apos;)
             }
         }
