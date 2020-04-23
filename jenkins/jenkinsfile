@@ -4,6 +4,8 @@ pipeline {
         }
     options {
         timestamps()
+        ansiColor('xterm')
+
     }
     stages {
         stage('download files from git') {
