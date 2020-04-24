@@ -17,7 +17,7 @@
       when: stat_result.stat.exists == False
     - name: rr
       debug:
-       var: "{{wp_db_host}}"
+       var: "{{groups['db_server']}}"
     - name: Check that wp core configured exists
       stat:
        path: "{{wp_path}}wp-config.php"
