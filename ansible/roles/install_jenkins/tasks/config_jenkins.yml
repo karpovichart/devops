@@ -92,11 +92,11 @@
      path: "{{jenkins_home}}/jobs/{{job_name}}/"
    register: stat_result
  
- - name: add token to xml
-   lineinfile:
-    dest: "/home/tomcat/test.xml"
-    regexp: "<authToken>+"
-    line: "<authToken>{{lookup('file', '/home/ubuntu/devops/ansible/pipeline_token.txt') }}</authToken>"
+# - name: add token to xml
+#   lineinfile:
+#    dest: "/home/tomcat/test.xml"
+#    regexp: "<authToken>+"
+#    line: "<authToken>{{lookup('file', '/home/ubuntu/devops/ansible/pipeline_token.txt') }}</authToken>"
  # - name: stop 
    # pause:
     # seconds: 1000

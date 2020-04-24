@@ -51,6 +51,6 @@
     <sandbox>true</sandbox>
   </definition>
   <triggers/>
-  <authToken>pipeline_token.txt</authToken>
+  <authToken>qwerty</authToken>
   <disabled>false</disabled>
 </flow-definition>
