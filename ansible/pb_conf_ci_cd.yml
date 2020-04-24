@@ -5,8 +5,8 @@
    roles:
 
    - create_user
+   - install_tomcat
    - configure_cicd_inst
    - install_ansible
-   - install_tomcat
    - install_jenkins
 
