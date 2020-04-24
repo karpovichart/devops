@@ -141,7 +141,10 @@
    register: _result
    until: _result.status == 200
    retries: 100 
-   delay: 5 
+   delay: 5
+ - name: pause
+   pause:
+    seconds: 10
  - name: install timestamper
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
