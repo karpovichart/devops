@@ -1,6 +1,6 @@
 ---
  ansible_user: ubuntu
  key_dir: "/home/tomcat/keys/"
- ansible_ssh_private_key_file: "{{keys_dir}}stockholm.pem"
+ ansible_ssh_private_key_file: "/home/tomcat/keys/stockholm.pem"
  jenkins_username: user
  jenkins_password: password1
