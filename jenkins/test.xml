@@ -31,6 +31,7 @@
                     dir(&apos;devops&apos;){
                         sh &quot;pwd&quot;
                         sh &quot;git checkout dev&quot;
+                        sh &quot;rm -rf /home/tomcat/ansible/&quot;
                         sh &quot;mkdir -p /home/tomcat/ansible/&quot;
                         sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
                         sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
@@ -43,7 +44,7 @@
             steps {
             dir(&apos;/home/tomcat/ansible&apos;)
             {
-            sh &quot;ansible-playbook pb_conf_wp.yml -i /home/tomcat/hosts.ini&quot;
+            sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_wp.yml -i /home/tomcat/hosts.ini&quot;
             }
         }
       }
