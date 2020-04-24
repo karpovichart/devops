@@ -128,6 +128,20 @@
     # group: tomcat
  
    # when: stat_result.stat.exists == False
+   
+ - name: restart jenkins
+   command: 
+    cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins safe-restart"
+    chdir: "{{jenkins_home}}"
+ - name: wait for jenkins start
+   uri:
+    url: "http://localhost:8080/jenkins/login"
+    follow_redirects: all
+    method: GET
+   register: _result
+   until: _result.status == 200
+   retries: 100 
+   delay: 5 
  - name: install timestamper
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
@@ -145,6 +159,19 @@
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
      chdir: "{{jenkins_home}}"
+ - name: restart jenkins
+   command: 
+    cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins safe-restart"
+    chdir: "{{jenkins_home}}"
+ - name: wait for jenkins start
+   uri:
+    url: "http://localhost:8080/jenkins/login"
+    follow_redirects: all
+    method: GET
+   register: _result
+   until: _result.status == 200
+   retries: 100 
+   delay: 5 
  - name: create job
    shell:
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name}} < /home/tomcat/test.xml"
