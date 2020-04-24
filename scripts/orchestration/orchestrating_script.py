@@ -57,18 +57,20 @@ if select=='1':
 
     key_3_1_p1 = subprocess.Popen(['terraform', 'output', 'key_name_wordpress_server_1'], stdout=subprocess.PIPE)
     key_3_1_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server_1.pem"], stdin=key_3_1_p1.stdout, stdout=subprocess.PIPE)
-    output3 = key_3_1_p2.communicate()[0]
+    output3_1 = key_3_1_p2.communicate()[0]
     
     key_3_2_p1 = subprocess.Popen(['terraform', 'output', 'key_name_wordpress_server_2'], stdout=subprocess.PIPE)
     key_3_2_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server_2.pem"], stdin=key_3_2_p1.stdout, stdout=subprocess.PIPE)
-    output3 = key_3_2_p2.communicate()[0]
+    output3_2 = key_3_2_p2.communicate()[0]
 
     key_4_p1 = subprocess.Popen(['terraform', 'output', 'key_name_load_balancer_server'], stdout=subprocess.PIPE)
     key_4_p2 = subprocess.Popen(["tee", "-a", "key_name_load_balancer_server.pem"], stdin=key_4_p1.stdout, stdout=subprocess.PIPE)
-    output2 = key_4_p2.communicate()[0]
+    output4 = key_4_p2.communicate()[0]
 
-    ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-
+    # ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    process = subprocess.Popen(['terraform','output','ci_cd_server_public_ip'], stdout=subprocess.PIPE)
+    ci_cd_server_public_ip = process.communicate()[0]
+    
     #setting access rights to keys
     subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
     subprocess.call("chmod 400 key_name_db_server.pem", shell=True)
