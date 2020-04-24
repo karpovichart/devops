@@ -29,10 +29,10 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
-  - name: copy jenkins xml
-    copy:
-     src: "{{host_jenkins_xml}}"
-     dest: "{{remote_jenkins_xml}}"
-     owner: tomcat
-     group: tomcat
-     mode: '0744'
+ - name: copy jenkins xml
+   copy:
+    src: "{{host_jenkins_xml}}"
+    dest: "{{remote_jenkins_xml}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
