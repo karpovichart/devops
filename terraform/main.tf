@@ -61,7 +61,7 @@ resource "aws_instance" "load_balancer_server"{
     ami           = "ami-0b418580298265d5c"
     instance_type = "t2.micro"
     security_groups = [ aws_security_group.security_group.name ]
-    key_name = aws_key_pair.key_pair_db_server.key_name
+    key_name = aws_key_pair.key_pair_load_balancer_server.key_name
     tags = {
         Name = "Load Balancer Server"
     }
