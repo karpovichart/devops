@@ -1,2 +1,2 @@
 ---
- ansible_ssh_private_key_file: "{{keys_dir}}key_name_db_server.pem"
+ ansible_ssh_private_key_file: "/home/tomcat/keys/key_name_db_server.pem"
