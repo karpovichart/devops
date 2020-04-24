@@ -107,6 +107,10 @@ if select=='1':
     ci_cd_server_public_ip = file.read()
     file.close()
     
+    print(ci_cd_server_public_ip)
+    print(type(ci_cd_server_public_ip))
+    print(len(ci_cd_server_public_ip))
+    
     time.sleep(20)
 
     print('\n CI/CD server configuration \n')
@@ -153,6 +157,5 @@ if select=='1':
 
         if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
             break
-
 else:
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
