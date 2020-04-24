@@ -3,8 +3,9 @@
    hosts: ci_cd_server
    become: yes #todo убрать и расставить правильно где надо
    roles:
-   - configure_cicd_inst
+
    - create_user
+   - configure_cicd_inst
    - install_ansible
    - install_tomcat
    - install_jenkins
