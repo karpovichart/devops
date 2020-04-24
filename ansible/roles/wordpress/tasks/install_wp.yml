@@ -14,7 +14,10 @@
       shell:
        cmd: "wp core download --allow-root"
        chdir: "{{wp_path}}"
-      when: stat_result.stat.exists == False 
+      when: stat_result.stat.exists == False
+    - name: rr
+      debug:
+       var: "{{wp_db_host}}"
     - name: Check that wp core configured exists
       stat:
        path: "{{wp_path}}wp-config.php"
@@ -39,11 +42,8 @@
          chdir: "{{wp_path}}"
         when: stuff.stdout_lines|length == 0
       when: "'wordpress_server_1' in group_names"
-    - name: rr
-      debug:
-       var: "{{wp_db_host}}"
-    
-    
+
+
     - name: conf wp 2
       block:
       - name: check if isset conf file
