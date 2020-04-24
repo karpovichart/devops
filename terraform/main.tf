@@ -278,3 +278,15 @@ resource "local_file" "save_nginx_default" {
 output "ci_cd_server_public_ip" {
   value = aws_eip.static_ip_ci_cd_server.public_ip
 }
+
+data "template_file" "ci_cd_server_public_ip" {
+    template = file("ci_cd_server_public_ip.tpl")
+    vars = {
+        ci_cd_server_public_ip = aws_eip.static_ip_ci_cd_server.public_ip
+    }
+}
+
+resource "local_file" "save_ci_cd_server_public_ip" {
+    content  = data.template_file.ci_cd_server_public_ip.rendered
+    filename = "ci_cd_server_public_ip.txt"
+}
