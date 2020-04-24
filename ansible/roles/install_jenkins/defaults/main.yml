@@ -6,4 +6,4 @@
  jenkins_username: user
  jenkins_password: password1
  jenkins_server_url: "http://{{ groups['ci_cd_server'][0] }}:8080/jenkins"
- job_name: test3
+ job_name: test34
