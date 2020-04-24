@@ -105,6 +105,7 @@ if select=='1':
 
     file = open('ci_cd_server_public_ip.txt','r')
     ci_cd_server_public_ip = file.read()
+    ci_cd_server_public_ip = ci_cd_server_public_ip.rstrip()
     file.close()
     
     print(ci_cd_server_public_ip)
