@@ -5,8 +5,8 @@
  host_keys_dir: "/home/ubuntu/devops/ansible/keys/"
  remote_keys_dir: "/home/tomcat/keys/"
  #vault
- host_vault_path: "/home/ubuntu/devops/ansible/pass"
- remote_vault_path: "/home/tomcat/pass"
+ host_vault_path: "/home/ubuntu/devops/ansible/pass.txt"
+ remote_vault_path: "/home/tomcat/pass.txt"
  #jenkins token
  host_jenkins_token_path: "/home/ubuntu/devops/ansible/pipeline_token.txt"
  remove_jenkins_token_path: "/home/tomcat/pipeline_token.txt"
