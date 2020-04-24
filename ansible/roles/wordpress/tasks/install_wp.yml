@@ -15,9 +15,9 @@
        cmd: "wp core download --allow-root"
        chdir: "{{wp_path}}"
       when: stat_result.stat.exists == False
-    - name: rr
-      debug:
-       var: "{{hostvars[inventory_hostname]['ansible_env']}}"
+#    - name: rr
+#      debug:
+#       var: "{{hostvars[inventory_hostname]['ansible_env']}}"
     - name: Check that wp core configured exists
       stat:
        path: "{{wp_path}}wp-config.php"
