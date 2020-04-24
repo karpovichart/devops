@@ -68,7 +68,7 @@ if select=='1':
     output4 = key_4_p2.communicate()[0]
 
     # ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    process = subprocess.Popen(['terraform','output','ci_cd_server_public_ip'], stdout=subprocess.PIPE)
+    #process = subprocess.Popen(['terraform','output','ci_cd_server_public_ip'], stdout=subprocess.PIPE)
     #ci_cd_server_public_ip = process.communicate()[0]
     
     #setting access rights to keys
