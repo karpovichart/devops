@@ -1,7 +1,7 @@
 ---
  - name: create jenkins home
    become: yes
-   become_user: root
+   become_user: tomcat
    file:
     path: "{{jenkins_home}}"
     state: directory
