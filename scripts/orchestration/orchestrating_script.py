@@ -98,6 +98,8 @@ if select=='1':
     f.write(token)
     f.close()
 
+    time.sleep(20)
+
     print('\n CI/CD server configuration \n')
 
     subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml --vault-password-file pass.txt", shell=True)
