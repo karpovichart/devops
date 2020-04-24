@@ -39,7 +39,9 @@
          chdir: "{{wp_path}}"
         when: stuff.stdout_lines|length == 0
       when: "'wordpress_server_1' in group_names"
-    
+    - name: rr
+      debug:
+       var: "{{wp_db_host}}"
     
     
     - name: conf wp 2
