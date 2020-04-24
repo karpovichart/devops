@@ -69,7 +69,7 @@ if select=='1':
 
     # ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     process = subprocess.Popen(['terraform','output','ci_cd_server_public_ip'], stdout=subprocess.PIPE)
-    ci_cd_server_public_ip = process.communicate()[0]
+    #ci_cd_server_public_ip = process.communicate()[0]
     
     #setting access rights to keys
     subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
@@ -88,6 +88,9 @@ if select=='1':
 
     #move file with hosts to ansible directory
     subprocess.call("mv " + "hosts.ini " + ansible_dir, shell=True)
+    
+    #move file with jenkins server ip to ansible directory
+    subprocess.call("mv " + "ci_cd_server_public_ip.txt " + ansible_dir, shell=True)
 
     #move file with nginx load balancer config to ansible directory
     subprocess.call("mv " + "default " + ansible_dir, shell=True)
@@ -100,6 +103,10 @@ if select=='1':
     f.write(token)
     f.close()
 
+    file = open('ci_cd_server_public_ip.txt','r')
+    ci_cd_server_public_ip = file.read()
+    file.close()
+    
     time.sleep(20)
 
     print('\n CI/CD server configuration \n')
