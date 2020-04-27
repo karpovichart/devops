@@ -102,7 +102,7 @@ if select_action=='1':
 
         subprocess.call("ansible-playbook " + "pb_conf_ci_cd.yml -i hosts.ini --vault-password-file pass.txt", shell=True)
 
-        build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/build?token=' + token
+        build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/build?token=' + token
         build = requests.get(build_url, auth=HTTPBasicAuth('user', 'password1'))
         
         if build.status_code == 201:
@@ -115,7 +115,7 @@ if select_action=='1':
         open("file1", "w").close()
 
         while True:
-            status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/1/consoleText?token=' + token
+            status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/1/consoleText?token=' + token
             status = requests.get(status_url, auth=HTTPBasicAuth('user', 'password1'))
 
             f2 = open("file2","w")
@@ -141,12 +141,46 @@ if select_action=='1':
             f1_write.close()
 
             if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
-                os.remove("file1")
-                os.remove("file2")
-                print('\n Infrastructure has been deployed successfully \n')
-                print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
-                print('\n WordPress server IP: ', wordpress_server_public_ip)
-                break
+                file = open("file1","r+")
+                file.truncate(0)
+                file.close()
+                file = open("file2","r+")
+                file.truncate(0)
+                file.close()
+
+                print('Start pipeline build for monitoring app')
+
+                status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
+                status = requests.get(status_url, auth=HTTPBasicAuth('user', 'password1'))
+
+                f2 = open("file2","w")
+                f2.write(status.text)
+                f2.close()
+
+                f1_read = open("file1","r")
+                f1_read_text = f1_read.readlines()
+                f1_read.close()
+
+                f2_read = open("file2","r")
+                f2_read_text = f2_read.readlines()
+                f2_read.close()
+
+                start = len(f1_read_text)
+                new = f2_read_text[start:]
+                
+                if ''.join(new):
+                    print(''.join(new))
+
+                f1_write = open("file1","w")
+                f1_write.write(status.text)
+                f1_write.close()
+
+                if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
+                    print('\n Infrastructure has been successfully deployed \n')
+                    print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
+                    print('\n WordPress server IP: ', wordpress_server_public_ip)
+                    print('\n Monitoring App: ', ci_cd_server_public_ip + ':5000')
+                    break
         
     else:
         #set terraform working directory
@@ -257,14 +291,48 @@ if select_action=='1':
             f1_write.close()
 
             if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
-                os.remove("file1")
-                os.remove("file2")
-                print('\n Infrastructure has been deployed successfully \n')
-                print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
-                print('\n WordPress 1 server IP: ', wordpress_server_1_public_ip)
-                print('\n WordPress 2 server IP: ', wordpress_server_2_public_ip)
-                print('\n Load Balancer server IP: ', load_balancer_server_public_ip)
-                break
+                file = open("file1","r+")
+                file.truncate(0)
+                file.close()
+                file = open("file2","r+")
+                file.truncate(0)
+                file.close()
+
+                print('Start pipeline build for monitoring app')
+
+                status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
+                status = requests.get(status_url, auth=HTTPBasicAuth('user', 'password1'))
+
+                f2 = open("file2","w")
+                f2.write(status.text)
+                f2.close()
+
+                f1_read = open("file1","r")
+                f1_read_text = f1_read.readlines()
+                f1_read.close()
+
+                f2_read = open("file2","r")
+                f2_read_text = f2_read.readlines()
+                f2_read.close()
+
+                start = len(f1_read_text)
+                new = f2_read_text[start:]
+                
+                if ''.join(new):
+                    print(''.join(new))
+
+                f1_write = open("file1","w")
+                f1_write.write(status.text)
+                f1_write.close()
+
+                if 'Finished: SUCCESS' in status.text or 'Finished: FAILURE' in status.text:
+                    print('\n Infrastructure has been successfully deployed \n')
+                    print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
+                    print('\n WordPress 1 server IP: ', wordpress_server_1_public_ip)
+                    print('\n WordPress 2 server IP: ', wordpress_server_2_public_ip)
+                    print('\n Load Balancer server IP: ', load_balancer_server_public_ip)
+                    print('\n Monitoring App: ', ci_cd_server_public_ip + ':5000')
+                    break
 else:
     os.chdir(terraform_dir)
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
