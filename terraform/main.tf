@@ -22,21 +22,26 @@ module "single_side_mode" {
     source = "./single_side"
 }
 
-output "key_name_ci_cd_server" {
+output "single_side_mode_key_name_ci_cd_server" {
     value = module.single_side_mode.key_name_ci_cd_server
     sensitive = true
 }
 
-output "key_name_wordpress_server" {
+output "single_side_mode_key_name_wordpress_server" {
     value = module.single_side_mode.key_name_wordpress_server
     sensitive = true
 }
 
-output "ci_cd_server_public_ip" {
+output "single_side_mode_key_name_db_server" {
+    value = module.single_side_mode.key_name_db_server
+    sensitive = true
+}
+
+output "single_side_mode_ci_cd_server_public_ip" {
     value = module.single_side_mode.ci_cd_server_public_ip
 }
 
-output "wordpress_server_public_ip" {
+output "single_side_mode_wordpress_server_public_ip" {
     value = module.single_side_mode.wordpress_server_public_ip
 }
 
