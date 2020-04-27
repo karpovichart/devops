@@ -68,8 +68,8 @@ if select_action=='1':
         output3 = key_3_p2.communicate()[0]
 
         #output IPs
-        ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
-        wordpress_server_public_ip = subprocess.run(['terraform','output', 'wordpress_server_1_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+        ci_cd_server_public_ip = subprocess.run(['terraform','output', 'single_side_mode_ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+        wordpress_server_public_ip = subprocess.run(['terraform','output', 'single_side_mode_wordpress_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
 
         #setting access rights to keys
         subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
