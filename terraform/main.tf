@@ -28,45 +28,35 @@ module "multi_side_mode" {
     source = "./multi_side"
 }
 
-#output keys
 output "key_name_ci_cd_server" {
-    value = module.multi_side_mode.tls_private_key.key_name_ci_cd_server.private_key_pem
-    sensitive = true
+    value = module.multi_side_mode.key_name_ci_cd_server
 }
 
 output "key_name_wordpress_server_1" {
-    value = module.multi_side_mode.tls_private_key.key_name_wordpress_server_1.private_key_pem
-    sensitive = true
+    value = module.multi_side_mode.key_name_wordpress_server_1
 }
 
 output "key_name_wordpress_server_2" {
-    value = module.multi_side_mode.tls_private_key.key_name_wordpress_server_2.private_key_pem
-    sensitive = true
+    value = module.multi_side_mode.key_name_wordpress_server_2
 }
 
 output "key_name_db_server" {
-    value = module.multi_side_mode.tls_private_key.key_name_db_server.private_key_pem
-    sensitive = true
+    value = module.multi_side_mode.key_name_db_server
 }
 
 output "key_name_load_balancer_server" {
-    value = module.multi_side_mode.tls_private_key.key_name_load_balancer_server.private_key_pem
-    sensitive = true
+    value = module.multi_side_mode.key_name_load_balancer_server
 }
 
-#output IPs
 output "ci_cd_server_public_ip" {
-    value = module.multi_side_mode.aws_eip.static_ip_ci_cd_server.public_ip
+    value = module.multi_side_mode.ci_cd_server_public_ip
 }
-
 output "wordpress_server_1_public_ip" {
-    value = module.multi_side_mode.aws_eip.static_ip_wordpress_server_1.public_ip
+    value = module.multi_side_mode.wordpress_server_1_public_ip
 }
-
 output "wordpress_server_2_public_ip" {
-    value = module.multi_side_mode.aws_eip.static_ip_wordpress_server_2.public_ip
+    value = module.multi_side_mode.wordpress_server_2_public_ip
 }
-
 output "load_balancer_server_public_ip" {
-    value = module.multi_side_mode.aws_eip.static_ip_load_balancer_server.public_ip
+    value = module.multi_side_mode.load_balancer_server_public_ip
 }
