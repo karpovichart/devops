@@ -33,10 +33,11 @@ output "key_name_wordpress_server" {
 }
 
 output "ci_cd_server_public_ip" {
-    value = module.multi_side_mode.ci_cd_server_public_ip
+    value = module.single_side_mode.ci_cd_server_public_ip
 }
+
 output "wordpress_server_public_ip" {
-    value = module.multi_side_mode.wordpress_server_public_ip
+    value = module.single_side_mode.wordpress_server_public_ip
 }
 
 #MODULE FOR MULTI SIDE MODE WITH SECOND WP SERVER + LOAD BALANCER
