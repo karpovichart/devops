@@ -1,59 +1,51 @@
-<?xml version='1.1' encoding='UTF-8'?>
-<flow-definition plugin="workflow-job@2.38">
-  <actions>
-    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
-    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
-    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.6.0">
-      <jobProperties/>
-      <triggers/>
-      <parameters/>
-      <options/>
-    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
-  </actions>
-  <description></description>
-  <keepDependencies>false</keepDependencies>
-  <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
-    <script>
-        pipeline {
+pipeline {
         agent{
         label &apos;master&apos;
         }
-    options {
+        options {
         timestamps()
         ansiColor(&apos;xterm&apos;)
-    }
-    stages {
-            stage(&apos;download files from git&apos;) {
-                steps {
-                    sh &quot;rm -rf devops&quot;
-                    sh &quot;git clone  https://github.com/karpovichart/devops.git&quot;
-                    dir(&apos;devops&apos;){
-                        sh &quot;pwd&quot;
-                        sh &quot;git checkout dev&quot;
-                        sh &quot;rm -rf /home/tomcat/ansible/&quot;
-                        sh &quot;mkdir -p /home/tomcat/ansible/&quot;
-                        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
-                        sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
-                        sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
-                        sh &quot;cp -r ansible/group_vars /home/tomcat/ansible/group_vars&quot;
-                    }
-                }
-             }
-            stage(&quot;running ansible playbook&quot;) {
-            steps {
-            dir(&apos;/home/tomcat/ansible&apos;)
-            {
-            sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_wp.yml -i /home/tomcat/hosts.ini&quot;
-            }
         }
-      }
-    }
-}
-    </script>
-    <sandbox>true</sandbox>
-  </definition>
-  <triggers/>
-  <authToken>qwerty</authToken>
-  <disabled>false</disabled>
-</flow-definition>
+        stages {
+        stage(&apos;download files from git&apos;) {
+        steps {
+        sh &quot;rm -rf devops&quot;
+        sh &quot;git clone https://github.com/karpovichart/devops.git&quot;
+        dir(&apos;devops&apos;){
+        sh &quot;git checkout dev&quot;
+        sh &quot;rm -rf /home/tomcat/ansible/&quot;
+        sh &quot;mkdir -p /home/tomcat/ansible/&quot;
+        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_mysql.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_apache.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_wp.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
+        sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
+        sh &quot;cp -r ansible/group_vars /home/tomcat/ansible/group_vars&quot;
+        }
+        }
+        }
+        stage(&quot;install wp&quot;) {
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        }
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_apache.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
+        }
+        }
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_wp.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
+        }
+        }
+        }
+        }
+        }
+        </script>
+<sandbox>true</sandbox>
+        </definition>
+<triggers/>
+<authToken>qwerty</authToken>
+<disabled>false</disabled>
+        </flow-definition>
