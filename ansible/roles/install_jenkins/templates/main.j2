@@ -48,14 +48,14 @@
                             }
                         }
                     }
-                    stage(&quot;install wp&quot;) {
+                    stage(&quot;install mysql&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
-                            {% if side_mode == "double" %}
                             sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_mysql.yml -i /home/tomcat/hosts.ini&quot;
-                            {% endif %}
                             }
                         }
+                    }
+                    stage(&quot;install apache&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
                                 {% if side_mode == "double" %}
@@ -65,6 +65,8 @@
                                 {% endif %}
                             }
                         }
+                    }
+                    stage(&quot;install wp&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
                                 {% if side_mode == "double" %}
@@ -74,14 +76,18 @@
                                 {% endif %}
                             }
                         }
-                        {% if side_mode == "double" %}
+                    }
+                    {% if side_mode == "double" %}
+                    stage(&quot;install enginx&quot;) {
+
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
                                 sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_lb.yml -i /home/tomcat/hosts.ini&quot;
                             }
                         }
-                        {% endif %}
+
                     }
+                    {% endif %}
                 }
             }
 
