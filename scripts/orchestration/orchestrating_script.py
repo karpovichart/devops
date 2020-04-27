@@ -41,6 +41,10 @@ if select_action=='1':
     print('Choose mode: \n 1 - Single side (one Wordpress server) \n 2 - Multi side(two Wordpress servers with load balancer)')
     select_mode = input('Enter number: ')
 
+    f = open('side_mode.txt','w')
+    f.write(select_mode)
+    f.close()
+
     if select_mode=='1':
          #set terraform working directory
         os.chdir(terraform_dir)
@@ -91,10 +95,6 @@ if select_action=='1':
         f = open('pipeline_token.txt','w')
         f.write(token)
         f.close()
-        
-        print(ci_cd_server_public_ip)
-        print(type(ci_cd_server_public_ip))
-        print(len(ci_cd_server_public_ip))
         
         time.sleep(20)
 
@@ -211,10 +211,6 @@ if select_action=='1':
         f = open('pipeline_token.txt','w')
         f.write(token)
         f.close()
-        
-        print(ci_cd_server_public_ip)
-        print(type(ci_cd_server_public_ip))
-        print(len(ci_cd_server_public_ip))
         
         time.sleep(20)
 
