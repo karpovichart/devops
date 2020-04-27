@@ -64,7 +64,7 @@ if select_action=='1':
         output2 = key_2_p2.communicate()[0]
 
         key_3_p1 = subprocess.Popen(['terraform', 'output', 'single_side_mode_key_name_wordpress_server'], stdout=subprocess.PIPE)
-        key_3_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server.pem"], stdin=key_3_p1.stdout, stdout=subprocess.PIPE)
+        key_3_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server_1.pem"], stdin=key_3_p1.stdout, stdout=subprocess.PIPE)
         output3 = key_3_p2.communicate()[0]
 
         #output IPs
@@ -74,7 +74,7 @@ if select_action=='1':
         #setting access rights to keys
         subprocess.call("chmod 400 key_name_ci_cd_server.pem", shell=True)
         subprocess.call("chmod 400 key_name_db_server.pem", shell=True)
-        subprocess.call("chmod 400 key_name_wordpress_server.pem", shell=True)
+        subprocess.call("chmod 400 key_name_wordpress_server_1.pem", shell=True)
 
         #make new directory for keys 'ansible/keys'
         os.chdir(ansible_dir)
