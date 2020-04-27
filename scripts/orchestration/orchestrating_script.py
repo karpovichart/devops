@@ -62,6 +62,7 @@ if select_action=='1':
         key_3_p2 = subprocess.Popen(["tee", "-a", "key_name_wordpress_server.pem"], stdin=key_3_p1.stdout, stdout=subprocess.PIPE)
         output3 = key_3_p2.communicate()[0]
 
+        #output IPs
         ci_cd_server_public_ip = subprocess.run(['terraform','output', 'ci_cd_server_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
         wordpress_server_public_ip = subprocess.run(['terraform','output', 'wordpress_server_1_public_ip'], stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
 
@@ -83,6 +84,7 @@ if select_action=='1':
 
         os.chdir(ansible_dir)
 
+        #create token for pipeline
         token = secrets.token_urlsafe(20)
 
         f = open('pipeline_token.txt','w')
