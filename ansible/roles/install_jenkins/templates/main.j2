@@ -40,7 +40,7 @@
                                 sh &quot;cp ansible/pb_install_apache.yml /home/tomcat/ansible&quot;
                                 sh &quot;cp ansible/pb_install_wp.yml /home/tomcat/ansible&quot;
                                 {% if side_mode == "double" %}
-                                sh &quot;cp ansible/pb_install_nginx.yml /home/tomcat/ansible&quot;
+                                sh &quot;cp ansible/pb_conf_lb.yml /home/tomcat/ansible&quot;
                                 {% endif %}
                                 sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
                                 sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
@@ -77,7 +77,7 @@
                         {% if side_mode == "double" %}
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_nginx.yml -i /home/tomcat/hosts.ini&quot;
+                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_lb.yml -i /home/tomcat/hosts.ini&quot;
                             }
                         }
                         {% endif %}

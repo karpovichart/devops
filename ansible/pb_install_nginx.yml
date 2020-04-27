@@ -1,6 +1,0 @@
-- name: Roles config
-   become: yes #todo убрать и расставить правильно где надо
-   become_user: root
-   hosts: load_balancer_server
-   roles:
-   - nginx
