@@ -22,6 +22,7 @@ ansible_keys_dir = join(ansible_dir, 'keys') + '/'
 
 #set user working directory
 os.chdir(user_dir)
+
 #move cred file to terraform dir
 subprocess.call("mv terraform.tfvars " + terraform_dir, shell=True)
 
@@ -269,5 +270,6 @@ if select_action=='1':
                 print('\n Load Balancer server IP: ', load_balancer_server_public_ip)
                 break
 else:
+    os.chdir(terraform_dir)
     subprocess.run(['terraform', 'destroy', '-auto-approve'])
     print('\n Infrastructure has been destroyed \n')

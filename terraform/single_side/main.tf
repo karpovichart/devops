@@ -168,6 +168,6 @@ resource "local_file" "save_inventory" {
 output "ci_cd_server_public_ip" {
     value = aws_eip.static_ip_ci_cd_server.public_ip
 }
-output "wordpress_server_1_public_ip" {
+output "wordpress_server_public_ip" {
     value = aws_eip.static_ip_wordpress_server_1.public_ip
 }
