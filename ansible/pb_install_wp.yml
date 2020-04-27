@@ -1,4 +1,5 @@
-- name: Roles config
+---
+ - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
    become_user: root
    hosts: wordpress_server_1, wordpress_server_2

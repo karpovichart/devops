@@ -182,7 +182,7 @@
    #todo проверить правильно ли это работает
  - name: gen job
    template:
-    src: test.j2
+    src: main.j2
     dest: /home/tomcat/test.xml
  - name: create job
    shell:
