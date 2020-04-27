@@ -133,11 +133,6 @@ resource "aws_key_pair" "key_pair_ci_cd_server" {
     public_key = tls_private_key.key_name_ci_cd_server.public_key_openssh
 }
 
-output "key_name_ci_cd_server" {
-    value = tls_private_key.key_name_ci_cd_server.private_key_pem
-    sensitive = true
-}
-
 #key for wordpress_server 1
 variable "key_name_wordpress_server_1" {
     type = string
@@ -151,11 +146,6 @@ resource "tls_private_key" "key_name_wordpress_server_1" {
 resource "aws_key_pair" "key_pair_wordpress_server_1" {
     key_name = var.key_name_wordpress_server_1
     public_key = tls_private_key.key_name_wordpress_server_1.public_key_openssh
-}
-
-output "key_name_wordpress_server_1" {
-    value = tls_private_key.key_name_wordpress_server_1.private_key_pem
-    sensitive = true
 }
 
 #key for wordpress_server 2
@@ -173,11 +163,6 @@ resource "aws_key_pair" "key_pair_wordpress_server_2" {
     public_key = tls_private_key.key_name_wordpress_server_2.public_key_openssh
 }
 
-output "key_name_wordpress_server_2" {
-    value = tls_private_key.key_name_wordpress_server_2.private_key_pem
-    sensitive = true
-}
-
 #key for db_server
 variable "key_name_db_server" {
     type = string
@@ -193,11 +178,6 @@ resource "aws_key_pair" "key_pair_db_server" {
     public_key = tls_private_key.key_name_db_server.public_key_openssh
 }
 
-output "key_name_db_server" {
-    value = tls_private_key.key_name_db_server.private_key_pem
-    sensitive = true
-}
-
 #key for load_balancer_server
 variable "key_name_load_balancer_server" {
     type = string
@@ -211,11 +191,6 @@ resource "tls_private_key" "key_name_load_balancer_server" {
 resource "aws_key_pair" "key_pair_load_balancer_server" {
     key_name = var.key_name_load_balancer_server
     public_key = tls_private_key.key_name_load_balancer_server.public_key_openssh
-}
-
-output "key_name_load_balancer_server" {
-    value = tls_private_key.key_name_load_balancer_server.private_key_pem
-    sensitive = true
 }
 
 #IP addresses for resources
@@ -255,18 +230,4 @@ data "template_file" "nginx_default" {
 resource "local_file" "save_nginx_default" {
     content  = data.template_file.nginx_default.rendered
     filename = "default"
-}
-
-#output IPs
-output "ci_cd_server_public_ip" {
-    value = aws_eip.static_ip_ci_cd_server.public_ip
-}
-output "wordpress_server_1_public_ip" {
-    value = aws_eip.static_ip_wordpress_server_1.public_ip
-}
-output "wordpress_server_2_public_ip" {
-    value = aws_eip.static_ip_wordpress_server_2.public_ip
-}
-output "load_balancer_server_public_ip" {
-    value = aws_eip.static_ip_load_balancer_server.public_ip
 }
