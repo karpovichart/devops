@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 
 import boto3
 
+import os
+
 app = Flask(__name__)
 
 region = 'eu-central-1'
@@ -22,7 +24,10 @@ def dashboard():
         )
         ec2 = session.resource('ec2')
         instances = ec2.instances.all()
-    return render_template("dashboard.html", instances = instances)
+        
+        logs = open("/opt/share/logs.txt", "r")
+        logs_text = logs.read()
+    return render_template("dashboard.html", instances = instances, logs_text = logs_text)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
