@@ -265,7 +265,7 @@ if select_action=='1':
         open("file1", "w").close()
 
         while True:
-            status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/test/1/consoleText?token=' + token
+            status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/1/consoleText?token=' + token
             status = requests.get(status_url, auth=HTTPBasicAuth('user', 'password1'))
 
             f2 = open("file2","w")

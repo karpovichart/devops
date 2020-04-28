@@ -81,6 +81,7 @@
      mode: '0770'
      owner: tomcat
      group: tomcat
+     timeout: 60
    when: not stat_result.stat.exists
  - name: start tomcat
    become: yes

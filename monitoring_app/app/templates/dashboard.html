@@ -29,7 +29,12 @@
                 </tr>
                 {% endfor %}
             </tbody>
-         </table> 
+         </table>
+         <div>
+            {% for line in logs_lines %}
+            <p>{{ line }}</p>
+            {% endfor %}
+         </div> 
       </div>
    </body>
 </html>
