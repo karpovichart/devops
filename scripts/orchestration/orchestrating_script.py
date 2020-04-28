@@ -170,7 +170,7 @@ if select_action=='1':
         else:
             print(monitoring_build.text)
 
-        time.sleep(5)
+        time.sleep(15)
 
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
@@ -346,7 +346,7 @@ if select_action=='1':
         else:
             print(monitoring_build.text)
 
-        time.sleep(5)
+        time.sleep(15)
 
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
