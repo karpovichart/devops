@@ -7,10 +7,10 @@
       name: "{{ item }}"
       state: present
     with_items:
-      - python3-pip
       - wget
+      - python3-pip
       - openjdk-8-jdk
-    tags: install_packages #это тэг, чтобы можно было запустить отдельно эту таску
+    #tags: install_packages #это тэг, чтобы можно было запустить отдельно эту таску
 
   - name: Change file ownership, group and permissions #root
     become: yes
