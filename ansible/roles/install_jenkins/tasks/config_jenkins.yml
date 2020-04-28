@@ -184,10 +184,14 @@
    template:
     src: main.j2
     dest: /home/tomcat/test.xml
- - name: create job
+ - name: create job wp
    shell:
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name}} < /home/tomcat/test.xml"
     chdir: "{{jenkins_home}}"
+ - name: create job monitoring
+    shell:
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name}} < /home/tomcat/docker_bild.xml"
+     chdir: "{{jenkins_home}}"
    when: stat_result.stat.exists == False
  - name: check disable anon sing in
    lineinfile:

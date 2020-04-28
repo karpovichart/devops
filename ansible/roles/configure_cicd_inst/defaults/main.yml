@@ -11,8 +11,8 @@
  host_jenkins_token_path: "/home/ubuntu/devops/ansible/pipeline_token.txt"
  remove_jenkins_token_path: "/home/tomcat/pipeline_token.txt"
  #jenkins_xml
- host_jenkins_xml: "/home/ubuntu/devops/jenkins/test.xml"
- remote_jenkins_xml: "/home/tomcat/test.xml"
+ host_jenkins_xml: "/home/ubuntu/devops/jenkins/docker_bild.xml"
+ remote_jenkins_xml: "/home/tomcat/docker_bild.xml"
  #host
  host_ansible_host: "/home/ubuntu/devops/ansible/hosts.ini"
  remove_ansible_host: "/home/tomcat/hosts.ini"
