@@ -1,0 +1,37 @@
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'master'
+        }
+    options {
+        timestamps()
+    }
+    stages {
+        stage('download dockerfile from git') {
+            steps{
+                sh 'rm -rf devops'
+                 sh 'git clone https://github.com/karpovichart/devops.git'
+                 dir('devops') {
+                 sh 'pwd'
+                 sh 'git checkout dev'
+                 sh 'rm -rf /home/tomcat/monitoring_app'
+                 sh 'mkdir -p /home/tomcat/monitoring_app'
+                 sh 'ls -la'
+                 sh 'cp -r ./monitoring_app /home/tomcat/'
+                 }
+             }
+        }
+                stage("create docker image") {
+            steps {
+                echo " ============== start building image =================="
+                dir ('/home/tomcat/monitoring_app/') {
+                sh 'pwd'
+                sh 'ls -la'
+                sh 'sudo docker build -t monitoring-app .'
+                sh 'sudo docker run -d -p 5000:5000 monitoring-app'
+                }
+            }
+        }
+    }
+}
