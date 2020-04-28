@@ -170,6 +170,8 @@ if select_action=='1':
         else:
             print(monitoring_build.text)
 
+        time.sleep(5)
+
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
             monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('user', 'password1'))
@@ -343,6 +345,8 @@ if select_action=='1':
             print('\n Start pipeline build for monitoring app \n')
         else:
             print(monitoring_build.text)
+
+        time.sleep(5)
 
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
