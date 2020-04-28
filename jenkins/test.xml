@@ -1,0 +1,51 @@
+pipeline {
+        agent{
+        label &apos;master&apos;
+        }
+        options {
+        timestamps()
+        ansiColor(&apos;xterm&apos;)
+        }
+        stages {
+        stage(&apos;download files from git&apos;) {
+        steps {
+        sh &quot;rm -rf devops&quot;
+        sh &quot;git clone https://github.com/karpovichart/devops.git&quot;
+        dir(&apos;devops&apos;){
+        sh &quot;git checkout dev&quot;
+        sh &quot;rm -rf /home/tomcat/ansible/&quot;
+        sh &quot;mkdir -p /home/tomcat/ansible/&quot;
+        sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_mysql.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_apache.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/pb_install_wp.yml /home/tomcat/ansible&quot;
+        sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
+        sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
+        sh &quot;cp -r ansible/group_vars /home/tomcat/ansible/group_vars&quot;
+        }
+        }
+        }
+        stage(&quot;install wp&quot;) {
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        }
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_apache.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
+        }
+        }
+        steps {
+        dir(&apos;/home/tomcat/ansible&apos;) {
+        sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_wp.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
+        }
+        }
+        }
+        }
+        }
+        </script>
+<sandbox>true</sandbox>
+        </definition>
+<triggers/>
+<authToken>qwerty</authToken>
+<disabled>false</disabled>
+        </flow-definition>
