@@ -26,8 +26,9 @@ def dashboard():
         instances = ec2.instances.all()
         
         logs = open("/opt/share/logs.txt", "r")
-        logs_text = logs.read()
-    return render_template("dashboard.html", instances = instances, logs_text = logs_text)
+        logs_lines = logs.readlines()
+        logs.close()
+    return render_template("dashboard.html", instances = instances, logs_lines = logs_lines)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
