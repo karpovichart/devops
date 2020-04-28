@@ -8,5 +8,6 @@
  jenkins_username: user
  jenkins_password: password1
  jenkins_server_url: "http://{{ groups['ci_cd_server'][0] }}:8080/jenkins"
- job_name: main
+ job_name_main: main
+ job_name_docker: docker
  side_mode: single

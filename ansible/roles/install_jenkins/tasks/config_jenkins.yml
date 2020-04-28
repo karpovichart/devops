@@ -100,10 +100,7 @@
     chdir: "{{jenkins_home}}"
    register: user_created
    when: not avilable_reg_res1 is changed
- - name: job exist
-   stat:
-     path: "{{jenkins_home}}/jobs/{{job_name}}/"
-   register: stat_result
+
 
  # - name: add token to xml
    # lineinfile:
@@ -184,15 +181,25 @@
    template:
     src: main.j2
     dest: /home/tomcat/test.xml
+ - name: job main exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
+   register: job_main_res
+ - name: job main exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
+   register: job_docker_res
+   when:
  - name: create job wp
    shell:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name}} < /home/tomcat/test.xml"
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/test.xml"
     chdir: "{{jenkins_home}}"
+   when: job_name_main.stat.exists == False
  - name: create job monitoring
     shell:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name}} < /home/tomcat/docker_bild.xml"
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
      chdir: "{{jenkins_home}}"
-   when: stat_result.stat.exists == False
+   when: job_name_docker.stat.exists == False
  - name: check disable anon sing in
    lineinfile:
     dest: "{{jenkins_home}}/config.xml"
