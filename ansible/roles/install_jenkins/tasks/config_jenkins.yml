@@ -181,6 +181,10 @@
    template:
     src: main.j2
     dest: /home/tomcat/test.xml
+ - name: gen job
+    template:
+     src: docker.j2
+     dest: /home/tomcat/docker_bild.xml
  - name: job main exist
    stat:
      path: "{{jenkins_home}}/jobs/{{job_name_main}}/"

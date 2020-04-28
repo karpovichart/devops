@@ -1,0 +1,65 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.38">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.6.0">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+    <org.jenkinsci.plugins.workflow.multibranch.JobPropertyTrackerAction plugin="workflow-multibranch@2.21">
+      <jobPropertyDescriptors>
+        <string>org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty</string>
+      </jobPropertyDescriptors>
+    </org.jenkinsci.plugins.workflow.multibranch.JobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
+    <script>properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label &apos;master&apos;
+        }
+    options {
+        timestamps()
+    }
+    stages {
+        stage(&apos;download dockerfile from git&apos;) {
+            steps{
+                sh &apos;rm -rf devops&apos;
+                 sh &apos;git clone https://github.com/karpovichart/devops.git&apos;
+                 dir(&apos;devops&apos;) {
+                 sh &apos;pwd&apos;
+                 sh &apos;git checkout dev&apos;
+                 sh &apos;rm -rf /home/tomcat/monitoring_app&apos;
+                 sh &apos;mkdir -p /home/tomcat/monitoring_app&apos;
+                 sh &apos;ls -la&apos;
+                 sh &apos;cp -r ./monitoring_app /home/tomcat/&apos;
+                 }
+             }
+        }
+                stage(&quot;create docker image&quot;) {
+            steps {
+                echo &quot; ============== start building image ==================&quot;
+                dir (&apos;/home/tomcat/monitoring_app/&apos;) {
+                sh &apos;pwd&apos;
+                sh &apos;ls -la&apos;
+                sh &apos;sudo docker build -t monitoring-app .&apos;
+                sh &apos;sudo docker run -d -p 5000:5000 monitoring-app&apos;
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <authToken>{{lookup('file', '{{jenkins_token_path}}') }}</authToken>
+  <disabled>false</disabled>
+</flow-definition>
