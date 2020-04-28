@@ -1,0 +1,13 @@
+---
+  - name: Add tomcat group
+    become: yes
+    group:
+      name: tomcat
+  - name: Add tomcat user
+    become: yes
+    user:
+      name: tomcat
+      group: tomcat
+      home: "{{tomcat_home}}"
+      createhome: no
+      system: yes

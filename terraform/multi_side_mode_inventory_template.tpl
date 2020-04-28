@@ -1,0 +1,10 @@
+[ci_cd_server]
+${ci_cd_server_public_ip}
+[load_balancer_server]
+${load_balancer_server_public_ip}
+[wordpress_server_1]
+${wordpress_server_1_public_ip}
+[wordpress_server_2]
+${wordpress_server_2_public_ip}
+[db_server]
+${db_server_public_ip}

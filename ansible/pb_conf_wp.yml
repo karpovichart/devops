@@ -1,13 +1,15 @@
 ---
  - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
+   become_user: root
    hosts: db_server
    roles:
    - mysql
 
  - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
-   hosts: wordpress_server_1
+   become_user: root
+   hosts: wordpress_server_1, wordpress_server_2
    roles:
    - web-server
    - wordpress 

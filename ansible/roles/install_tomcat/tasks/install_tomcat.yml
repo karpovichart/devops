@@ -1,0 +1,40 @@
+---
+  - name: Install  packages #root
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - python3-pip
+      - wget
+      - openjdk-8-jdk
+    tags: install_packages #это тэг, чтобы можно было запустить отдельно эту таску
+
+  - name: Change file ownership, group and permissions #root
+    become: yes
+    become_user: root
+    file:
+     path: "{{ tomcat_srv_path }}"
+     state: directory
+     mode: '0755'
+     owner: tomcat
+     group: tomcat
+  - name: Download Tomcat 
+    get_url:
+      url: "{{ tomcat_url }}"
+      dest : "{{ tomcat_dir }}" 
+      owner: tomcat
+      group: tomcat
+  - name: Extract tomcat archive
+    become: yes
+    become_user: tomcat
+    unarchive:
+      src: "{{ tomcat_dir }}"
+      dest: "{{ tomcat_srv_path }}" 
+      owner: tomcat
+      group: tomcat
+      remote_src: yes
+      extra_opts: "--strip-components=1"
+      creates: "{{tomcat_srv_path}}/bin" 

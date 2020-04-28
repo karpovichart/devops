@@ -1,0 +1,38 @@
+---
+ - name: copy vault pass
+   copy:
+    src: "{{host_vault_path}}"
+    dest: "{{remote_vault_path}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
+ - name: copy ssh keys
+   become: yes
+   become_user: root
+   copy:
+    src: "{{host_keys_dir}}"
+    dest: "{{remote_keys_dir}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0400'
+ - name: copy jenkins token
+   copy:
+    src: "{{host_jenkins_token_path}}"
+    dest: "{{remove_jenkins_token_path}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
+ - name: copy host
+   copy:
+    src: "{{host_ansible_host}}"
+    dest: "{{remove_ansible_host}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
+ - name: copy jenkins xml
+   copy:
+    src: "{{host_jenkins_xml}}"
+    dest: "{{remote_jenkins_xml}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'

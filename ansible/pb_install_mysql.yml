@@ -1,12 +1,7 @@
 ---
  - name: Roles config
-   hosts: ci_cd_server
    become: yes #todo убрать и расставить правильно где надо
+   become_user: root
+   hosts: db_server
    roles:
-
-   - create_user
-   - install_tomcat
-   - configure_cicd_inst
-   - install_ansible
-   - install_jenkins
-
+   - mysql
