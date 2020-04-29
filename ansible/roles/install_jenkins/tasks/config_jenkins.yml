@@ -150,7 +150,11 @@
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin AnsiColor"
      chdir: "{{jenkins_home}}"
-
+     #todo удалит ьпотом
+ - name: install AnsiColor
+   command:
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin git"
+     chdir: "{{jenkins_home}}"
  - name: install Ansible
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin ansible"
