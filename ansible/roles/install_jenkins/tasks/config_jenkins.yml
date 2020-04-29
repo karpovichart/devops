@@ -243,6 +243,13 @@
      retries: 100 
      delay: 5 
    when: disable_anon_res is changed
+ - name: add info to log file
+     lineinfile:
+      dest: "{{docker_logs_path}}logs.txt"
+      line: "jenkins configured \n {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} \n ci_cd_server"
+      state: present
+      insertafter: EOF
+      create: True
 # - name: sleep 10s
 #   pause:
 #    seconds: 10
