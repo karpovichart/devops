@@ -15,17 +15,38 @@ pipeline {
         }
         stage('copy folder to dest') {
             steps{
-                 sh 'cp -r /home/jenkins/workspace/main/ansible/  /home/ubuntu/devops/'
+                 sh 'cp -r /home/jenkins/workspace/main/ansible/  /home/tomcat/'
              }
         }
-        stage('running ansible playbook') {
+        stage('running ansible playbooks') {
             steps {
                 ansiblePlaybook(
                 becomeUser: 'tomcat',
                 colorized: true,
-                inventory: '/home/jenkins/workspace/ansible/devops/ansible/hosts.ini',
-                playbook: '/home/ubuntu/devops/ansible/pb_conf_wp.yml')
+                inventory: '/home/tomcat/hosts.ini',
+                playbook: '/home/tomcat/ansible/pb_install_mysql.yml')
             }
+             steps {
+                ansiblePlaybook(
+                becomeUser: 'tomcat',
+                colorized: true,
+                inventory: '/home/tomcat/hosts.ini',
+                playbook: '/home/tomcat/ansible/pb_install_apache.yml ')
+             }
+              steps {
+                ansiblePlaybook(
+                becomeUser: 'tomcat',
+                colorized: true,
+                inventory: '/home/tomcat/hosts.ini',
+                playbook: '/home/tomcat/ansible/pb_install_wp.yml')
+             }
+             steps {
+                ansiblePlaybook(
+                becomeUser: 'tomcat',
+                colorized: true,
+                inventory: '/home/tomcat/hosts.ini',
+                playbook: '/home/tomcat/ansible/pb_install_nginx.yml')
+             }
         }
     }
 }
