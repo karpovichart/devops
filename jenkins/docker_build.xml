@@ -30,28 +30,34 @@ pipeline {
         timestamps()
     }
     stages {
-        stage(&apos;download dockerfile from git&apos;) {
+        stage(&apos;clean up workspace&apos;){
             steps{
-                sh &apos;rm -rf devops&apos;
-                 sh &apos;git clone https://github.com/karpovichart/devops.git&apos;
+                dir(&apos;devops&apos;) {
+                    deleteDir()
+                }
+                dir(&apos;/home/tomcat/monitorinf_app&apos;){
+                  deleteDir()
+                }
+            }
+        }
+                stage(&apos;download file from git&apos;){
+            steps{
                  dir(&apos;devops&apos;) {
-                 sh &apos;pwd&apos;
-                 sh &apos;git checkout dev&apos;
-                 sh &apos;rm -rf /home/tomcat/monitoring_app&apos;
+                 pwd()
+                 git branch: &apos;dev&apos;, url: &apos;https://github.com/karpovichart/devops.git&apos;
                  sh &apos;mkdir -p /home/tomcat/monitoring_app&apos;
                  sh &apos;ls -la&apos;
                  sh &apos;cp -r ./monitoring_app /home/tomcat/&apos;
                  }
-             }
+            }
         }
                 stage(&quot;create docker image&quot;) {
             steps {
                 echo &quot; ============== start building image ==================&quot;
                 dir (&apos;/home/tomcat/monitoring_app/&apos;) {
-                sh &apos;pwd&apos;
+                pwd()
                 sh &apos;ls -la&apos;
-                sh &apos;sudo docker build -t monitoring-app .&apos;
-                sh &apos;sudo docker run -d -p 5000:5000 monitoring-app&apos;
+                sh &apos; docker build -t monitoring-app .&apos;
                 }
             }
         }
