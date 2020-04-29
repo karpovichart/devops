@@ -10,21 +10,18 @@ pipeline {
     stages {
         stage('download files from git') {
             steps{
-                 git clone 'https://github.com/karpovichart/devops.git'
-                 git checkout dev
+                 git branch: 'dev', url: 'https://github.com/karpovichart/devops.git'
              }
+        }
         stage('copy folder to dest') {
             steps{
-                 cp /home/jenkins/workspace/projecktname/ansible/devops/ansible/pb_conf_wp.yml  /home/ubuntu/devops/ansible
-                 cp /home/jenkins/workspace/projecktname/ansible/devops/ansible/ansible.cfg  /home/ubuntu/devops/ansible
-                 cp -r /home/jenkins/workspace/projecktname/ansible/devops/ansible/roles  /home/ubuntu/devops/ansible
-                 
+                 sh 'cp -r /home/jenkins/workspace/main/ansible/  /home/ubuntu/devops/'
              }
         }
         stage('running ansible playbook') {
             steps {
                 ansiblePlaybook(
-                becomeUser: 'user_jenkins',
+                becomeUser: 'tomcat',
                 colorized: true,
                 inventory: '/home/jenkins/workspace/ansible/devops/ansible/hosts.ini',
                 playbook: '/home/ubuntu/devops/ansible/pb_conf_wp.yml')
