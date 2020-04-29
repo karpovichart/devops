@@ -61,7 +61,7 @@
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"
-    line: "file copy \n {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} \n ci_cd_server"
+    line: "file copy {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
     state: present
     insertafter: EOF
     create: True
