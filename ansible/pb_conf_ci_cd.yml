@@ -9,4 +9,4 @@
    - configure_cicd_inst
    - install_ansible
    - install_jenkins
-
+ - include: docker.yml

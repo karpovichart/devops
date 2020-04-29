@@ -1,6 +1,6 @@
 ---
 - name: install docker
-  hosts: localhost
+  hosts: ci_cd_server
   become: yes
 
   tasks:
