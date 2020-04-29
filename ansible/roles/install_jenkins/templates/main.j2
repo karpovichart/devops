@@ -32,7 +32,7 @@
                             sh &quot;rm -rf devops&quot;
                             sh &quot;git clone https://github.com/karpovichart/devops.git&quot;
                             dir(&apos;devops&apos;){
-                                sh &quot;git checkout dev&quot;
+                                sh &quot;git checkout {{ branch }}&quot;
                                 sh &quot;rm -rf /home/tomcat/ansible/&quot;
                                 sh &quot;mkdir -p /home/tomcat/ansible/&quot;
                                 sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
