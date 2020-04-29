@@ -56,4 +56,5 @@
     path: "{{docker_logs_path}}logs.txt"
     owner: tomcat
     group: tomcat
+    state: touch
     mode: '0744'
