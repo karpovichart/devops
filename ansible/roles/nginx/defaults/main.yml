@@ -1,0 +1,3 @@
+---
+ host_enginx_path: "/home/tomcat/default"
+ remote_enginx_path: "/etc/nginx/sites-available/default"

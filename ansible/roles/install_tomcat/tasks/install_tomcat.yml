@@ -37,4 +37,11 @@
       group: tomcat
       remote_src: yes
       extra_opts: "--strip-components=1"
-      creates: "{{tomcat_srv_path}}/bin" 
+      creates: "{{tomcat_srv_path}}/bin"
+  - name: add info to log file
+    lineinfile:
+     dest: "{{docker_logs_path}}logs.txt"
+     line: "tomcat instaled \n {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} \n ci_cd_server"
+     state: present
+     insertafter: EOF
+     create: True

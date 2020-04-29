@@ -13,12 +13,17 @@
  #jenkins_xml
  host_jenkins_xml: "/home/ubuntu/devops/jenkins/docker_build.xml"
  remote_jenkins_xml: "/home/tomcat/docker_build.xml"
- #host
+ #host file
  host_ansible_host: "/home/ubuntu/devops/ansible/hosts.ini"
  remove_ansible_host: "/home/tomcat/hosts.ini"
- 
+ #nginx
+ host_nginx_conf_path: "/home/ubuntu/devops/ansible/default"
+ remote_nginx_conf_path: "/home/tomcat/default"
+
  host_ansible_group_vars_dir: "{{host_ansible_dir}}group_vars/"
  remote_ansible_group_vars_dir: "/home/tomcat/group_vars/"
 
  host_ansible_dir: "/home/ubuntu/devops/ansible/"
  remote_ansible_dir: "{{remoute_devops}}ansible/"
+
+ docker_logs_path: "/home/tomcat/monitoring/"
