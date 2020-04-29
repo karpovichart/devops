@@ -44,3 +44,16 @@
     group: tomcat
     mode: '0744'
    when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2"
+ - name: create file monitoring
+   file:
+    path: "{{docker_logs_path}}"
+    state: directory
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
+ - name: create file logs
+   file:
+    path: "{{docker_logs_path}}logs.txt"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'

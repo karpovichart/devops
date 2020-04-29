@@ -58,7 +58,7 @@
             pwd()
             sh &apos;ls -la&apos;
             sh &apos; docker build -t monitoring-app .&apos;
-            sh &apos; docker run -d -v /path 5000:5000 monitoring-app &apos;
+            sh &apos; docker run -d -v {{docker_logs_path}}:/opt/share -p 5000:5000 monitoring-app &apos;
             }
             }
             }

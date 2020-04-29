@@ -25,3 +25,5 @@
 
  host_ansible_dir: "/home/ubuntu/devops/ansible/"
  remote_ansible_dir: "{{remoute_devops}}ansible/"
+
+ docker_logs_path: "/home/tomcat/monitoring/"

@@ -11,3 +11,4 @@
  job_name_main: main
  job_name_docker: monitoring
  side_mode: single
+ docker_logs_path: "/home/tomcat/monitoring/"
