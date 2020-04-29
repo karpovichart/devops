@@ -1,0 +1,3 @@
+---
+ host_enginx_path: "/home/ubuntu/devops/default"
+ remote_enginx_path: "/etc/nginx/sites-available/default"
