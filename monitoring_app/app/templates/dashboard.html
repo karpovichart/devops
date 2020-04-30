@@ -10,6 +10,7 @@
                   justify-content: center; 
                   align-items: center;">
          <h1>Dashboard</h1>
+         <h2>Server status</h2>
          <table class="pure-table">
             <thead>
                 <tr>
@@ -30,6 +31,7 @@
                 {% endfor %}
             </tbody>
          </table>
+         <h2>Logs</h2>
          <div>
             {% for line in logs_lines %}
             <p>{{ line }}</p>
