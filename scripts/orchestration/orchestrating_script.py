@@ -200,8 +200,8 @@ if select_action=='1':
 
             if 'Finished: SUCCESS' in monitoring_status.text:
                 print('\n Infrastructure has been successfully deployed \n')
-                print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
-                print('\n WordPress server IP: ', wordpress_server_public_ip)
+                print('\n Jenkins CI/CD server: ', ci_cd_server_public_ip + ':8080/jenkins')
+                print('\n WordPress server: ', wordpress_server_public_ip)
                 print('\n Monitoring App: ', ci_cd_server_public_ip + ':5000')
                 break
             elif 'Finished: FAILURE' in monitoring_status.text:
@@ -376,10 +376,10 @@ if select_action=='1':
 
             if 'Finished: SUCCESS' in monitoring_status.text:
                 print('\n Infrastructure has been successfully deployed \n')
-                print('\n Jenkins CI/CD server IP: ', ci_cd_server_public_ip)
-                print('\n WordPress 1 server IP: ', wordpress_server_1_public_ip)
-                print('\n WordPress 2 server IP: ', wordpress_server_2_public_ip)
-                print('\n Load Balancer server IP: ', load_balancer_server_public_ip)
+                print('\n Jenkins CI/CD server: ', ci_cd_server_public_ip + ':8080/jenkins')
+                print('\n WordPress 1 server: ', wordpress_server_1_public_ip)
+                print('\n WordPress 2 server: ', wordpress_server_2_public_ip)
+                print('\n Load Balancer server: ', load_balancer_server_public_ip)
                 print('\n Monitoring App: ', ci_cd_server_public_ip + ':5000')
                 break
             elif 'Finished: FAILURE' in monitoring_status.text:
