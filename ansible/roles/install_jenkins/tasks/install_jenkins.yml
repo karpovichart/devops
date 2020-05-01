@@ -60,8 +60,7 @@
      become: yes
      become_user: tomcat
      shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
-     notify:
-     - restart_server
+     notify: restart_server
  #  when: task_result1 is changed or task_result2 is changed or task_result3 is changed
 
  - name: if jenkins war isset
