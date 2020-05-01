@@ -1,10 +1,10 @@
 ---
 - name: wait connect
-   uri:
-     url: "{{service_url}}"
-     follow_redirects: safe
-     method: GET
-    register: _result
-    until: _result.status == 200
-    retries: 40
-    delay: 5
+  uri:
+   url: "{{service_url}}"
+   follow_redirects: safe
+   method: GET
+  register: _result
+  until: _result.status == 200
+  retries: 40
+  delay: 5
