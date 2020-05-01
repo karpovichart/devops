@@ -1,7 +1,7 @@
 ---
 # handlers file for install_jenkins
 
-- name: ttt
+- name: restart server
   become: yes
   become_user: root
   block:
