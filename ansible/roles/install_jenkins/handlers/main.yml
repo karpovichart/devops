@@ -3,10 +3,13 @@
 - name: restart_server
   become: yes
   become_user: root
-  - shell: "sleep 5 && reboot"
+  block:
+  - name: restart
+    shell: "sleep 5 && reboot"
      async: 1
      poll: 0
-  - wait_for_connection:
+  - name: wait for start
+    wait_for_connection:
      connect_timeout: 20
      sleep: 5
      delay: 5
