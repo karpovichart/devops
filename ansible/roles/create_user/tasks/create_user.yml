@@ -21,6 +21,8 @@
      name: tomcat
      groups: "docker"
      append: "yes"
+  - name: gg
+    shell: "ls"
     notify: test
 
   - name: add info to log file
