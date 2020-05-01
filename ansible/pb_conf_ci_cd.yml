@@ -4,6 +4,7 @@
    become: yes
    become_user: root
    roles:
+   - configure_cicd_inst
    - create_user
    - install_docker
 
@@ -12,6 +13,6 @@
    become: yes #todo убрать и расставить правильно где надо
    roles:
    - install_tomcat
-   - configure_cicd_inst
+
    - install_ansible
    - install_jenkins
