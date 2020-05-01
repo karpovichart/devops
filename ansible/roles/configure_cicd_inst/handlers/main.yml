@@ -6,4 +6,4 @@
    path: "home/ubuntu/logs.txt"
    state: touch
   run_once: true
-  delegate_to: wordpress_server_1
+  delegate_to: 3.127.158.236
