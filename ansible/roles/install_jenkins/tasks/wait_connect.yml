@@ -1,5 +1,5 @@
 ---
-- name: wait connect
+- name: "wait connect {{service_url}}"
   uri:
    url: "{{service_url}}"
    follow_redirects: safe
