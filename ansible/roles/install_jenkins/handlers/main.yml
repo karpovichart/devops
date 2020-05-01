@@ -15,7 +15,8 @@
    sleep: 5
    delay: 5
    timeout: 300
-- name: rrr
+
+- name: huy
   ping:
 
 - name: tttt
