@@ -102,10 +102,11 @@
    vars:
     service_url: "http://localhost:8080/"
 
- - name: wait for jenkins start
-   set_fact:
-    service_url: "http://localhost:8080/jenkins/"
+
+
  - include_playbook: wait_connect.yml
+   vars:
+    service_url: "http://localhost:8080/jenkins/"
 
  - name: add info to log file
    lineinfile:
