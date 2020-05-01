@@ -83,11 +83,13 @@
    become: yes
    become_user: tomcat
    shell: "nohup {{tomcat_srv_path}}/bin/startup.sh"
+
  - name: wait for tomcat start
    set_fact:
     service_url: "http://localhost:8080/"
    notyfi:
    - wait_for_start_service
+
  - name: wait for tomcat start
    set_fact:
     service_url: "http://localhost:8080/jenkins/"
