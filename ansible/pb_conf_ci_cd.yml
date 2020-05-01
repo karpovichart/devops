@@ -7,7 +7,7 @@
 
    - create_user
    - configure_cicd_inst
-   - install_docker
+  # - install_docker
 
  - name: Roles config
    hosts: ci_cd_server
