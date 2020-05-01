@@ -4,14 +4,14 @@
 - name: ttt
   become: yes
   become_user: root
-  shell: "sleep 5 && reboot"
-  async: 1
-  poll: 0
-  wait_for_connection:
-   connect_timeout: 20
-   sleep: 5
-   delay: 5
-   timeout: 300
+  - shell: "sleep 5 && reboot"
+    async: 1
+    poll: 0
+  - wait_for_connection:
+     connect_timeout: 20
+     sleep: 5
+     delay: 5
+     timeout: 300
 
 - name: tttt
   uri:
