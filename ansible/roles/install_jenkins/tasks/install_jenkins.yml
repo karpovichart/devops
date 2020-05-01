@@ -95,10 +95,12 @@
    become_user: tomcat
    shell: "nohup {{tomcat_srv_path}}/bin/startup.sh"
 
- - name: wait for tomcat start
-   set_fact:
+# - name: wait for tomcat start
+
+
+ - import_playbook: wait_connect.yml
+   vars:
     service_url: "http://localhost:8080/"
- - include_playbook: wait_connect.yml
 
  - name: wait for jenkins start
    set_fact:
