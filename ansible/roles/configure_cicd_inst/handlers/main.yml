@@ -2,4 +2,5 @@
 # handlers file for configure_cicd_inst
 - name: test
   debug: var=ansible_all_ipv4_addresses
+  run_once: true
   delegate_to: 127.0.0.1
