@@ -17,7 +17,7 @@
    timeout: 300
 
 - name: test
-  degub:
+  debug:
    msg: "hhh"
 
 - name: tttt
