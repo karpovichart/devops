@@ -4,5 +4,6 @@
   become: yes
   file:
    path: "home/ubuntu/logs.txt"
+   state: touch
   run_once: true
   delegate_to: 127.0.0.1
