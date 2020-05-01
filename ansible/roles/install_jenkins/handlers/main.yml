@@ -16,7 +16,7 @@
    delay: 5
    timeout: 300
 
-- name: huy
+- name: test
   ping:
 
 - name: tttt
