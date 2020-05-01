@@ -27,3 +27,5 @@
  remote_ansible_dir: "{{remoute_devops}}ansible/"
 
  docker_logs_path: "/home/tomcat/monitoring/"
+
+ side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
