@@ -1,9 +1,2 @@
 ---
 # handlers file for create_user
-- name: test
-  lineinfile:
-     dest: "{{docker_logs_path}}logs.txt"
-     line: "jenkins instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
-     state: present
-     insertafter: EOF
-     create: True
