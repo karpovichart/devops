@@ -22,10 +22,6 @@
      groups: "docker"
      append: "yes"
 
-  - name: gg
-    shell: "ls"
-    notify: test
-
   - name: add info to log file
     lineinfile:
      dest: "{{docker_logs_path}}logs.txt"

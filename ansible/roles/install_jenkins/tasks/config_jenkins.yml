@@ -178,7 +178,7 @@
    set_fact:
     side_mode: "double"
    when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2"
-   #todo проверить правильно ли это работает
+   ##todo проверить правильно ли это работает
  - name: gen job
    template:
     src: main.j2

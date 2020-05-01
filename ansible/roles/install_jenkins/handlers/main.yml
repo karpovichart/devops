@@ -1,20 +1,7 @@
 ---
 # handlers file for install_jenkins
 
-- name: ttt
-  become: yes
-  become_user: root
-  shell: "sleep 5 && reboot"
-  async: 1
-  poll: 0
-- name: ttq
-  become: yes
-  become_user: root
-  wait_for_connection:
-   connect_timeout: 20
-   sleep: 5
-   delay: 5
-   timeout: 300
+
 
 - name: "test"
   debug:
@@ -22,11 +9,3 @@
   listen: "test1"
 
 - name: tttt
-  uri:
-   url: "{{service_url}}"
-   follow_redirects: safe
-   method: GET
-  register: _result
-  until: _result.status == 200
-  retries: 40
-  delay: 5

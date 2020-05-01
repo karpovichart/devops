@@ -57,15 +57,23 @@
  - name: stop tomcat and restart server
    become: yes
    become_user: tomcat
-   shell: "ls"
-#   debug:
-#      msg: "ggg"
-#   shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
-   notify: "test"
-   #- "
-#   - ttt
-#   - ttq
- #  when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+   block:
+   - name: restart server
+     become: yes
+     become_user: root
+     shell: "sleep 5 && reboot"
+     async: 1
+     poll: 0
+   - name: wait for server start
+     become: yes
+     become_user: root
+     wait_for_connection:
+      connect_timeout: 20
+      sleep: 5
+      delay: 5
+      timeout: 300
+
+   when: task_result1 is changed or task_result2 is changed or task_result3 is changed
 
  - name: if jenkins war isset
    stat:
@@ -90,14 +98,12 @@
  - name: wait for tomcat start
    set_fact:
     service_url: "http://localhost:8080/"
-   notify:
-   - wait_for_start_service
+ - include_playbook: wait_connect.yml
 
  - name: wait for jenkins start
    set_fact:
     service_url: "http://localhost:8080/jenkins/"
-   notify:
-   - wait_for_start_service
+  - include_playbook: wait_connect.yml
 
  - name: add info to log file
    lineinfile:
@@ -106,18 +112,3 @@
     state: present
     insertafter: EOF
     create: True
-# - handlers:
-#   - name: restart_server
-#     become: yes
-#     become_user: root
-#     block:
-#     - name: restart
-#       shell: "sleep 5 && reboot"
-#       async: 1
-#       poll: 0
-#     - name: wait for start
-#       wait_for_connection:
-#        connect_timeout: 20
-#        sleep: 5
-#        delay: 5
-#        timeout: 300
