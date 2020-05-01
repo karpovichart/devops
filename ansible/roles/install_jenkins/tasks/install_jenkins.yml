@@ -95,7 +95,7 @@
  - name: wait for tomcat start
    set_fact:
     service_url: "http://localhost:8080/jenkins/"
-   notyfi:
+   notyfy:
    - wait_for_start_service
 
 
