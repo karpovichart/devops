@@ -13,46 +13,59 @@
    become: yes
    become_user: root
    block:
-
-   - name: add java opts
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JAVA_OPTS'
-      insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
-      line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
-     register: task_result1
-
-   - name: add java opts
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^ANSIBLE_CONFIG'
-      insertafter: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
-      line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
-     register: task_result1
-
-   - name: add java args
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JAVA_ARGS'
-      insertafter: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
-      line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
-     register: task_result2
-
-   - name: add jenkins home
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JENKINS_HOME'
-      insertafter: "^JENKINS_HOME=\"{{jenkins_home}}\""
-      line: "JENKINS_HOME=\"{{jenkins_home}}\""
-     register: task_result3
+ - name: change env vars
+   become: yes
+   become_user: root
+   lineinfile:
+    dest: '/etc/environment'
+    regexp: {{item.reg}}
+    insertafter: {{item.insert}}
+    lime: {{item.line}}
+    with_items:
+    - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
+    - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
+    - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
+    - { reg: '^JENKINS_HOME', insert: "^JENKINS_HOME=\"{{jenkins_home}}\"", line: "JENKINS_HOME=\"{{jenkins_home}}\"" }
+    register: task_result
+#   - name: add java opts
+#     become: yes
+#     become_user: root
+#     lineinfile:
+#
+#      regexp: '^JAVA_OPTS'
+#      insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
+#      line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
+#     register: task_result1
+#
+#   - name: add java opts
+#     become: yes
+#     become_user: root
+#     lineinfile:
+#      dest: '/etc/environment'
+#      regexp: '^ANSIBLE_CONFIG'
+#      insertafter: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
+#      line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
+#     register: task_result1
+#
+#   - name: add java args
+#     become: yes
+#     become_user: root
+#     lineinfile:
+#      dest: '/etc/environment'
+#      regexp: '^JAVA_ARGS'
+#      insertafter: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
+#      line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
+#     register: task_result2
+#
+#   - name: add jenkins home
+#     become: yes
+#     become_user: root
+#     lineinfile:
+#      dest: '/etc/environment'
+#      regexp: '^JENKINS_HOME'
+#      insertafter: "^JENKINS_HOME=\"{{jenkins_home}}\""
+#      line: "JENKINS_HOME=\"{{jenkins_home}}\""
+#     register: task_result3
 
  - name: stop tomcat and restart server
    become: yes
@@ -73,7 +86,7 @@
       delay: 5
       timeout: 300
 
-   when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+   when: task_result is changed
 
  - name: if jenkins war isset
    stat:
@@ -109,8 +122,8 @@
    vars:
     service_url: "http://localhost:8080/jenkins/"
     service_restart_name: "jenkins"
-   notify:
-   - "make log"
+#   notify:
+#   - "make log"
 
 # - name: add info to log file
 #   lineinfile:

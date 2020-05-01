@@ -5,14 +5,14 @@
    become_user: root
    roles:
 
-#   - create_user
+   - create_user
    - configure_cicd_inst
-  # - install_docker
+   - install_docker
 
-# - name: Roles config
-#   hosts: ci_cd_server
-#   become: yes #todo убрать и расставить правильно где надо
-#   roles:
-#   - install_tomcat
-#   - install_jenkins
-##   - install_ansible
+ - name: Roles config
+   hosts: ci_cd_server
+   become: yes #todo убрать и расставить правильно где надо
+   roles:
+   - install_tomcat
+   - install_jenkins
+   - install_ansible
