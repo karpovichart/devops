@@ -4,8 +4,9 @@
    become: yes
    become_user: root
    roles:
-   - configure_cicd_inst
+
    - create_user
+   - configure_cicd_inst
    - install_docker
 
  - name: Roles config
