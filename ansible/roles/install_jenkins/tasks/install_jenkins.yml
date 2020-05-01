@@ -13,6 +13,7 @@
    become: yes
    become_user: root
    block:
+
    - name: add java opts
      become: yes
      become_user: root
@@ -22,6 +23,7 @@
       insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
       line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
      register: task_result1
+
    - name: add java opts
      become: yes
      become_user: root
@@ -31,6 +33,7 @@
       insertafter: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
       line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
      register: task_result1
+
    - name: add java args
      become: yes
      become_user: root
@@ -40,6 +43,7 @@
       insertafter: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
       line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
      register: task_result2
+
    - name: add jenkins home
      become: yes
      become_user: root
@@ -49,31 +53,22 @@
       insertafter: "^JENKINS_HOME=\"{{jenkins_home}}\""
       line: "JENKINS_HOME=\"{{jenkins_home}}\""
      register: task_result3
+
  - name: restart server
    block:
-   - name: stop tomcat 
+   - name: stop tomcat
      become: yes
      become_user: tomcat
      shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
-   - name: Reboot immediately if there was a change. #root
-     become: yes
-     become_user: root 
-     shell: "sleep 5 && reboot"
-     async: 1
-     poll: 0
-   - name: Wait for the reboot to complete if there was a change. #root
-     become: yes
-     become_user: root
-     wait_for_connection:
-      connect_timeout: 20
-      sleep: 5
-      delay: 5
-      timeout: 300
+   notify:
+   - restart_server
    when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+
  - name: if jenkins war isset
    stat:
     path: "{{tomcat_srv_path}}/webapps/jenkins.war"
    register: stat_result
+
  - name: download jenkins
    get_url:
      url: "{{ jenkins_url  }}"
@@ -83,29 +78,23 @@
      group: tomcat
      timeout: 60
    when: not stat_result.stat.exists
+
  - name: start tomcat
    become: yes
    become_user: tomcat
    shell: "nohup {{tomcat_srv_path}}/bin/startup.sh"
  - name: wait for tomcat start
-   uri:
-    url: "http://localhost:8080/"
-    follow_redirects: safe
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 20 
-   delay: 5 
- - name: wait for jenkins start
-  
-   uri:
-    url: "http://localhost:8080/jenkins/login"
-    follow_redirects: all
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 100
-   delay: 5
+   set_fact:
+    service_url: "http://localhost:8080/"
+   notyfi:
+   - wait_for_start_service
+ - name: wait for tomcat start
+   set_fact:
+    service_url: "http://localhost:8080/jenkins/"
+   notyfi:
+   - wait_for_start_service
+
+
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"

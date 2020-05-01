@@ -1,2 +1,30 @@
 ---
 # handlers file for install_jenkins
+- name: restart_server
+  block:
+
+  - name: Reboot immediately if there was a change. #root
+    become: yes
+    become_user: root
+    shell: "sleep 5 && reboot"
+     async: 1
+     poll: 0
+
+  - name: Wait for the reboot to complete if there was a change. #root
+    become: yes
+    become_user: root
+    wait_for_connection:
+     connect_timeout: 20
+     sleep: 5
+     delay: 5
+     timeout: 300
+
+- name: wait_for_start_service
+  uri:
+      url: "{{service_url}}"
+      follow_redirects: safe
+      method: GET
+     register: _result
+     until: _result.status == 200
+     retries: 40
+     delay: 5

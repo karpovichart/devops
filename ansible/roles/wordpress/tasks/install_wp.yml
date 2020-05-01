@@ -1,11 +1,11 @@
 ---
-    - name: mysql install
+    - name: install dependency
       become: yes
       apt:
        name: mysql-server 
        state: latest
        update_cache: yes
-    - name: Check that wp core download exists
+    - name: Check that wp core downloaded
       stat:
        path: "{{wp_path}}wp-config-sample.php"
       register: stat_result
@@ -15,9 +15,6 @@
        cmd: "wp core download --allow-root"
        chdir: "{{wp_path}}"
       when: stat_result.stat.exists == False
-#    - name: rr
-#      debug:
-#       var: "{{hostvars[inventory_hostname]['ansible_env']}}"
     - name: Check that wp core configured exists
       stat:
        path: "{{wp_path}}wp-config.php"

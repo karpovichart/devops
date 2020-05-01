@@ -5,4 +5,5 @@
  jenkins_username: user
  jenkins_password: password1
  branch : dev
+ branch : refactoring_ansible_code
  #branch : fix_generation_docker_pipeline

@@ -1,0 +1,46 @@
+---
+  - name: Install packadge for docker
+    apt:
+      update_cache: yes
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    tags: install_docker
+
+  - name: install key for docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: os version
+    shell:
+      cmd: lsb_release -cs
+    register: ubuntu_version
+
+  - name: install apt repo
+    apt_repository:
+      repo: " deb [arch=amd64] {{docker_repo_url}} {{ ubuntu_version.stdout }} stable"
+      state: present
+
+#  - name: Update apt packages
+#    apt:
+#      update_cache: yes
+#      force_apt_get: yes
+
+
+
+  - name: install docker
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+      force_apt_get: yes
+    with_items:
+     - docker-ce
+     - docker-ce-cli
+     - containerd.io
