@@ -54,15 +54,13 @@
       line: "JENKINS_HOME=\"{{jenkins_home}}\""
      register: task_result3
 
- - name: restart server
-   block:
-   - name: stop tomcat
-     become: yes
-     become_user: tomcat
-     shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
-     notify:
-     - ttt
-     - ttq
+ - name: stop tomcat and restart server
+   become: yes
+   become_user: tomcat
+   shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
+   notify:
+   - ttt
+   - ttq
  #  when: task_result1 is changed or task_result2 is changed or task_result3 is changed
 
  - name: if jenkins war isset
