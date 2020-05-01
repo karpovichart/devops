@@ -1,5 +1,7 @@
 ---
 # handlers file for install_jenkins
-
+- name: "make log"
+  hosts:localhost
+  ping:
 
 
