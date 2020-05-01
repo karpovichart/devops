@@ -18,7 +18,7 @@
 
 - name: test
   degub:
-   var: "hhh"
+   msg: "hhh"
 
 - name: tttt
   uri:
