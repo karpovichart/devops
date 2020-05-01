@@ -98,13 +98,13 @@
 # - name: wait for tomcat start
 
 
- - import_playbook: wait_connect.yml
+ - import_tasks: wait_connect.yml
    vars:
     service_url: "http://localhost:8080/"
 
 
 
- - include_playbook: wait_connect.yml
+ - import_tasks: wait_connect.yml
    vars:
     service_url: "http://localhost:8080/jenkins/"
 
