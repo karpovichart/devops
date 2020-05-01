@@ -64,7 +64,6 @@
      - restart_server
  #  when: task_result1 is changed or task_result2 is changed or task_result3 is changed
 
-
  - name: if jenkins war isset
    stat:
     path: "{{tomcat_srv_path}}/webapps/jenkins.war"
@@ -97,7 +96,6 @@
    notify:
    - wait_for_start_service
 
-
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"
@@ -105,19 +103,18 @@
     state: present
     insertafter: EOF
     create: True
- - handlers:
-   - name: restart_server
-     become: yes
-     become_user: root
-     block:
-     - name: restart
-       shell: "sleep 5 && reboot"
-       async: 1
-       poll: 0
-     - name: wait for start
-       wait_for_connection:
-        connect_timeout: 20
-        sleep: 5
-        delay: 5
-        timeout: 300
-
+# - handlers:
+#   - name: restart_server
+#     become: yes
+#     become_user: root
+#     block:
+#     - name: restart
+#       shell: "sleep 5 && reboot"
+#       async: 1
+#       poll: 0
+#     - name: wait for start
+#       wait_for_connection:
+#        connect_timeout: 20
+#        sleep: 5
+#        delay: 5
+#        timeout: 300
