@@ -1,6 +1,7 @@
 ---
 # handlers file for configure_cicd_inst
 - name: test
+  become: yes
   file:
    path: "home/ubuntu/logs.txt"
   run_once: true
