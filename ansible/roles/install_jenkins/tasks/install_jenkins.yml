@@ -57,8 +57,9 @@
  - name: stop tomcat and restart server
    become: yes
    become_user: tomcat
-   debug:
-      msg: "ggg"
+   shell: "ll"
+#   debug:
+#      msg: "ggg"
 #   shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
    notify: "test1"
    #- "
