@@ -3,9 +3,3 @@
 
 
 
-- name: "test"
-  debug:
-   msg: "hhh"
-  listen: "test1"
-
-- name: tttt
