@@ -16,7 +16,7 @@
    delay: 5
    timeout: 300
 
-- name: test
+- name: "test"
   debug:
    msg: "hhh"
   listen: "test1"
