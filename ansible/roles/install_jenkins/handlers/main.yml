@@ -4,6 +4,7 @@
 - name: ttt
   become: yes
   become_user: root
+  tasks:
   - shell: "sleep 5 && reboot"
     async: 1
     poll: 0
