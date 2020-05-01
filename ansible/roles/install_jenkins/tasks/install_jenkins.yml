@@ -63,6 +63,10 @@
      notify:
      - restart_server
    when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+ - name: ping
+   ping:
+   notify:
+   - restart_server
 
  - name: if jenkins war isset
    stat:
