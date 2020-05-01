@@ -1,5 +1,6 @@
 ---
 # handlers file for install_jenkins
+handlers:
 - name: restart_server
   become: yes
   become_user: root
