@@ -58,7 +58,7 @@
     group: tomcat
     state: touch
     mode: '0744'
-   notify: test
+#   notify: test
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"
