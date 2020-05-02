@@ -116,7 +116,7 @@
    vars:
     service_url: "http://localhost:8080/"
     service_restart_name: "tomcat"
-
+#todo why import task ???
 
 
  - import_tasks: wait_connect.yml
