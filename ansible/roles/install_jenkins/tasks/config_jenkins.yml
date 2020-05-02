@@ -75,7 +75,7 @@
 
  - import_tasks: wait_connect.yml
    vars:
-    service_url: "http://localhost:8080/jenkins/"
+    service_url: "http://localhost:8080/jenkins/login"
     service_restart_name: "jenkins"
 
  - name:
