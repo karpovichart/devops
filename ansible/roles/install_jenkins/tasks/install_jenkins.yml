@@ -18,10 +18,10 @@
    become_user: root
    lineinfile:
     dest: '/etc/environment'
-    regexp: "{{ items.reg }}"
-    insertafter: "{{ items.insert }}"
-    lime: "{{ items.line }}"
-   with_items:
+    regexp: "{{ item.reg }}"
+    insertafter: "{{ item.insert }}"
+    lime: "{{ item.line }}"
+   loop:
     - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
 #    - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
 #    - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
