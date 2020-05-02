@@ -18,7 +18,7 @@
    become_user: root
    lineinfile:
     dest: '/etc/environment'
-    regexp: {{ item.reg }}
+    regexp: "{{ item.reg }}"
     insertafter: "{{item.insert}}"
     lime: "{{item.line}}"
    with_items:
