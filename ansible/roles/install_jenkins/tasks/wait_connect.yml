@@ -1,5 +1,5 @@
 ---
-- name: "wait connect {{service_restart_name: tomcat}}"
+- name: "wait connect {{service_restart_name}}"
   uri:
    url: "{{service_url}}"
    follow_redirects: safe
