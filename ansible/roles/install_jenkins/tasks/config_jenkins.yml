@@ -1,6 +1,4 @@
 ---
-
-
  - name: download cli
    get_url:
     url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
@@ -98,12 +96,13 @@
     src: main.j2
     dest: /home/tomcat/main.xml #todo change to main
    when: job_main_res.stat.exists == False
- - name: gen docker job
 
+ - name: gen docker job
    template:
     src: docker.j2
     dest: /home/tomcat/docker_bild.xml
    when: job_docker_res.stat.exists == False
+
  - name: create main job
    shell:
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/main.xml" #todo change to main
@@ -144,7 +143,7 @@
 
    - import_tasks: wait_connect.yml
      vars:
-      service_url: "http://localhost:8080/jenkins/"
+      service_url: "http://localhost:8080/jenkins/login"
       service_restart_name: "jenkins"
 
    when: disable_anon_res is changed
