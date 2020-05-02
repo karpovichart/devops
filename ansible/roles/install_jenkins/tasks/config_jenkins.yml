@@ -135,7 +135,7 @@
  - name:
    set_fact:
     side_mode: "double"
-   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2" and job_main_res.stat.exists == False
+   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2" && job_main_res.stat.exists == False
    ##todo проверить правильно ли это работает
 
  - name: gen main job
