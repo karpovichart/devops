@@ -69,7 +69,7 @@
    - { name: ansible }
    - { name: workflow-aggregator }
 
-- import_tasks: restart_jenkins.yml
+ - import_tasks: restart_jenkins.yml
      vars:
       auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
 
