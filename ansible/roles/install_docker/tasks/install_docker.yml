@@ -32,8 +32,6 @@
 #      update_cache: yes
 #      force_apt_get: yes
 
-
-
   - name: install docker
     apt:
       name: "{{ item }}"

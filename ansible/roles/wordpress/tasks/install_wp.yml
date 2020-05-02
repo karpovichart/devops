@@ -5,33 +5,40 @@
        name: mysql-server 
        state: latest
        update_cache: yes
+
     - name: Check that wp core downloaded
       stat:
        path: "{{wp_path}}wp-config-sample.php"
       register: stat_result
+
     - name: download core
       become: yes
       shell:
        cmd: "wp core download --allow-root"
        chdir: "{{wp_path}}"
       when: stat_result.stat.exists == False
+
     - name: Check that wp core configured exists
       stat:
        path: "{{wp_path}}wp-config.php"
       register: stat_result
+
     - name: conf wp 1
       block:
+
       - name: check if isset conf file
         become: yes
         shell:
          cmd: "wp core config --dbhost={{wp_db_host}} --dbname={{wp_db_name}} --dbuser={{wp_db_user}} --dbpass={{wp_db_password}}  --allow-root"
          chdir: "{{wp_path}}"
-        when: stat_result.stat.exists == False 
+        when: stat_result.stat.exists == False
+
       - name: if wp db installed
         command: "mysql --user={{wp_db_user}} --password={{wp_db_password}}  --database={{wp_db_name}}
                   --host={{wp_db_host}} --batch --skip-column-names
                   --execute='show tables from {{wp_db_name}};'"
         register: stuff
+
       - name: install wp
         become: yes
         shell:
@@ -40,20 +47,22 @@
         when: stuff.stdout_lines|length == 0
       when: "'wordpress_server_1' in group_names"
 
-
     - name: conf wp 2
       block:
+
       - name: check if isset conf file
         become: yes
         shell:
          cmd: "wp core config --dbhost={{wp_db_host}} --dbname={{wp_db_name}} --dbuser={{wp_db_user}} --dbpass={{wp_db_password}}  --allow-root"
          chdir: "{{wp_path}}"
-        when: stat_result.stat.exists == False 
+        when: stat_result.stat.exists == False
+
       - name: if wp db installed
         command: "mysql --user={{wp_db_user}} --password={{wp_db_password}}  --database={{wp_db_name}}
                   --host={{wp_db_host}} --batch --skip-column-names
                   --execute='show tables from {{wp_db_name}};'"
         register: stuff
+
       - name: install wp
         become: yes
         shell:

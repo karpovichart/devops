@@ -40,13 +40,6 @@
      state: present
      login_user: "{{wp_db_username}}"
      login_password: "{{wp_db_password}}"
-  # - name: "create db {{wp_db_name}}1"
-    # mysql_db:
-     # db: "{{wp_db_name}}2"
-     # state: present
-     # login_user: "{{wp_db_username}}"
-     # login_password: "{{wp_db_password}}"
-    # when: type_server == "double"
   - name: allow access
     become: yes
     lineinfile: 
@@ -54,23 +47,11 @@
        regexp: '^[mysqld]'
        insertafter: '^[mysqld]'
        line: "[mysqld]"
-    register: mysql_conf1
+    notify: restart mysql
   - name: allow access
     become: yes
     lineinfile: 
        dest: '/etc/mysql/my.cnf'
        regexp: '^bind-address=0.0.0.0'
        line: "bind-address=0.0.0.0"
-    register: mysql_conf2
-   # - name: allow access
-   
-     # become: yes
-     
-   
-  - name: restart mysql
-    become: yes
-    systemd:
-     state: restarted
-     daemon_reload: yes
-     name: mysql
-    when: mysql_conf1 is changed or mysql_conf2 is changed
+    notify: restart mysql
