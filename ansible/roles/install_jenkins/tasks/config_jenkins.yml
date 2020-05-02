@@ -70,8 +70,8 @@
    - { name: workflow-aggregator }
 
  - import_tasks: restart_jenkins.yml
-     vars:
-      auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+   vars:
+    auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
 
  - import_tasks: wait_connect.yml
    vars:
