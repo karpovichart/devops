@@ -1,8 +1,8 @@
 ---
-- name: "wait connect {{service_restart_name}}"
+- name: "wait connect {{service_url}}"
   uri:
    url: "{{service_url}}"
-   follow_redirects: safe
+   follow_redirects: all
    method: GET
   register: _result
   until: _result.status == 200
