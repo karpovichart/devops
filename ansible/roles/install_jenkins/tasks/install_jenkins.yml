@@ -18,15 +18,15 @@
    become_user: root
    lineinfile:
     dest: '/etc/environment'
-    regexp: "{{item.reg}}"
+    regexp: "{{ item.reg }}"
     insertafter: "{{item.insert}}"
     lime: "{{item.line}}"
-    with_items:
+   with_items:
     - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
     - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
     - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
     - { reg: '^JENKINS_HOME', insert: "^JENKINS_HOME=\"{{jenkins_home}}\"", line: "JENKINS_HOME=\"{{jenkins_home}}\"" }
-    register: task_result
+   register: task_result
 #   - name: add java opts
 #     become: yes
 #     become_user: root
