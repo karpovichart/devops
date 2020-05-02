@@ -9,18 +9,18 @@
     owner: tomcat
     group: tomcat
     
- - name: add vars #root
-   become: yes
-   become_user: root
-   block:
+# - name: add vars #root
+#   become: yes
+#   become_user: root
+#   block:
  - name: change env vars
    become: yes
    become_user: root
    lineinfile:
     dest: '/etc/environment'
-    regexp: {{item.reg}}
-    insertafter: {{item.insert}}
-    lime: {{item.line}}
+    regexp: "{{item.reg}}"
+    insertafter: "{{item.insert}}"
+    lime: "{{item.line}}"
     with_items:
     - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
     - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
