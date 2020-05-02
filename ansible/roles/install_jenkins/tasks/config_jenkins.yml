@@ -97,7 +97,7 @@
    template:
     src: main.j2
     dest: /home/tomcat/test.xml
-  when: job_main_res.stat.exists == False
+   when: job_main_res.stat.exists == False
  - name: gen docker job
 
    template:
