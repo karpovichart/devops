@@ -11,7 +11,7 @@
     line: ""
     state: absent
    check_mode: yes
-   register: avilable_reg_res1
+   register: avilable_reg_res
 
  - name: avalible registration
    block:
@@ -30,7 +30,17 @@
       service_url: "http://localhost:8080/jenkins/"
       service_restart_name: "jenkins"
 
-   when: avilable_reg_res1 is changed
+   when: avilable_reg_res is changed
+
+
+# - import_tasks: restart_jenkins.yml
+#   when: user_created is changed #todo проверить надо ли
+#
+# - import_tasks: wait_connect.yml
+#   vars:
+#    service_url: "http://localhost:8080/jenkins/"
+#    service_restart_name: "jenkins"
+#   when: user_created is changed
 
  - name: check user isset
    lineinfile:
@@ -42,21 +52,12 @@
    register: user_isset
 
  - name: create user
-   shell: 
+   shell:
     cmd: >
       echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("{{jenkins_username}}", "{{jenkins_password}}")' | java -jar jenkins-cli.jar -s http://localhost:8080/jenkins groovy =
     chdir: "{{jenkins_home}}"
    register: user_created
    when: not user_isset is changed
-
- - import_tasks: restart_jenkins.yml
-   when: user_created is changed
-
- - import_tasks: wait_connect.yml
-   vars:
-    service_url: "http://localhost:8080/jenkins/"
-    service_restart_name: "jenkins"
-   when: user_created is changed
 
  - name: install jenkins plugin
    command:
@@ -68,54 +69,17 @@
    - { name: git }
    - { name: ansible }
    - { name: workflow-aggregator }
+   register: plug_installed
 
- - import_tasks: restart_jenkins.yml
-   vars:
-    auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+# - import_tasks: restart_jenkins.yml
+#   vars:
+#    auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+#
+# - import_tasks: wait_connect.yml
+#   vars:
+#    service_url: "http://localhost:8080/jenkins/login"
+#    service_restart_name: "jenkins"
 
- - import_tasks: wait_connect.yml
-   vars:
-    service_url: "http://localhost:8080/jenkins/login"
-    service_restart_name: "jenkins"
-
- - name:
-   set_fact:
-    side_mode: "double"
-   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2"
-   ##todo проверить правильно ли это работает
- - name: job main exist
-   stat:
-     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
-   register: job_main_res
-
- - name: job docker exist
-   stat:
-     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
-   register: job_docker_res
-
- - name: gen main job
-   template:
-    src: main.j2
-    dest: /home/tomcat/main.xml #todo change to main
-   when: job_main_res.stat.exists == False
-
- - name: gen docker job
-   template:
-    src: docker.j2
-    dest: /home/tomcat/docker_bild.xml
-   when: job_docker_res.stat.exists == False
-
- - name: create main job
-   shell:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/main.xml" #todo change to main
-    chdir: "{{jenkins_home}}"
-   when: job_main_res.stat.exists == False
-
- - name: create job monitoring
-   shell:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
-    chdir: "{{jenkins_home}}"
-   when: job_docker_res.stat.exists == False
 
  - name: check disable anon sing in
    lineinfile:
@@ -141,6 +105,11 @@
       regexp: 'disableSignup+'
       line: '<disableSignup>true</disableSignup>'
 
+   when: disable_anon_res is changed
+
+ - name: restart jenkins
+   block:
+
    - import_tasks: restart_jenkins.yml
      vars:
       auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
@@ -150,7 +119,48 @@
       service_url: "http://localhost:8080/jenkins/login"
       service_restart_name: "jenkins"
 
-   when: disable_anon_res is changed
+   when: disable_anon_res is changed or plug_installed is changed
+
+
+ - name: job main exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
+   register: job_main_res
+
+ - name: job docker exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
+   register: job_docker_res
+
+ - name:
+   set_fact:
+    side_mode: "double"
+   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2" and job_main_res.stat.exists == False
+   ##todo проверить правильно ли это работает
+
+ - name: gen main job
+   template:
+    src: main.j2
+    dest: /home/tomcat/main.xml #todo change to main
+   when: job_main_res.stat.exists == False
+
+ - name: gen docker job
+   template:
+    src: docker.j2
+    dest: /home/tomcat/docker_bild.xml
+   when: job_docker_res.stat.exists == False
+
+ - name: create main job
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/main.xml" #todo change to main
+    chdir: "{{jenkins_home}}"
+   when: job_main_res.stat.exists == False
+
+ - name: create job monitoring
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
+    chdir: "{{jenkins_home}}"
+   when: job_docker_res.stat.exists == False
 
  - name: add info to log file
    lineinfile:

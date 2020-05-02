@@ -8,6 +8,7 @@
    - create_user
    - configure_cicd_inst
    - install_docker
+   - install_ansible
 
  - name: Roles config
    hosts: ci_cd_server
@@ -16,4 +17,3 @@
    roles:
    - install_tomcat
    - install_jenkins
-   - install_ansible
