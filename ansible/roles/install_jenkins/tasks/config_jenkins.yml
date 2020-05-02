@@ -105,7 +105,7 @@
     dest: /home/tomcat/docker_bild.xml
    when: job_docker_res.stat.exists == False
  - name: create main job
-   command:
+   shell:
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/test.xml"
     chdir: "{{jenkins_home}}"
    when: job_main_res.stat.exists == False
