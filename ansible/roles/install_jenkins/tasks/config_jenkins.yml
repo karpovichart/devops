@@ -60,7 +60,7 @@
     service_restart_name: "jenkins"
    when: user_created is changed
 
- - name: install timestamper
+ - name: install jenkins plugin
    command:
      cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin {{item.name}}"
      chdir: "{{jenkins_home}}"
