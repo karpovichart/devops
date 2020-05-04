@@ -58,7 +58,4 @@
        regexp: '^bind-address=0.0.0.0'
        line: "bind-address=0.0.0.0"
     notify: restart mysql
-  - hosts: localhost
-    tasks:
-      - debug:
-          msg: play1
+  - import_playbook: test.yml
