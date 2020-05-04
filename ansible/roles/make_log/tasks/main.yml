@@ -1,7 +1,5 @@
 ---
 - name: make_log
-  become: yes
-  become_user: root
   local_action:
    file:
     path: /home/tomcat/hhh
