@@ -7,4 +7,3 @@
    vars:
     action: install_nginx
     where: Load_Balancer-Server
-  when: ("{{lookup('file', '{{remove_side_file}}')}} " == 2)
