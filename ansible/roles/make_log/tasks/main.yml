@@ -1,6 +1,6 @@
 ---
 - name: make_log
   local_action:
-   file:
-    path: /home/tomcat/hhh
-    state: touch
+   module: file
+   path: /home/tomcat/hhh
+   state: touch
