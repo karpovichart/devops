@@ -1,7 +1,9 @@
 ---
-- name: make_log
-  become: yes
-  become_user: root
-  file:
-   path: /home/tomcat/hhh
-   state: touch
+
+- name: add info to log file
+  lineinfile:
+   dest: "{{docker_logs_path}}logs.txt"
+   line: "{{action}} {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  {{where}}"
+   state: present
+   insertafter: EOF
+   create: True

@@ -1,11 +1,9 @@
 ---
-- name: log
-  hosts: ci_cd_server
-  tasks:
-  - name: add info to log file
-    lineinfile:
-     dest: "{{docker_logs_path}}logs.txt"
-     line: "{{action}} {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  {{where}}"
-     state: present
-     insertafter: EOF
-     create: True
+
+- name: Roles config
+   hosts: ci_cd_server
+   become: yes #todo убрать и расставить правильно где надо
+   become_user: tomcat
+   roles:
+   - make_log
+
