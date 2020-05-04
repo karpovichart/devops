@@ -1,6 +1,6 @@
 ---
 - name: make_log
-  hosts: ci_cd_server
+  host: ci_cd_server
   file:
    path: /home/tomcat/hhh
    state: touch
