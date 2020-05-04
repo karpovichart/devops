@@ -58,10 +58,10 @@
        regexp: '^bind-address=0.0.0.0'
        line: "bind-address=0.0.0.0"
     notify: restart mysql
-  - import_playbook: pb_make_log.yml
-    vars:
-     action: test
-     where: test
+#  - import_playbook: pb_make_log.yml
+#    vars:
+#     action: test
+#     where: test
 #  - name: Include a play after another play
 #
 #    vars:
