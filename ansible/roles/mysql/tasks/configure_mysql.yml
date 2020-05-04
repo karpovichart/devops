@@ -59,9 +59,7 @@
        line: "bind-address=0.0.0.0"
     notify: restart mysql
   - name: restart mysql
-    become: yes
-    systemd:
-     state: restarted
-     daemon_reload: yes
-     name: mysql
+    file:
+     dist: ttt
+     state: touch
     notify: test
