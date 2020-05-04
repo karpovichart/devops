@@ -4,4 +4,4 @@
   tasks:
   - name: log
     debug:
-     msg: test
+     msg: "{{test}}"

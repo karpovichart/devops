@@ -59,5 +59,7 @@
        line: "bind-address=0.0.0.0"
     notify: restart mysql
   - name: log
-    roles:
-    - make_log
+    include_role:
+     name: make_log
+    vars:
+     test: ll
