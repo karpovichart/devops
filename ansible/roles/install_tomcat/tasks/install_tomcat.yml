@@ -4,12 +4,8 @@
     become_user: root
     apt:
       update_cache: yes
-      name: "{{ item }}"
+      name: "{{ tomcat_dependencies }}"
       state: present
-    with_items:
-      - wget
-      - python3-pip
-      - openjdk-8-jdk
 
   - name: Change file ownership, group and permissions #root
     become: yes

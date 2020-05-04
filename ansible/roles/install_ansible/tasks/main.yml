@@ -15,6 +15,7 @@
     name: ansible
     state: latest
     update_cache: yes
+
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"

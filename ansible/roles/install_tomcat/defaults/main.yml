@@ -4,3 +4,4 @@
  tomcat_dir: "/tmp/apache-tomcat-9.0.33.tar.gz"
  tomcat_home: "/home/tomcat/"
  tomcat_srv_path: "/opt/tomcat/"
+ tomcat_dependencies: "wget, python3-pip, openjdk-8-jdk"
