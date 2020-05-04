@@ -7,4 +7,4 @@
    vars:
     action: install_nginx
     where: Load_Balancer-Server
-  when: ("{{lookup('file', '/home/tomcat/side_mode.txt')}} " == 2)
+  when: ("{{lookup('file', '{{remove_side_file}}')}} " == 2)

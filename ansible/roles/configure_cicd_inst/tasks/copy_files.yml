@@ -36,6 +36,13 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+ - name: copy side file
+   copy:
+    src: "{{host_side_file}}"
+    dest: "{{remote_side_file}}"
+    owner: tomcat
+    group: tomcat
+    mode: '0744'
  - name: copy nginx file
    copy:
     src: "{{host_nginx_conf_path}}"
@@ -43,7 +50,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
-   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2"
+   when: ("{{lookup('file', '{{side_mode_file_path}}')}}" == 2)
  - name: create file monitoring
    file:
     path: "{{docker_logs_path}}"
