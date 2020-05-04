@@ -2,10 +2,10 @@
 # handlers file for apache_conf
 - name: restart apache
   become: yes
- # hosts: ci_cd_server
+  hosts: ci_cd_server
   tasks:
-  - name: log
-    ping:
+   - name: log
+     ping:
 
 #  systemd:
 #   state: restarted
