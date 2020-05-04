@@ -32,5 +32,5 @@
  side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
 
   #side file
-  host_side_file: side_mode_file_path
+  host_side_file: "/home/ubuntu/devops/ansible/side_mode.txt"
   remove_side_file: "/home/tomcat/side_mode.txt"
