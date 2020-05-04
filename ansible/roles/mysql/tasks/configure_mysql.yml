@@ -58,8 +58,7 @@
        regexp: '^bind-address=0.0.0.0'
        line: "bind-address=0.0.0.0"
     notify: restart mysql
-  - name: This DOES NOT WORK
-    hosts: all
+  - hosts: localhost
     tasks:
       - debug:
-          msg: task1
+          msg: play1
