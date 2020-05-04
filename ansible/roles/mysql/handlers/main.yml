@@ -8,7 +8,7 @@
     name: mysql
  - name: test
    become: yes
-   hosts: ci_cd_server
+  # hosts: ci_cd_server
    tasks:
    - name: log
      debug:
