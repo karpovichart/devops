@@ -1,6 +1,7 @@
 ---
 - name: make_log
-
+  become: yes
+  become_user: root
   file:
    path: /home/tomcat/hhh
    state: touch
