@@ -9,6 +9,7 @@
  - name: test
    become: yes
   # hosts: ci_cd_server
-   debug:
-    msg: "test"
+   file:
+    path: jjj
+    state: touch
    delegate_to: ci_cd_server
