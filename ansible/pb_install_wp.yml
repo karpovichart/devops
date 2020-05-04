@@ -9,14 +9,14 @@
    vars:
     action: install_word_press
     where: WordPress_Server_1
-   when: ("{{lookup('file', '{{remove_side_file}}')}} " == 2)
+   when: ("{{lookup('file', '{{remove_side_file}}')}}  == 2")
  - import_playbook: pb_make_log.yml
    vars:
     action: install_word_press
     where: WordPress_Server_2
-   when: ("{{lookup('file', '{{remove_side_file}}')}} " == 2)
+   when: ("{{lookup('file', '{{remove_side_file}}')}}  == 2")
  - import_playbook: pb_make_log.yml
    vars:
     action: install_word_press
     where: WordPress_Server
-   when: ("{{lookup('file', '{{remove_side_file}}')}} " == 1)
+   when: ("{{lookup('file', '{{remove_side_file}}')}}  == 1")
