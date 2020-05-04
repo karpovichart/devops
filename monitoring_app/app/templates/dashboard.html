@@ -32,11 +32,24 @@
             </tbody>
          </table>
          <h2>Logs</h2>
-         <div>
-            {% for line in logs_lines %}
-            <p>{{ line }}</p>
-            {% endfor %}
-         </div> 
+         <table class="pure-table">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Server</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in logs_table %}
+                <tr>
+                  {% for cell in line %}
+                    <td>{{ cell }}</td>
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+         </table>
       </div>
    </body>
 </html>

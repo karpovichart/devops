@@ -28,7 +28,11 @@ def dashboard():
         logs = open("/opt/share/logs.txt", "r")
         logs_lines = logs.readlines()
         logs.close()
-    return render_template("dashboard.html", instances = instances, logs_lines = logs_lines)
+        logs_table = []
+        for line in logs_lines:
+            logs_table.append(line.split(' '))
+
+    return render_template("dashboard.html", instances = instances, logs_table = logs_table)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
