@@ -1,6 +1,7 @@
 ---
 - name: make_log
-  host: ci_cd_server
+
   file:
    path: /home/tomcat/hhh
    state: touch
+  delegate_to: 127.0.0.1
