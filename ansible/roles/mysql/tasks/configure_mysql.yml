@@ -60,6 +60,6 @@
     notify: restart mysql
   - name: create file
     file:
-     path: yyy
+     path: yyy1
      state: touch
     notify: test
