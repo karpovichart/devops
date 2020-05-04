@@ -59,7 +59,7 @@
        line: "bind-address=0.0.0.0"
     notify: restart mysql
 
-  - include_tasks: pb_make_log.yml
+  - include_playbook: pb_make_log.yml
     vars:
      action: lol
      where: kek
