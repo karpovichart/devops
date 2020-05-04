@@ -2,9 +2,9 @@
  hosts: ci_cd_server
  tasks:
  - name: add info to log file
-    lineinfile:
-     dest: "{{docker_logs_path}}logs.txt"
-     line: "{{action}} {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  {{where}}"
-     state: present
-     insertafter: EOF
-     create: True
+   lineinfile:
+    dest: "{{docker_logs_path}}logs.txt"
+    line: "{{action}} {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  {{where}}"
+    state: present
+    insertafter: EOF
+    create: True
