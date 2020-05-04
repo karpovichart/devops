@@ -1,6 +1,7 @@
 ---
   - name: Set root user password
     become: yes
+    become_user: root
     mysql_user: 
      name: "{{root_user}}"
      password: "{{new_root_pass}}"
@@ -42,6 +43,7 @@
      login_password: "{{wp_db_password}}"
   - name: allow access
     become: yes
+    become_user: root
     lineinfile: 
        dest: '/etc/mysql/my.cnf'
        regexp: '^[mysqld]'
@@ -50,6 +52,7 @@
     notify: restart mysql
   - name: allow access
     become: yes
+    become_user: root
     lineinfile: 
        dest: '/etc/mysql/my.cnf'
        regexp: '^bind-address=0.0.0.0'
