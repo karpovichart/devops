@@ -1,5 +1,10 @@
 ---
-  - name: Roles config
-    hosts: load_balancer_server
-    roles:
-    - nginx
+- name: Roles config
+  hosts: load_balancer_server
+  roles:
+  - nginx
+- import_playbook: pb_make_log.yml
+   vars:
+    action: install_nginx
+    where: Load_Balancer-Server
+  when: ("{{lookup('file', '/home/tomcat/side_mode.txt')}} " == 2)
