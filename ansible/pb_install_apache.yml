@@ -8,9 +8,9 @@
 
  - import_playbook: pb_make_log.yml
    vars:
-    action: install_apache
+    action: "{{lookup('file', '{{remove_side_file}}')}}"
     where: WordPress_Server_1
-   when: ("{{lookup('file', '{{remove_side_file}}')}} " == 2)
+   when: ("{{lookup('file', '{{remove_side_file}}')}}  == 2")
 
  - import_playbook: pb_make_log.yml
    vars:
