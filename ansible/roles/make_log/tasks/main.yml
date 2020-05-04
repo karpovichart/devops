@@ -1,7 +1,5 @@
 ---
 - name: make_log
  # hosts: ci_cd_server
-  tasks:
-  - name: log
-    debug:
-     msg: "{{test}}"
+  debug:
+   msg: "{{test}}"
