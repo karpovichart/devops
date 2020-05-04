@@ -1,11 +1,12 @@
 ---
-# - import_playbook: pb_make_log.yml
-#   vars:
-#    action: test
-#    where: test
+
  - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
    become_user: ubuntu
    hosts: db_server
    roles:
    - mysql
+ - import_playbook: pb_make_log.yml
+   vars:
+    action: install_mysql
+    where: MySQL_Server
