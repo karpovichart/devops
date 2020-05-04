@@ -1,7 +1,7 @@
 ---
  - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
-   become_user: ubuntu
+   become_user: root
    hosts: db_server
    roles:
    - mysql
