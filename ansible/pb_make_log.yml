@@ -1,5 +1,5 @@
 ---
- hosts:ci_cd_server
+ hosts: ci_cd_server
  tasks:
  - name: add info to log file
     lineinfile:
