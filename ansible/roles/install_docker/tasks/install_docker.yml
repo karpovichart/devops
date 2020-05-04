@@ -1,0 +1,36 @@
+---
+  - name: Install packadge for docker
+    apt:
+      update_cache: yes
+      name: "{{ docker_dependencies }}"
+      state: present
+
+  - name: install key for docker
+    apt_key:
+      url: "{{ docker_gpg_key }}"
+      state: present
+
+  - name: os version
+    shell:
+      cmd: lsb_release -cs
+    register: ubuntu_version
+
+  - name: install apt repo
+    apt_repository:
+      repo: " deb [arch=amd64] {{docker_repo_url}} {{ ubuntu_version.stdout }} stable"
+      state: present
+
+  - name: install docker
+    apt:
+      name: "{{ docker_app }}"
+      state: present
+      update_cache: yes
+#      force_apt_get: yes
+
+  - name: add info to log file
+    lineinfile:
+     dest: "{{docker_logs_path}}logs.txt"
+     line: "install_docker {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
+     state: present
+     insertafter: EOF
+     create: True

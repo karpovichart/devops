@@ -1,2 +1,10 @@
 ---
 # handlers file for configure_cicd_inst
+#- name: test
+#  become: yes
+#  file:
+#   path: "home/ubuntu/logs.txt"
+#   state: touch
+#  run_once: true
+#  delegate_to: wordpress_server_1
+#todo fix this handler

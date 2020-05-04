@@ -20,6 +20,7 @@
  host_nginx_conf_path: "/home/ubuntu/devops/ansible/default"
  remote_nginx_conf_path: "/home/tomcat/default"
 
+
  host_ansible_group_vars_dir: "{{host_ansible_dir}}group_vars/"
  remote_ansible_group_vars_dir: "/home/tomcat/group_vars/"
 
@@ -27,3 +28,9 @@
  remote_ansible_dir: "{{remoute_devops}}ansible/"
 
  docker_logs_path: "/home/tomcat/monitoring/"
+
+ side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
+
+  #side file
+ host_side_file: "/home/ubuntu/devops/ansible/side_mode.txt"
+ remote_side_file: "/home/tomcat/side_mode.txt"

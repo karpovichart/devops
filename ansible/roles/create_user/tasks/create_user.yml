@@ -1,20 +1,24 @@
 ---
   - name: Add tomcat group
-    become: yes
     group:
       name: tomcat
+
   - name: Add tomcat user
-    become: yes
     user:
       name: tomcat
       group: tomcat
       home: "{{tomcat_home}}"
       createhome: no
       system: yes
-  - name: add info to log file
-    lineinfile:
-     dest: "{{docker_logs_path}}logs.txt"
-     line: "user created {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
-     state: present
-     insertafter: EOF
-     create: True
+
+  - name: Create docker group
+    group:
+      name: "docker"
+      state: present
+
+  - name: Adding user tomcat to docker group
+    user:
+     name: tomcat
+     groups: "docker"
+     append: "yes"
+

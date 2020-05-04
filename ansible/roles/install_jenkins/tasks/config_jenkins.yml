@@ -1,60 +1,9 @@
 ---
-
-# - name: restart jenkins
-#   command:
-#     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
-#     chdir: "{{jenkins_home}}"
-# - name: wait for jenkins start
-#   uri:
-#    url: "http://localhost:8080/jenkins/login"
-#    follow_redirects: all
-#    method: GET
-#   register: _result
-#   until: _result.status == 200
-#   retries: 100
-#   delay: 5
- # - name: change owner
-   # become: yes
-   # become_user: root
-   # file:
-    # path: "{{jenkins_home}}"
-    
-    # recurse: yes
-    # mode: '0755'
-    # owner: tomcat
-    # group: tomcat
-
  - name: download cli
    get_url:
-    url: "http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
+    url: "{{url_for_jenkins_cli}}/jnlpJars/jenkins-cli.jar"
     dest: "{{jenkins_home}}"
 
-    
- # - name: install python-jenkins
-   # pip:
-    # name: python-jenkins
-# - name: sleep 10s
-#   pause:
-#    seconds: 10
-# - name: install plugin ansicolor
-#   jenkins_plugin:
-#     name: AnsiColor
-#     url: "{{ jenkins_server_url }}"
-#     state: present
-# - name: install plugin timestamper
-#   jenkins_plugin:
-#     name: timestamper
-#     url: "{{ jenkins_server_url }}"
-#     state: present
-# - name: intsall plugin ansibe
-#   jenkins_plugin:
-#     name: Ansible
-#     url: "{{ jenkins_server_url }}"
-#     state: present
- # - name: restart jenkins
-   # command: 
-    # cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins safe-restart"
-    # chdir: "{{jenkins_home}}"
  - name: check avalible registration
    lineinfile:
     dest: "{{jenkins_home}}/config.xml"
@@ -62,29 +11,34 @@
     line: ""
     state: absent
    check_mode: yes
-   register: avilable_reg_res1
+   register: avilable_reg_res
+
  - name: avalible registration
-   block: 
+   block:
+
    - name: avalible registration
      lineinfile:
       dest: "{{jenkins_home}}/config.xml"
       state: present
       regexp: "hudson.security.SecurityRealm+"
       line: "<securityRealm class=\"hudson.security.HudsonPrivateSecurityRealm\">\n<disableSignup>false</disableSignup>\n<enableCaptcha>false</enableCaptcha>\n</securityRealm>"
-   - name: restart jenkins
-     command: 
-      cmd: "java -jar jenkins-cli.jar -s http://localhost:8080/jenkins safe-restart"
-      chdir: "{{jenkins_home}}"
-   - name: wait for jenkins start
-     uri:
-      url: "http://localhost:8080/jenkins/login"
-      follow_redirects: all
-      method: GET
-     register: _result
-     until: _result.status == 200
-     retries: 100 
-     delay: 5 
-   when: avilable_reg_res1 is changed
+
+   - import_tasks: restart_jenkins.yml
+
+   - import_tasks: wait_connect.yml
+
+   when: avilable_reg_res is changed
+
+
+# - import_tasks: restart_jenkins.yml
+#   when: user_created is changed #todo проверить надо ли
+#
+# - import_tasks: wait_connect.yml
+#   vars:
+#    service_url: "http://localhost:8080/jenkins/"
+#    service_restart_name: "jenkins"
+#   when: user_created is changed
+
  - name: check user isset
    lineinfile:
     dest: "{{jenkins_home}}/users/users.xml"
@@ -92,120 +46,38 @@
     line: ""
     state: absent
    check_mode: yes
-   register: avilable_reg_res1
+   register: user_isset
+
  - name: create user
-   shell: 
+   shell:
     cmd: >
-      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("{{jenkins_username}}", "{{jenkins_password}}")' | java -jar jenkins-cli.jar -s http://localhost:8080/jenkins groovy =
+      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("{{jenkins_username}}", "{{jenkins_password}}")' | java -jar jenkins-cli.jar -s {{url_for_jenkins_cli}} groovy =
     chdir: "{{jenkins_home}}"
    register: user_created
-   when: not avilable_reg_res1 is changed
+   when: not user_isset is changed
+
+ - name: install jenkins plugin
+   command:
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}}  install-plugin {{item.name}}"
+     chdir: "{{jenkins_home}}"
+   with_items:
+   - { name: timestamper }
+   - { name: ansicolor }
+   - { name: git }
+   - { name: ansible }
+   - { name: workflow-aggregator }
+   register: plug_installed
+
+# - import_tasks: restart_jenkins.yml
+#   vars:
+#    auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+#
+# - import_tasks: wait_connect.yml
+#   vars:
+#    service_url: "http://localhost:8080/jenkins/login"
+#    service_restart_name: "jenkins"
 
 
- # - name: add token to xml
-   # lineinfile:
-    # dest: "/home/tomcat/test.xml"
-    # regexp: "<authToken>+"
-    # line: "<authToken>{{lookup('file', '/home/ubuntu/devops/ansible/pipeline_token.txt') }}</authToken>"
- # - name: stop
-   # pause:
-    # seconds: 1000
- # - name: cr j
-   # jenkins_job:
-    # config: "{{ lookup('file', '/home/ubuntu/devops/jenkins/test.xml') }}"
-    # name: test
-    # password: "{{jenkins_password}}"
-    # url: http://13.53.182.235:8080
-    # user: "{{jenkins_username}}"
- # - name: fff
-   # file:
-    # path: "/home/tomcat/jenkins_home/jobs/test34/"
-    # state: directory
-    # mode: '0755'
-    # owner: tomcat
-    # group: tomcat
-
-   # when: stat_result.stat.exists == False
- - name: restart jenkins
-   command:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
-    chdir: "{{jenkins_home}}"
-   when: user_created is changed
- - name: wait for jenkins start
-   uri:
-    url: "http://localhost:8080/jenkins/login"
-    follow_redirects: all
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 100
-   delay: 5
-   when: user_created is changed
- - name: install timestamper
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin timestamper"
-     chdir: "{{jenkins_home}}"
- - name: install AnsiColor
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin ansicolor"
-     chdir: "{{jenkins_home}}"
- - name: install Git plug
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin git"
-     chdir: "{{jenkins_home}}"
- - name: install Ansible
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin ansible"
-     chdir: "{{jenkins_home}}"
- - name: install Pipeline
-   command:
-     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins  install-plugin workflow-aggregator"
-     chdir: "{{jenkins_home}}"
- - name: restart jenkins
-   command:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
-    chdir: "{{jenkins_home}}"
- - name: wait for jenkins start
-   uri:
-    url: "http://localhost:8080/jenkins/login"
-    follow_redirects: all
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 100
-   delay: 5
- - name:
-   set_fact:
-    side_mode: "double"
-   when: "{{lookup('file', '{{side_mode_file_path}}')}} == 2"
-   #todo проверить правильно ли это работает
- - name: gen job
-   template:
-    src: main.j2
-    dest: /home/tomcat/test.xml
- - name: gen job
-   template:
-    src: docker.j2
-    dest: /home/tomcat/docker_bild.xml
- - name: job main exist
-   stat:
-     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
-   register: job_main_res
- - name: job main exist
-   stat:
-     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
-   register: job_docker_res
-   when:
- - name: create job wp
-   shell:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_main}} < /home/tomcat/test.xml"
-    chdir: "{{jenkins_home}}"
-   when: job_main_res.stat.exists == False
- - name: create job monitoring
-   shell:
-    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
-    chdir: "{{jenkins_home}}"
-   when: job_docker_res.stat.exists == False
  - name: check disable anon sing in
    lineinfile:
     dest: "{{jenkins_home}}/config.xml"
@@ -214,51 +86,82 @@
     state: absent
    check_mode: yes
    register: disable_anon_res
- - name: restart jenkins
+
+ - name: disable anon sing in
    block:
+
    - name: disable anon sing in
      lineinfile:
       dest: "{{jenkins_home}}/config.xml"
       regexp: "hudson.security.AuthorizationStrategy+"
       line: "<authorizationStrategy class=\"hudson.security.FullControlOnceLoggedInAuthorizationStrategy\">\n<denyAnonymousReadAccess>true</denyAnonymousReadAccess>\n</authorizationStrategy>"
+
    - name: disable register jenkins
      lineinfile:
       dest: "{{jenkins_home}}/config.xml"
       regexp: 'disableSignup+'
       line: '<disableSignup>true</disableSignup>'
-   - name: restart jenkins
-     command: 
-       cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins safe-restart"
-       chdir: "{{jenkins_home}}"
-   - name: wait for jenkins start
-     uri:
-      url: "http://localhost:8080/jenkins/login"
-      follow_redirects: all
-      method: GET
-     register: _result
-     until: _result.status == 200
-     retries: 100 
-     delay: 5 
+
    when: disable_anon_res is changed
+
+ - name: restart jenkins
+   block:
+
+   - import_tasks: restart_jenkins.yml
+     vars:
+      auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+
+   - import_tasks: wait_connect.yml
+     vars:
+
+   when: disable_anon_res is changed or plug_installed is changed
+
+
+ - name: job main exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
+   register: job_main_res
+
+ - name: job docker exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
+   register: job_docker_res
+
+ - name:
+   set_fact:
+    side_mode: "double"
+   when: ("{{lookup('file', '{{side_mode_file_path}}')}} == 2") and (job_main_res.stat.exists == False)
+   ##todo проверить правильно ли это работает
+
+ - name: gen main job
+   template:
+    src: main.j2
+    dest: /home/tomcat/main.xml #todo change to main
+   when: job_main_res.stat.exists == False
+
+ - name: gen docker job
+   template:
+    src: docker.j2
+    dest: /home/tomcat/docker_bild.xml
+   when: job_docker_res.stat.exists == False
+
+ - name: create main job
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_main}} < /home/tomcat/main.xml" #todo change to main
+    chdir: "{{jenkins_home}}"
+   when: job_main_res.stat.exists == False
+
+ - name: create job monitoring
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
+    chdir: "{{jenkins_home}}"
+   when: job_docker_res.stat.exists == False
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"
-    line: "jenkins configured {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  ci_cd_server"
+    line: "install_jenkins {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
     state: present
     insertafter: EOF
     create: True
-# - name: sleep 10s
-#   pause:
-#    seconds: 10
-# - name: create job
-#   shell:
-##    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s http://localhost:8080/jenkins create-job test1 < /home/ubuntu/devops/jenkins/test.xml"
-#   cmd: "java -jar jenkins-cli.jar -auth user:password1 -s http://localhost:8080/jenkins create-job test2 < /home/ubuntu/devops/jenkins/test.xml"
-#    chdir: "{{jenkins_home}}"
-# - name: make a jenkins  job
-#   jenkins_job:
-#     config: "{{ lookup('template', 'templates/test.xml.j2') }}"
-#     name: test2
-#     url: "{{ jenkins_server_url }}"
-#     user: "{{ jenkins_username }}"
-#     password: "{{ jenkins_password }}"
+
+

@@ -1,0 +1,7 @@
+---
+ - name: Roles config
+   hosts: ci_cd_server
+   become: yes
+   become_user: tomcat
+   roles:
+   - make_log

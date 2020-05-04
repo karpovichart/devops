@@ -9,59 +9,38 @@
     owner: tomcat
     group: tomcat
     
- - name: add vars #root
+# - name: add vars #root
+#   become: yes
+#   become_user: root
+#   block:
+ - name: change env vars
    become: yes
    become_user: root
+   lineinfile:
+    dest: '/etc/environment'
+    regexp: "{{ item.reg }}"
+    insertafter: "{{ item.insert }}"
+    line: "{{ item.line }}"
+   with_items:
+    - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
+    - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
+    - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
+    - { reg: '^JENKINS_HOME', insert: "^JENKINS_HOME=\"{{jenkins_home}}\"", line: "JENKINS_HOME=\"{{jenkins_home}}\"" }
+   register: task_result
+
+ - name: stop tomcat and restart server
+   become: yes
+   become_user: tomcat
    block:
-   - name: add java opts
+
+   - name: restart server
      become: yes
      become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JAVA_OPTS'
-      insertafter: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
-      line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\""
-     register: task_result1
-   - name: add java opts
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^ANSIBLE_CONFIG'
-      insertafter: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
-      line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\""
-     register: task_result1
-   - name: add java args
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JAVA_ARGS'
-      insertafter: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
-      line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\""
-     register: task_result2
-   - name: add jenkins home
-     become: yes
-     become_user: root
-     lineinfile:
-      dest: '/etc/environment'
-      regexp: '^JENKINS_HOME'
-      insertafter: "^JENKINS_HOME=\"{{jenkins_home}}\""
-      line: "JENKINS_HOME=\"{{jenkins_home}}\""
-     register: task_result3
- - name: restart server
-   block:
-   - name: stop tomcat 
-     become: yes
-     become_user: tomcat
-     shell: "nohup {{tomcat_srv_path}}/bin/shutdown.sh"
-   - name: Reboot immediately if there was a change. #root
-     become: yes
-     become_user: root 
      shell: "sleep 5 && reboot"
      async: 1
      poll: 0
-   - name: Wait for the reboot to complete if there was a change. #root
+
+   - name: wait for server start
      become: yes
      become_user: root
      wait_for_connection:
@@ -69,11 +48,14 @@
       sleep: 5
       delay: 5
       timeout: 300
-   when: task_result1 is changed or task_result2 is changed or task_result3 is changed
+
+   when: task_result is changed
+
  - name: if jenkins war isset
    stat:
     path: "{{tomcat_srv_path}}/webapps/jenkins.war"
    register: stat_result
+
  - name: download jenkins
    get_url:
      url: "{{ jenkins_url  }}"
@@ -83,33 +65,28 @@
      group: tomcat
      timeout: 60
    when: not stat_result.stat.exists
+
  - name: start tomcat
    become: yes
    become_user: tomcat
    shell: "nohup {{tomcat_srv_path}}/bin/startup.sh"
- - name: wait for tomcat start
-   uri:
-    url: "http://localhost:8080/"
-    follow_redirects: safe
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 20 
-   delay: 5 
- - name: wait for jenkins start
-  
-   uri:
-    url: "http://localhost:8080/jenkins/login"
-    follow_redirects: all
-    method: GET
-   register: _result
-   until: _result.status == 200
-   retries: 100
-   delay: 5
- - name: add info to log file
-   lineinfile:
-    dest: "{{docker_logs_path}}logs.txt"
-    line: "jenkins instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
-    state: present
-    insertafter: EOF
-    create: True
+
+ - import_tasks: wait_connect.yml #todo why import task ???
+   vars:
+    service_url: "http://localhost:8080/"
+    service_restart_name: "tomcat"
+
+ - import_tasks: wait_connect.yml
+
+
+
+#   notify:
+#   - "make log"
+
+# - name: add info to log file
+#   lineinfile:
+#    dest: "{{docker_logs_path}}logs.txt"
+#    line: "jenkins instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
+#    state: present
+#    insertafter: EOF
+#    create: True

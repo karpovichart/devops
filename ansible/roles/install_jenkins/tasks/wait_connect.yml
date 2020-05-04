@@ -1,0 +1,10 @@
+---
+- name: "wait connect {{service_url}}"
+  uri:
+   url: "{{service_url}}"
+   follow_redirects: all
+   method: GET
+  register: _result
+  until: _result.status == 200
+  retries: 40
+  delay: 10
