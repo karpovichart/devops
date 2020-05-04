@@ -1,6 +1,8 @@
 ---
-- name: make_log
-  local_action:
-   module: file
-   path: /home/tomcat/hhh
-   state: touch
+ - name: Roles config
+   become: yes #todo убрать и расставить правильно где надо
+   become_user: tomcat
+   hosts:  18.197.24.36
+   tasks:
+   - name: test
+     ping:
