@@ -13,10 +13,9 @@
    vars:
     action: install_apache
     where: WordPress_Server_1
+    side :  "{{lookup('file', '/home/tomcat/side_mode.txt')}}"
    #when: "{{lookup('file', '/home/tomcat/side_mode.txt')}}" == 2
-   when: side == 2
-   with_file:
-   - "/home/tomcat/side_mode.txt"
+
 # - import_playbook: pb_make_log.yml
 #   vars:
 #    action: install_apache
