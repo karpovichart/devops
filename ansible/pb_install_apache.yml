@@ -21,3 +21,6 @@
     action: install_apache
     where: WordPress_Server
    when: ("{{lookup('file', '{{remove_side_file}}')}} " == 1)
+ - name:
+   debug:
+    msg: "{{lookup('file', '{{remove_side_file}}')}}"
