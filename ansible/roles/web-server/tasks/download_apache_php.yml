@@ -1,6 +1,7 @@
 ---
    - name: install apache + php
      become: yes
+     become_user: root
      apt:
       name: "{{programs}}"
       state: latest
