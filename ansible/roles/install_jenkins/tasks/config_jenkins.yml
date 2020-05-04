@@ -158,7 +158,7 @@
    when: job_docker_res.stat.exists == False
  - name: add info to log file
    lineinfile:
-    dest: "{{docker_logs_path}}"
+    dest: "{{docker_logs_path}}logs.txt"
     line: "install_jenkins {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
     state: present
     insertafter: EOF

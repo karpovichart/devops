@@ -2,7 +2,7 @@
 
 - name: "add {{action}} on {{where}} to log file"
   lineinfile:
-   dest: "{{docker_logs_path}}"
+   dest: "{{docker_logs_path}}logs.txt"
    line: "{{action}} {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  {{where}}"
    state: present
    insertafter: EOF

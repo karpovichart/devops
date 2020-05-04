@@ -50,8 +50,8 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
-   when: ("{{lookup('file', '{{side_mode_file_path}}')}}" == 2)
- - name: create file monitoring
+   when: (lookup('file', '{{remove_side_file}}') == "2")
+ - name: create dir monitoring
    file:
     path: "{{docker_logs_path}}"
     state: directory
@@ -68,7 +68,7 @@
 #   notify: test
  - name: add info to log file
    lineinfile:
-    dest: "{{docker_logs_path}}"
+    dest: "{{docker_logs_path}}logs.txt"
     line: "Copy_files {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
     state: present
     insertafter: EOF

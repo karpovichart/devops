@@ -17,7 +17,7 @@
     update_cache: yes
  - name: add info to log file
    lineinfile:
-    dest: "{{docker_logs_path}}"
+    dest: "{{docker_logs_path}}logs.txt"
     line: "install_ansible {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
     state: present
     insertafter: EOF
