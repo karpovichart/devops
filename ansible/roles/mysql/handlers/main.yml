@@ -12,4 +12,4 @@
    file:
     path: jjj
     state: touch
-   delegate_to: ci_cd_server
+   delegate_to: localhost
