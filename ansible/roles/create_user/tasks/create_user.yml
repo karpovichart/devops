@@ -22,10 +22,3 @@
      groups: "docker"
      append: "yes"
 
-  - name: add info to log file
-    lineinfile:
-     dest: "{{docker_logs_path}}logs.txt"
-     line: "user created {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
-     state: present
-     insertafter: EOF
-     create: True

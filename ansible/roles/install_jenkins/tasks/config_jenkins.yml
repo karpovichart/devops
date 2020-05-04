@@ -156,5 +156,12 @@
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
     chdir: "{{jenkins_home}}"
    when: job_docker_res.stat.exists == False
+ - name: add info to log file
+   lineinfile:
+    dest: "{{docker_logs_path}}"
+    line: "install_jenkins {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
+    state: present
+    insertafter: EOF
+    create: True
 
 

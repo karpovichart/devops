@@ -68,8 +68,8 @@
 #   notify: test
  - name: add info to log file
    lineinfile:
-    dest: "{{docker_logs_path}}logs.txt"
-    line: "file copy {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
+    dest: "{{docker_logs_path}}"
+    line: "Copy_files {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
     state: present
     insertafter: EOF
     create: True

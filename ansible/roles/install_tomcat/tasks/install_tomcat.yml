@@ -43,7 +43,7 @@
   - name: add info to log file
     lineinfile:
      dest: "{{docker_logs_path}}logs.txt"
-     line: "tomcat instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
+     line: "install_tomcat {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
      state: present
      insertafter: EOF
      create: True

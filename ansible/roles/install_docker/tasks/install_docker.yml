@@ -27,11 +27,6 @@
       repo: " deb [arch=amd64] {{docker_repo_url}} {{ ubuntu_version.stdout }} stable"
       state: present
 
-#  - name: Update apt packages
-#    apt:
-#      update_cache: yes
-#      force_apt_get: yes
-
   - name: install docker
     apt:
       name: "{{ item }}"
@@ -42,3 +37,10 @@
      - docker-ce
      - docker-ce-cli
      - containerd.io
+  - name: add info to log file
+    lineinfile:
+     dest: "{{docker_logs_path}}"
+     line: "install_docker {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
+     state: present
+     insertafter: EOF
+     create: True
