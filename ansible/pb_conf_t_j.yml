@@ -1,5 +1,0 @@
----
- - name: Roles config
-   hosts: ci_cd_server
-   become: yes #todo убрать и расставить правильно где надо
-   roles:

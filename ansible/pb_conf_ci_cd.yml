@@ -16,7 +16,7 @@
    hosts: ci_cd_server
    vars:
     ansible_ssh_private_key_file: "/home/ubuntu/devops/ansible/keys/key_name_ci_cd_server.pem"
-   become: yes #todo убрать и расставить правильно где надо
+   become: yes 
    become_user: tomcat
    roles:
    - install_tomcat

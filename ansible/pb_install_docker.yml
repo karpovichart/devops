@@ -1,4 +1,0 @@
----
-- name: install docker
-  hosts: ci_cd_server
-  become: yes
