@@ -10,6 +10,6 @@
    become: yes
   # hosts: ci_cd_server
    file:
-    path: jjj
+    path: /home/tomcat/ttt
     state: touch
    delegate_to: localhost
