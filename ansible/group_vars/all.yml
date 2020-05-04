@@ -7,3 +7,4 @@
 # branch : dev
  branch : refactoring_ansible_code
  #branch : fix_generation_docker_pipeline
+ docker_logs_path: "/home/tomcat/monitoring/logs.txt"

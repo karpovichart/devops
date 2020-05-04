@@ -60,3 +60,6 @@
     notify: restart mysql
 
   - include_tasks: test.yml
+    vars:
+     action: lol
+     where: kek

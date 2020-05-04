@@ -157,10 +157,4 @@
     chdir: "{{jenkins_home}}"
    when: job_docker_res.stat.exists == False
 
- - name: add info to log file
-   lineinfile:
-    dest: "{{docker_logs_path}}logs.txt"
-    line: "jenkins configured {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}  ci_cd_server"
-    state: present
-    insertafter: EOF
-    create: True
+
