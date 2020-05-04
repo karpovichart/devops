@@ -59,8 +59,9 @@
        line: "bind-address=0.0.0.0"
     notify: restart mysql
   - name: Include a play after another play
-    import_playbook: pb_make_log.yaml
+    import_playbook: spb_make_log.yaml
+    vars:
+     action: lol
+     where: kek
 #  - import_tasks: pb_make_log.yml
-#    vars:
-#     action: lol
-#     where: kek
+#
