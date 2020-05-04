@@ -59,9 +59,4 @@
        line: "bind-address=0.0.0.0"
     notify: restart mysql
   - name: log
-    hosts: ci_cd_server
-    include_role:
-     name: make_log
-    vars:
-     test: ll
-     hosts: ci_cd_server
+    import_playbook: test.yml

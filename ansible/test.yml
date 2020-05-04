@@ -1,0 +1,5 @@
+---
+ hosts:ci_cd_server
+ tasks:
+ - name: test
+   ping:
