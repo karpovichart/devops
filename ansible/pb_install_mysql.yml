@@ -1,5 +1,8 @@
 ---
  - import_playbook: pb_make_log.yml
+   vars:
+    action: test
+    where: test
  - name: Roles config
    become: yes #todo убрать и расставить правильно где надо
    become_user: ubuntu
