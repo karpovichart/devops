@@ -3,3 +3,7 @@
   hosts: load_balancer_server
   roles:
   - nginx
+- import_playbook: pb_make_log.yml
+  vars:
+   actions: install_nginx
+   where: Load_Balancer_Server
