@@ -5,9 +5,9 @@
    hosts: wordpress_server_1, wordpress_server_2
    roles:
    - web-server
- - name: set_fact
-   set_fact:
-     side: 2
+# - name: set_fact
+#   set_fact:
+#     side: 2
 
  - import_playbook: pb_make_log.yml
    vars:
