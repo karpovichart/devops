@@ -63,3 +63,4 @@
      name: make_log
     vars:
      test: ll
+     hosts: ci_cd_server
