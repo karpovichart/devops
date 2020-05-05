@@ -9,4 +9,4 @@
  #branch : fix_generation_docker_pipeline
  docker_logs_path: "/home/tomcat/monitoring/"
  side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
- remove_side_file: "/home/tomcat/side_mode.txt"
+ remote_vault_path: "/home/tomcat/pass.txt"

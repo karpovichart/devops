@@ -34,3 +34,5 @@
   #side file
  host_side_file: "/home/ubuntu/devops/ansible/side_mode.txt"
  remote_side_file: "/home/tomcat/side_mode.txt"
+
+ remote_vault_path: "/home/tomcat/pass.txt"
