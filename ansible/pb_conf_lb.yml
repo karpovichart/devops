@@ -1,5 +1,6 @@
 ---
 - name: Roles config
+  vars_files: "{{remote_vars_path}}"
   hosts: load_balancer_server
   roles:
   - nginx
