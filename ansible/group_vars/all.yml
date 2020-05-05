@@ -9,5 +9,5 @@
  #branch : fix_generation_docker_pipeline
  docker_logs_path: "/home/tomcat/monitoring/"
  side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
- remote_vault_path: ""{{vars_path}}"pass.txt"
+ remote_vault_path: "{{vars_path}}pass.txt"
  vars_path: "/home/tomcat/ansible/group_vars/pass.yml"
