@@ -60,9 +60,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            {% if side_mode != "single" %}
-                            limit: &apos;wordpress_server_2&apos;,
-                            {% endif %}
+
                             extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml&apos;)
                         }
@@ -73,9 +71,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            {% if side_mode == "single" %}
-                            limit: &apos;wordpress_server_2&apos;,
-                            {% endif %}
+
                             extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
