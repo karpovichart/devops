@@ -50,7 +50,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_mysql.yml&apos;)
                         }
                     }
@@ -63,7 +63,7 @@
                             {% if side_mode != "double" %}
                             limit: &apos;wordpress_server_2&apos;,
                             {% endif %}
-                            vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml &apos;)
                         }
                     }
@@ -76,7 +76,7 @@
                             {% if side_mode != "double" %}
                             limit: &apos;wordpress_server_2&apos;,
                             {% endif %}
-                            vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
@@ -87,7 +87,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_nginx.yml&apos;)
                         }
                     }
