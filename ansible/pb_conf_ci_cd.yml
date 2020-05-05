@@ -7,7 +7,6 @@
    become: yes
    become_user: root
    roles:
-
    - create_user
    - configure_cicd_inst
    - install_docker
