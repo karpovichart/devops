@@ -69,4 +69,18 @@
          cmd: "wp core install --url=http://{{web_server_host_2}}/ --title=WordPress --admin_user={{wp_username}} --admin_password={{wp_password}} --admin_email={{wp_email}}  --allow-root"
          chdir: "{{wp_path}}"
         when: stuff.stdout_lines|length == 0
+      - name: delete line
+        become: yes
+        become_user: root
+        lineinfile:
+          path: "/var/www/html/wp-content/themes/twentytwenty/functions.php"
+          state: absent
+          regexp: '.has-primary-color+'
+      - name: allow access
+        become: yes
+        become_user: root
+        lineinfile:
+         dest: '/var/www/html/wp-content/themes/twentytwenty/header.php'
+         regexp: '</head>+'
+         line: "<style type=\"text/css\">.entry-title a {color:red}</style></head>"
       when: "'wordpress_server_2'  in group_names"
