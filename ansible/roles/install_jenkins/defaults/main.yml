@@ -2,6 +2,7 @@
 # defaults file for install_jenkins
  tomcat_srv_path: /opt/tomcat
  side_mode_file_path: /home/ubuntu/devops/ansible/side_mode.txt
+ remove_side_file: /home/tomcat/side_mode.txt
  jenkins_token_path: /home/ubuntu/devops/ansible/pipeline_token.txt
  jenkins_url : http://mirrors.jenkins.io/war/2.232/jenkins.war
  jenkins_home: /home/tomcat/jenkins_home
@@ -11,9 +12,10 @@
  url_for_jenkins_cli: "http://localhost:8080/jenkins"
  job_name_main: main
  job_name_docker: monitoring
- side_mode: single
+ side_mode: "single"
  docker_logs_path: "/home/tomcat/monitoring/"
  service_restart_name: "no name"
  auth: ""
  service_url: "http://localhost:8080/jenkins/login" #todo мб заменить на  jenkins_server_url
  service_restart_name: "jenkins"
+ ansible_conf_path: "/home/tomcat/ansible/ansible.cfg"

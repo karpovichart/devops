@@ -18,75 +18,74 @@
     <properties/>
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
         <script>
-            pipeline {
+            pipeline{
                 agent{
                     label &apos;master&apos;
                 }
-                options {
+                options{
                     timestamps()
                     ansiColor(&apos;xterm&apos;)
                 }
-                stages {
+                stages{
+                    stage(&apos;clean up workspace&apos;){
+                        steps{
+                            dir(&apos;devops&apos;) {
+                                deleteDir()
+                            }
+                        }
+                    }
                     stage(&apos;download files from git&apos;) {
-                        steps {
-                            sh &quot;rm -rf devops&quot;
-                            sh &quot;git clone https://github.com/karpovichart/devops.git&quot;
-                            dir(&apos;devops&apos;){
-                                sh &quot;git checkout {{ branch }}&quot;
-                                sh &quot;rm -rf /home/tomcat/ansible/&quot;
-                                sh &quot;mkdir -p /home/tomcat/ansible/&quot;
-                                sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
-                                sh &quot;cp ansible/pb_install_mysql.yml /home/tomcat/ansible&quot;
-                                sh &quot;cp ansible/pb_install_apache.yml /home/tomcat/ansible&quot;
-                                sh &quot;cp ansible/pb_make_log.yml /home/tomcat/ansible&quot;
-                                sh &quot;cp ansible/pb_install_wp.yml /home/tomcat/ansible&quot;
-                                {% if side_mode == "double" %}
-                                sh &quot;cp ansible/pb_conf_lb.yml /home/tomcat/ansible&quot;
-                                {% endif %}
-                                sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
-                                sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
-                                sh &quot;cp -r ansible/group_vars /home/tomcat/ansible/group_vars&quot;
-                            }
+                        steps{
+                         git branch: &apos;{{ branch }}&apos;, url: &apos;https://github.com/karpovichart/devops.git&apos;
                         }
                     }
-                    stage(&quot;install mysql&quot;) {
-                        steps {
-                            dir(&apos;/home/tomcat/ansible&apos;) {
-                            sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_mysql.yml -i /home/tomcat/hosts.ini&quot;
-                            }
+                    stage(&apos;copy folder to dest&apos;) {
+                        steps{
+                            sh &apos;cp -r ansible/  /home/tomcat/ansible/&apos;
                         }
                     }
-                    stage(&quot;install apache&quot;) {
+                    stage(&apos;running mysql&apos;) {
                         steps {
-                            dir(&apos;/home/tomcat/ansible&apos;) {
-                                {% if side_mode == "double" %}
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_apache.yml -i /home/tomcat/hosts.ini&quot;
-                                {% else %}
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_apache.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
-                                {% endif %}
-                            }
+                            ansiblePlaybook(
+                            becomeUser: &apos;tomcat&apos;,
+                            colorized: true,
+                            inventory: &apos;/home/tomcat/hosts.ini&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            playbook: &apos;/home/tomcat/ansible/pb_install_mysql.yml&apos;)
                         }
                     }
-                    stage(&quot;install wp&quot;) {
+                    stage(&apos;running install apache&apos;) {
                         steps {
-                            dir(&apos;/home/tomcat/ansible&apos;) {
-                                {% if side_mode == "double" %}
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_wp.yml -i /home/tomcat/hosts.ini&quot;
-                                {% else %}
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_wp.yml -i /home/tomcat/hosts.ini --limit wordpress_server_1 &quot;
-                                {% endif %}
-                            }
+                            ansiblePlaybook(
+                            becomeUser: &apos;tomcat&apos;,
+                            colorized: true,
+                            inventory: &apos;/home/tomcat/hosts.ini&apos;,
+
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml&apos;)
+                        }
+                    }
+                    stage(&apos;running install wp&apos;) {
+                        steps {
+                            ansiblePlaybook(
+                            becomeUser: &apos;tomcat&apos;,
+                            colorized: true,
+                            inventory: &apos;/home/tomcat/hosts.ini&apos;,
+
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
                     {% if side_mode == "double" %}
-                    stage(&quot;install enginx&quot;) {
-
+                    stage(&apos;running nginx&apos;) {
                         steps {
-                            dir(&apos;/home/tomcat/ansible&apos;) {
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_lb.yml -i /home/tomcat/hosts.ini&quot;
-                            }
+                            ansiblePlaybook(
+                            becomeUser: &apos;tomcat&apos;,
+                            colorized: true,
+                            inventory: &apos;/home/tomcat/hosts.ini&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            playbook: &apos;/home/tomcat/ansible/pb_conf_lb.yml&apos;)
                         }
-
                     }
                     {% endif %}
                 }

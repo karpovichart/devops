@@ -32,15 +32,16 @@
                             sh &quot;rm -rf devops&quot;
                             sh &quot;git clone https://github.com/karpovichart/devops.git&quot;
                             dir(&apos;devops&apos;){
-                                sh &quot;git checkout dev&quot;
+                                sh &quot;git checkout {{ branch }}&quot;
                                 sh &quot;rm -rf /home/tomcat/ansible/&quot;
                                 sh &quot;mkdir -p /home/tomcat/ansible/&quot;
                                 sh &quot;cp ansible/pb_conf_wp.yml /home/tomcat/ansible&quot;
                                 sh &quot;cp ansible/pb_install_mysql.yml /home/tomcat/ansible&quot;
                                 sh &quot;cp ansible/pb_install_apache.yml /home/tomcat/ansible&quot;
+                                sh &quot;cp ansible/pb_make_log.yml /home/tomcat/ansible&quot;
                                 sh &quot;cp ansible/pb_install_wp.yml /home/tomcat/ansible&quot;
                                 {% if side_mode == "double" %}
-                                sh &quot;cp ansible/pb_install_nginx.yml /home/tomcat/ansible&quot;
+                                sh &quot;cp ansible/pb_conf_lb.yml /home/tomcat/ansible&quot;
                                 {% endif %}
                                 sh &quot;cp ansible/ansible.cfg /home/tomcat/ansible&quot;
                                 sh &quot;cp -r ansible/roles /home/tomcat/ansible/roles&quot;
@@ -48,14 +49,14 @@
                             }
                         }
                     }
-                    stage(&quot;install wp&quot;) {
+                    stage(&quot;install mysql&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
-                            {% if side_mode == "double" %}
-                            sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_mysql.yml -i /home/tomcat/hosts.ini &quot;
-                            {% endif %}
+                            sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_mysql.yml -i /home/tomcat/hosts.ini&quot;
                             }
                         }
+                    }
+                    stage(&quot;install apache&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
                                 {% if side_mode == "double" %}
@@ -65,6 +66,8 @@
                                 {% endif %}
                             }
                         }
+                    }
+                    stage(&quot;install wp&quot;) {
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
                                 {% if side_mode == "double" %}
@@ -74,21 +77,24 @@
                                 {% endif %}
                             }
                         }
-                        {% if side_mode == "double" %}
+                    }
+                    {% if side_mode == "double" %}
+                    stage(&quot;install enginx&quot;) {
+
                         steps {
                             dir(&apos;/home/tomcat/ansible&apos;) {
-                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_install_nginx.yml -i /home/tomcat/hosts.ini&quot;
+                                sh &quot;ansible-playbook /home/tomcat/ansible/pb_conf_lb.yml -i /home/tomcat/hosts.ini&quot;
                             }
                         }
-                        {% endif %}
+
                     }
+                    {% endif %}
                 }
             }
-
         </script>
         <sandbox>true</sandbox>
     </definition>
     <triggers/>
-    <authToken>qwerty</authToken>
+    <authToken>{{lookup('file', '{{jenkins_token_path}}') }}</authToken>
     <disabled>false</disabled>
 </flow-definition>

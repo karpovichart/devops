@@ -1,5 +1,6 @@
 ---
  - name: Roles config
+   vars_files: "{{remote_vars_path}}"
    become: yes
    become_user: root
    hosts: wordpress_server_1, wordpress_server_2
@@ -16,10 +17,10 @@
    vars:
     actions: install_apache
     where: WordPress_Server_2
-   when: (lookup('file', '{{remove_side_file}}') == "2")
+   when: (lookup('file', '{{remove_side_file}}')  == "2")
 
  - import_playbook: pb_make_log.yml
    vars:
     actions: install_apache
     where: WordPress_Server
-   when: (lookup('file', '{{remove_side_file}}') == "1")
+   when: (lookup('file', '{{remove_side_file}}')  == "1")
