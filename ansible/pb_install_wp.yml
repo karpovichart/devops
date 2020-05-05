@@ -23,4 +23,4 @@
    vars:
     actions: install_word_press
     where: WordPress_Server
-   when: (lookup('file', {{remove_side_file}}) == "1")
+   when: (lookup('file', {{remove_side_file}})  == "1")

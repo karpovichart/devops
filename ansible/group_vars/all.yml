@@ -12,3 +12,4 @@
  remote_vault_path: "/home/tomcat/pass.txt"
  remote_vars_path: "/home/tomcat/ansible/group_vars/pass.yml"
  host_vars_path: "/home/ubuntu/devops/ansible/group_vars/pass.yml"
+ remove_side_file: /home/tomcat/side_mode.txt
