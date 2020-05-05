@@ -26,6 +26,8 @@
     - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"", line: "ANSIBLE_CONFIG=\"/home/ubuntu/devops/ansible/ansible.cfg\"" }
     - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
     - { reg: '^JENKINS_HOME', insert: "^JENKINS_HOME=\"{{jenkins_home}}\"", line: "JENKINS_HOME=\"{{jenkins_home}}\"" }
+    - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"{{ansible_conf_path}}\"", line: "ANSIBLE_CONFIG=\"{{ansible_conf_path}}\"" }
+
    register: task_result
 
  - name: stop tomcat and restart server

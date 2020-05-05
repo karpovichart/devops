@@ -18,3 +18,4 @@
  auth: ""
  service_url: "http://localhost:8080/jenkins/login" #todo мб заменить на  jenkins_server_url
  service_restart_name: "jenkins"
+ ansible_conf_path: "/home/tomcat/ansible/ansible.cfg"
