@@ -50,7 +50,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            vaultCredentialsId:&apos;{{lookup('file', '{{remote_vault_path}}') }}&apos;
+                            vaultCredentialsId: &apos;{{remote_vault_path}}&apos;
                             playbook: &apos;/home/tomcat/ansible/pb_install_mysql.yml&apos;)
                         }
                         steps {
@@ -61,7 +61,7 @@
                             {% if side_mode != "double" %}
                             limit: &apos;wordpress_server_2&apos;
                             {% endif %}
-                            vaultCredentialsId:&apos;{{lookup('file', '{{remote_vault_path}}') }}&apos;
+                            vaultCredentialsId: &apos;{{remote_vault_path}}&apos;
                             playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml &apos;)
                         }
                         steps {
@@ -72,7 +72,7 @@
                             {% if side_mode != "double" %}
                             limit: &apos;wordpress_server_2&apos;
                             {% endif %}
-                            vaultCredentialsId:&apos;{{lookup('file', '{{remote_vault_path}}') }}&apos;
+                            vaultCredentialsId: &apos;{{remote_vault_path}}&apos;
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                         steps {
@@ -83,7 +83,7 @@
                             {% if side_mode != "double" %}
                             limit: &apos;wordpress_server_2&apos;
                             {% endif %}
-                            vaultCredentialsId:&apos;{{lookup('file', '{{remote_vault_path}}') }}&apos;
+                            vaultCredentialsId: &apos;{{remote_vault_path}}&apos;
                             playbook: &apos;/home/tomcat/ansible/pb_install_nginx.yml&apos;)
                         }
                     }
