@@ -4,8 +4,8 @@
  #ansible_ssh_private_key_file: "/home/tomcat/keys/stockholm.pem"
  jenkins_username: user
  jenkins_password: password1
-# branch : dev
- branch : refactoring_ansible_code
+ branch : dev
+# branch : refactoring_ansible_code
  #branch : fix_generation_docker_pipeline
  docker_logs_path: "/home/tomcat/monitoring/"
  side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
