@@ -12,7 +12,7 @@
  url_for_jenkins_cli: "http://localhost:8080/jenkins"
  job_name_main: main
  job_name_docker: monitoring
- side_mode: single
+ side_mode: "single"
  docker_logs_path: "/home/tomcat/monitoring/"
  service_restart_name: "no name"
  auth: ""

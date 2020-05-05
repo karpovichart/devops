@@ -60,7 +60,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            {% if side_mode != "double" %}
+                            {% if side_mode != "single" %}
                             limit: &apos;wordpress_server_2&apos;,
                             {% endif %}
                             extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
@@ -73,7 +73,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            {% if side_mode != "double" %}
+                            {% if side_mode == "single" %}
                             limit: &apos;wordpress_server_2&apos;,
                             {% endif %}
                             extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
@@ -88,7 +88,7 @@
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
                             extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
-                            playbook: &apos;/home/tomcat/ansible/pb_install_nginx.yml&apos;)
+                            playbook: &apos;/home/tomcat/ansible/pb_conf_lb.yml&apos;)
                         }
                     }
                     {% endif %}
