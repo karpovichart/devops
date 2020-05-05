@@ -44,7 +44,7 @@
                             sh &apos;cp -r ansible/  /home/tomcat/ansible/&apos;
                         }
                     }
-                    stage(&apos;running ansible playbooks&apos;) {
+                    stage(&apos;running mysql&apos;) {
                         steps {
                             ansiblePlaybook(
                             becomeUser: &apos;tomcat&apos;,
@@ -53,6 +53,8 @@
                             vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_mysql.yml&apos;)
                         }
+                    }
+                    stage(&apos;running install apache&apos;) {
                         steps {
                             ansiblePlaybook(
                             becomeUser: &apos;tomcat&apos;,
@@ -64,6 +66,8 @@
                             vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml &apos;)
                         }
+                    }
+                    stage(&apos;running install wp&apos;) {
                         steps {
                             ansiblePlaybook(
                             becomeUser: &apos;tomcat&apos;,
@@ -75,18 +79,19 @@
                             vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
+                    }
+                    {% if side_mode == "double" %}
+                    stage(&apos;running nginx&apos;) {
                         steps {
                             ansiblePlaybook(
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            {% if side_mode != "double" %}
-                            limit: &apos;wordpress_server_2&apos;,
-                            {% endif %}
                             vaultCredentialsId: &apos;/home/tomcat/pass.txt&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_nginx.yml&apos;)
                         }
                     }
+                    {% endif %}
                 }
             }
         </script>

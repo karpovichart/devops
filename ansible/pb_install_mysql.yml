@@ -1,6 +1,8 @@
 ---
 
  - name: Roles config
+   include_vars:
+       dir: "{{vars_path}}"
    become: yes
    become_user: ubuntu
    hosts: db_server

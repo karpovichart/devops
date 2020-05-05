@@ -1,5 +1,7 @@
 ---
  - name: Roles config
+   include_vars:
+     dir: "{{vars_path}}"
    become: yes
    become_user: root
    hosts: wordpress_server_1, wordpress_server_2
