@@ -105,8 +105,9 @@ if select_action=='1':
         time.sleep(20)
 
         main_build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/build?token=' + token
-        main_build = requests.get(main_build_url, auth=HTTPBasicAuth('user', 'password1'))
-        
+       # main_build = requests.get(main_build_url, auth=HTTPBasicAuth('user', 'password1'))
+        main_build = requests.get(main_build_url, auth=HTTPBasicAuth('admin', 'qwerty'))
+
         if main_build.status_code == 201:
             print('\n Start pipeline build for application servers \n')
         else:
@@ -118,7 +119,8 @@ if select_action=='1':
 
         while True:
             main_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/1/consoleText?token=' + token
-            main_status = requests.get(main_status_url, auth=HTTPBasicAuth('user', 'password1'))
+           # main_status = requests.get(main_status_url, auth=HTTPBasicAuth('user', 'password1'))
+            main_status = requests.get(main_status_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
             f2 = open("file2","w")
             f2.write(main_status.text)
@@ -163,7 +165,8 @@ if select_action=='1':
         time.sleep(10)
 
         monitoring_build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/build?token=' + token
-        monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('user', 'password1'))
+       # monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('user', 'password1'))
+        monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
         if monitoring_build.status_code == 201:
             print('\n Start pipeline build for monitoring app \n')
@@ -174,7 +177,8 @@ if select_action=='1':
 
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
-            monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('user', 'password1'))
+           # monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('user', 'password1'))
+            monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
             f2 = open("file2","w")
             f2.write(monitoring_status.text)
@@ -281,8 +285,9 @@ if select_action=='1':
         time.sleep(20)
 
         main_build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/build?token=' + token
-        main_build = requests.get(main_build_url, auth=HTTPBasicAuth('user', 'password1'))
-        
+        #main_build = requests.get(main_build_url, auth=HTTPBasicAuth('user', 'password1'))
+        main_build = requests.get(main_build_url, auth=HTTPBasicAuth('admin', 'qwerty'))
+
         if main_build.status_code == 201:
             print('\n Start pipeline build for application servers \n')
         else:
@@ -294,7 +299,8 @@ if select_action=='1':
 
         while True:
             main_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/main/1/consoleText?token=' + token
-            main_status = requests.get(main_status_url, auth=HTTPBasicAuth('user', 'password1'))
+           # main_status = requests.get(main_status_url, auth=HTTPBasicAuth('user', 'password1'))
+            main_status = requests.get(main_status_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
             f2 = open("file2","w")
             f2.write(main_status.text)
@@ -339,7 +345,8 @@ if select_action=='1':
         time.sleep(10)
 
         monitoring_build_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/build?token=' + token
-        monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('user', 'password1'))
+       # monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('user', 'password1'))
+        monitoring_build = requests.get(monitoring_build_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
         if monitoring_build.status_code == 201:
             print('\n Start pipeline build for monitoring app \n')
@@ -350,7 +357,8 @@ if select_action=='1':
 
         while True:
             monitoring_status_url = 'http://' + ci_cd_server_public_ip + ':8080/jenkins/job/monitoring/1/consoleText?token=' + token
-            monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('user', 'password1'))
+        #   monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('user', 'password1'))
+            monitoring_status = requests.get(monitoring_status_url, auth=HTTPBasicAuth('admin', 'qwerty'))
 
             f2 = open("file2","w")
             f2.write(monitoring_status.text)
