@@ -9,10 +9,7 @@
     owner: tomcat
     group: tomcat
     
-# - name: add vars #root
-#   become: yes
-#   become_user: root
-#   block:
+
  - name: change env vars
    become: yes
    become_user: root
@@ -23,7 +20,6 @@
     line: "{{ item.line }}"
    with_items:
     - { reg: '^JAVA_OPTS', insert: "^JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_OPTS=\"-Djenkins.install.runSetupWizard=false\"" }
-
     - { reg: '^JAVA_ARGS', insert: "^JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"", line: "JAVA_ARGS=\"-Djenkins.install.runSetupWizard=false\"" }
     - { reg: '^JENKINS_HOME', insert: "^JENKINS_HOME=\"{{jenkins_home}}\"", line: "JENKINS_HOME=\"{{jenkins_home}}\"" }
     - { reg: '^ANSIBLE_CONFIG', insert: "^ANSIBLE_CONFIG=\"{{ansible_conf_path}}\"", line: "ANSIBLE_CONFIG=\"{{ansible_conf_path}}\"" }
@@ -73,22 +69,9 @@
    become_user: tomcat
    shell: "nohup {{tomcat_srv_path}}/bin/startup.sh"
 
- - import_tasks: wait_connect.yml #todo why import task ???
+ - import_tasks: wait_connect.yml
    vars:
     service_url: "http://localhost:8080/"
     service_restart_name: "tomcat"
 
  - import_tasks: wait_connect.yml
-
-
-
-#   notify:
-#   - "make log"
-
-# - name: add info to log file
-#   lineinfile:
-#    dest: "{{docker_logs_path}}logs.txt"
-#    line: "jenkins instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
-#    state: present
-#    insertafter: EOF
-#    create: True

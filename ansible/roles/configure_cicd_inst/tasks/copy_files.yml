@@ -73,7 +73,6 @@
     group: tomcat
     state: touch
     mode: '0744'
-#   notify: test
 
  - name: add info to log file
    lineinfile:

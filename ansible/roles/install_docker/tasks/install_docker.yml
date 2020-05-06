@@ -25,7 +25,6 @@
       name: "{{ docker_app }}"
       state: present
       update_cache: yes
-#      force_apt_get: yes
 
   - name: add info to log file
     lineinfile:

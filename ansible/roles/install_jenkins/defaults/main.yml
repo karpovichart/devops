@@ -16,6 +16,6 @@
  docker_logs_path: "/home/tomcat/monitoring/"
  service_restart_name: "no name"
  auth: ""
- service_url: "http://localhost:8080/jenkins/login" #todo мб заменить на  jenkins_server_url
+ service_url: "http://localhost:8080/jenkins/login"
  service_restart_name: "jenkins"
  ansible_conf_path: "/home/tomcat/ansible/ansible.cfg"

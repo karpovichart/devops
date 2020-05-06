@@ -1,11 +1,4 @@
 ---
 #tasks file for install_jenkins
-
-     
-     
      - include: install_jenkins.yml
      - include: config_jenkins.yml
-     
-#todo сделать удаление переменных системы
-#todo попробовать оптимизировать скрипт
-#todo вынести переменные и одинаковые куски кода в отедельные части
