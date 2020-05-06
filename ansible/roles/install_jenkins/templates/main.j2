@@ -76,7 +76,7 @@
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
-                    {% if side_mode == "double" %}
+                    {% if lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') == "double" %}
                     stage(&apos;running nginx&apos;) {
                         steps {
                             ansiblePlaybook(
