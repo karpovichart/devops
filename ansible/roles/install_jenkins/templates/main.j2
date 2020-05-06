@@ -76,7 +76,7 @@
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
-                    {% if lookup('file', '{{jenkins_token_path}}') == "double" %}
+                    {% if (lookup('file', '{{remove_side_file}}') == "double" %}
                     stage(&apos;running nginx&apos;) {
                         steps {
                             ansiblePlaybook(
