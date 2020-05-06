@@ -10,7 +10,7 @@
  jenkins_password: password1
  jenkins_server_url: "http://{{ groups['ci_cd_server'][0] }}:8080/jenkins"
  url_for_jenkins_cli: "http://localhost:8080/jenkins"
- job_name_main: main2
+ job_name_main: main
  job_name_docker: monitoring
  side_mode: "single"
  docker_logs_path: "/home/tomcat/monitoring/"
