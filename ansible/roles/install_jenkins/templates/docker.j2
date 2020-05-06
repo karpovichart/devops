@@ -22,15 +22,15 @@
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
         <script>properties([disableConcurrentBuilds()])
 
-           pipeline {
+pipeline {
    agent {
-       label &apos;master&apos;
-   }
+        label &apos;master&apos;
+    }
    options {
-       timestamps()
+        timestamps()
    }
    stages {
-       stage(&apos;clean up workspace&apos;){
+        stage(&apos;clean up workspace&apos;){
             steps{
                 dir(&apos;devops&apos;) {
                      deleteDir()
@@ -40,26 +40,26 @@
                 }
             }
        }
-       stage(&apos;download file from git&apos;){
+        stage(&apos;download file from git&apos;){
             steps{
-                 dir(&apos;devops&apos;) {
-                     pwd()
-                     git branch: &apos;{{ branch }}&apos;, url: &apos;https://github.com/karpovichart/devops.git&apos;
-                     sh &apos;mkdir -p /home/tomcat/monitoring_app&apos;
-                     sh &apos;ls -la&apos;
-                     sh &apos;cp -r ./monitoring_app /home/tomcat/&apos;
-                 }
+                dir(&apos;devops&apos;) {
+                    pwd()
+                    git branch: &apos;{{ branch }}&apos;, url: &apos;https://github.com/karpovichart/devops.git&apos;
+                    sh &apos;mkdir -p /home/tomcat/monitoring_app&apos;
+                    sh &apos;ls -la&apos;
+                    sh &apos;cp -r ./monitoring_app /home/tomcat/&apos;
+                }
             }
-       }
+        }
        stage(&quot;create docker image&quot;) {
             steps {
-                  echo &quot; ============== start building image ==================&quot;
-                  dir (&apos;/home/tomcat/monitoring_app/&apos;) {
-                     pwd()
-                     sh &apos;ls -la&apos;
-                     sh &apos; docker build -t monitoring-app .&apos;
-                     sh &apos; docker run -d -v {{docker_logs_path}}:/opt/share -p 5000:5000 monitoring-app &apos;
-                  }
+                echo &quot; ============== start building image ==================&quot;
+                dir (&apos;/home/tomcat/monitoring_app/&apos;) {
+                    pwd()
+                    sh &apos;ls -la&apos;
+                    sh &apos; docker build -t monitoring-app .&apos;
+                    sh &apos; docker run -d -v {{docker_logs_path}}:/opt/share -p 5000:5000 monitoring-app &apos;
+                }
             }
        }
    }
