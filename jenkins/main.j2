@@ -78,7 +78,7 @@
                             }
                         }
                     }
-                    {% if side_mode == "double" %}
+                    {% if lookup('file', '{{jenkins_token_path}}') == "double" %}
                     stage(&quot;install enginx&quot;) {
 
                         steps {

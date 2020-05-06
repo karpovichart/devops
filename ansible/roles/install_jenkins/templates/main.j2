@@ -50,7 +50,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt --extra-vars side_mode={{ lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') }}&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_mysql.yml&apos;)
                         }
                     }
@@ -60,8 +60,7 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-
-                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt --extra-vars side_mode={{ lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') }}&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_apache.yml&apos;)
                         }
                     }
@@ -71,22 +70,22 @@
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-
-                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt --extra-vars side_mode={{ lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') }}&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
-                    {% if side_mode != "single" %}
+                    {% if lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') == "2" %}
                     stage(&apos;running nginx&apos;) {
                         steps {
                             ansiblePlaybook(
                             becomeUser: &apos;tomcat&apos;,
                             colorized: true,
                             inventory: &apos;/home/tomcat/hosts.ini&apos;,
-                            extras: &apos;--vault-password-file /home/tomcat/pass.txt&apos;,
+                            extras: &apos;--vault-password-file /home/tomcat/pass.txt --extra-vars side_mode={{ lookup('file', '/home/ubuntu/devops/ansible/side_mode.txt') }}&apos;,
                             playbook: &apos;/home/tomcat/ansible/pb_conf_lb.yml&apos;)
                         }
                     }
+                    {% else %}
                     {% endif %}
                 }
             }
