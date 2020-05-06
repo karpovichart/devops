@@ -76,7 +76,7 @@
                             playbook: &apos;/home/tomcat/ansible/pb_install_wp.yml&apos;)
                         }
                     }
-
+                    {% if side_mode == "double" %}
                     stage(&apos;running nginx&apos;) {
                         steps {
                             ansiblePlaybook(
@@ -87,7 +87,9 @@
                             playbook: &apos;/home/tomcat/ansible/pb_conf_lb.yml&apos;)
                         }
                     }
-
+                    {% endif %}
+                     {% else %}
+                     {% endif %}
                 }
             }
         </script>
