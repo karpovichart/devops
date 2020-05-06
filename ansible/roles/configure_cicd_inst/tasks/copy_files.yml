@@ -6,6 +6,7 @@
     owner: tomcat
     group: tomcat
     mode: '0600'
+
  - name: copy ssh keys
    become: yes
    become_user: root
@@ -15,6 +16,7 @@
     owner: tomcat
     group: tomcat
     mode: '0400'
+
  - name: copy jenkins token
    copy:
     src: "{{host_jenkins_token_path}}"
@@ -22,6 +24,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+
  - name: copy host
    copy:
     src: "{{host_ansible_host}}"
@@ -29,6 +32,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+
  - name: copy jenkins xml
    copy:
     src: "{{host_jenkins_xml}}"
@@ -36,6 +40,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+
  - name: copy side file
    copy:
     src: "{{host_side_file}}"
@@ -43,6 +48,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+
  - name: copy nginx file
    copy:
     src: "{{host_nginx_conf_path}}"
@@ -51,6 +57,7 @@
     group: tomcat
     mode: '0744'
    when: (lookup('file', '{{host_side_file}}') == "2")
+
  - name: create dir monitoring
    file:
     path: "{{docker_logs_path}}"
@@ -58,6 +65,7 @@
     owner: tomcat
     group: tomcat
     mode: '0744'
+
  - name: create file logs
    file:
     path: "{{docker_logs_path}}logs.txt"
@@ -66,6 +74,7 @@
     state: touch
     mode: '0744'
 #   notify: test
+
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"
