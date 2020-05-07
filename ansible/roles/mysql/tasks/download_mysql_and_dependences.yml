@@ -9,7 +9,7 @@
     retries: 3
     delay: 3
     register: result
-    until: result.rc == 0
+    until: result is not failed
 
   - name: Make sure pymysql is present
     become: yes
@@ -20,4 +20,4 @@
     retries: 3
     delay: 3
     register: result
-    until: result.rc == 0
+    until: result is not failed

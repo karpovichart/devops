@@ -8,7 +8,7 @@
    retries: 3
    delay: 3
    register: result
-   until: result.rc == 0
+   until: result is not failed
 
  - name: add repot ansible
    apt_repository:
@@ -22,7 +22,7 @@
    retries: 3
    delay: 3
    register: result
-   until: result.rc == 0
+   until: result is not failed
 
  - name: add info to log file
    lineinfile:

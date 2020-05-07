@@ -59,7 +59,7 @@
    register: plug_installed
    retries: 3
    delay: 3
-   until: plug_installed.rc == 0
+   until: plug_installed is not failed
 
 
  - name: check disable anon sing in
@@ -136,7 +136,7 @@
    retries: 3
    delay: 3
    register: result
-   until: result.rc == 0
+   until: result is not failed
 
 
  - name: create job monitoring
@@ -147,7 +147,7 @@
    retries: 3
    delay: 3
    register: result
-   until: result.rc == 0
+   until: result is not failed
 
 
  - name: add info to log file

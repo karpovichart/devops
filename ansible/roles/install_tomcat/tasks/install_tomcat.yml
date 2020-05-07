@@ -9,7 +9,7 @@
     retries: 3
     delay: 3
     register: result
-    until: result.rc == 0
+    until: result is not failed
 
   - name: Change file ownership, group and permissions #root
     become: yes
@@ -30,7 +30,7 @@
     retries: 3
     delay: 3
     register: result
-    until: result.rc == 0
+    until: result is not failed
 
   - name: Extract tomcat archive
     become: yes
