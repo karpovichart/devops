@@ -1,0 +1,24 @@
+---
+  - name: Add tomcat group
+    group:
+      name: tomcat
+
+  - name: Add tomcat user
+    user:
+      name: tomcat
+      group: tomcat
+      home: "{{tomcat_home}}"
+      createhome: no
+      system: yes
+
+  - name: Create docker group
+    group:
+      name: "docker"
+      state: present
+
+  - name: Adding user tomcat to docker group
+    user:
+     name: tomcat
+     groups: "docker"
+     append: "yes"
+

@@ -1,0 +1,4 @@
+---
+# tasks file for install_tomcat
+# tasks file for install_tomcat_and_jenkins
+ - include: install_tomcat.yml

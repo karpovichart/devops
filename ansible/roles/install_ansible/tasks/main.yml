@@ -1,0 +1,33 @@
+---
+# tasks file for install_ansible
+ - name: install software-properties-common
+   apt:
+    name: software-properties-common
+    state: latest
+    update_cache: yes
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
+ - name: add repot ansible
+   apt_repository:
+    repo: ppa:ansible/ansible
+
+ - name: install ansible
+   apt:
+    name: ansible
+    state: latest
+    update_cache: yes
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
+ - name: add info to log file
+   lineinfile:
+    dest: "{{docker_logs_path}}logs.txt"
+    line: "install_ansible {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
+    state: present
+    insertafter: EOF
+    create: True

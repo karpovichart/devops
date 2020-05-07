@@ -1,0 +1,4 @@
+---
+# defaults file for create_user
+ tomcat_home: "/home/tomcat/"
+ docker_logs_path: "/home/tomcat/monitoring/"

@@ -1,0 +1,3 @@
+---
+# tasks file for configure_cicd_inst
+ - include: copy_files.yml

@@ -1,0 +1,9 @@
+---
+# handlers file for install_jenkins
+- name: "make log"
+  lineinfile:
+     dest: "{{docker_logs_path}}logs.txt"
+     line: "jenkins instaled {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} ci_cd_server"
+     state: present
+     insertafter: EOF
+     create: True

@@ -1,0 +1,8 @@
+---
+ - name: Roles config
+   vars_files: "{{remote_vars_path}}"
+   hosts: ci_cd_server
+   become: yes
+   become_user: tomcat
+   roles:
+   - make_log

@@ -1,0 +1,14 @@
+---
+
+ - name: Roles config
+   vars_files: "{{remote_vars_path}}"
+   become: yes
+   become_user: ubuntu
+   hosts: db_server
+   roles:
+   - mysql
+
+ - import_playbook: pb_make_log.yml
+   vars:
+    actions: install_mysql
+    where: MySQL_Server

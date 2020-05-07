@@ -1,0 +1,17 @@
+---
+ - name: Roles config
+   vars_files: "{{remote_vars_path}}"
+   become: yes
+   become_user: ubuntu
+   hosts: db_server
+   roles:
+   - mysql
+
+ - name: Roles config
+   vars_files: "{{remote_vars_path}}"
+   become: yes
+   become_user: root
+   hosts: wordpress_server_1, wordpress_server_2
+   roles:
+   - web-server
+   - wordpress 

@@ -1,0 +1,12 @@
+---
+ ansible_user: ubuntu
+ keys_dir: "/home/tomcat/keys/"
+ jenkins_username: user
+ jenkins_password: password1
+ branch : dev
+ docker_logs_path: "/home/tomcat/monitoring/"
+ side_mode_file_path: "/home/ubuntu/devops/ansible/side_mode.txt"
+ remote_vault_path: "/home/tomcat/pass.txt"
+ remote_vars_path: "/home/tomcat/ansible/group_vars/pass.yml"
+ host_vars_path: "/home/ubuntu/devops/ansible/group_vars/pass.yml"
+ remove_side_file: /home/tomcat/side_mode.txt

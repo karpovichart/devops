@@ -1,0 +1,6 @@
+---
+    - name: configure nginx
+      become: yes
+      copy:
+        src: "{{host_enginx_path}}"
+        dest: "{{remote_enginx_path}}"

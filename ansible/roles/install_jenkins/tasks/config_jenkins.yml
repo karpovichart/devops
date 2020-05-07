@@ -1,0 +1,159 @@
+---
+ - name: download cli
+   get_url:
+    url: "{{url_for_jenkins_cli}}/jnlpJars/jenkins-cli.jar"
+    dest: "{{jenkins_home}}"
+
+ - name: check avalible registration
+   lineinfile:
+    dest: "{{jenkins_home}}/config.xml"
+    regexp: "hudson.security.SecurityRealm+"
+    line: ""
+    state: absent
+   check_mode: yes
+   register: avilable_reg_res
+
+ - name: avalible registration
+   block:
+
+   - name: avalible registration
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      state: present
+      regexp: "hudson.security.SecurityRealm+"
+      line: "<securityRealm class=\"hudson.security.HudsonPrivateSecurityRealm\">\n<disableSignup>false</disableSignup>\n<enableCaptcha>false</enableCaptcha>\n</securityRealm>"
+
+   - import_tasks: restart_jenkins.yml
+
+   - import_tasks: wait_connect.yml
+
+   when: avilable_reg_res is changed
+
+ - name: check user isset
+   lineinfile:
+    dest: "{{jenkins_home}}/users/users.xml"
+    regexp: "<string>{{jenkins_username}}</string>"
+    line: ""
+    state: absent
+   check_mode: yes
+   register: user_isset
+
+ - name: create user
+   shell:
+    cmd: >
+      echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("{{jenkins_username}}", "{{jenkins_password}}")' | java -jar jenkins-cli.jar -s {{url_for_jenkins_cli}} groovy =
+    chdir: "{{jenkins_home}}"
+   register: user_created
+   when: not user_isset is changed
+
+ - name: install jenkins plugin
+   command:
+     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}}  install-plugin {{item.name}}"
+     chdir: "{{jenkins_home}}"
+   with_items:
+   - { name: timestamper }
+   - { name: ansicolor }
+   - { name: git }
+   - { name: ansible }
+   - { name: workflow-aggregator }
+   register: plug_installed
+   retries: 3
+   delay: 3
+   until: plug_installed is not failed
+
+
+ - name: check disable anon sing in
+   lineinfile:
+    dest: "{{jenkins_home}}/config.xml"
+    regexp: "hudson.security.AuthorizationStrategy+"
+    line: ""
+    state: absent
+   check_mode: yes
+   register: disable_anon_res
+
+ - name: disable anon sing in
+   block:
+
+   - name: disable anon sing in
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      regexp: "hudson.security.AuthorizationStrategy+"
+      line: "<authorizationStrategy class=\"hudson.security.FullControlOnceLoggedInAuthorizationStrategy\">\n<denyAnonymousReadAccess>true</denyAnonymousReadAccess>\n</authorizationStrategy>"
+
+   - name: disable register jenkins
+     lineinfile:
+      dest: "{{jenkins_home}}/config.xml"
+      regexp: 'disableSignup+'
+      line: '<disableSignup>true</disableSignup>'
+
+   when: disable_anon_res is changed
+
+ - name: restart jenkins
+   block:
+
+   - import_tasks: restart_jenkins.yml
+     vars:
+      auth: "-auth {{jenkins_username}}:{{jenkins_password}}"
+
+   - import_tasks: wait_connect.yml
+     vars:
+
+   when: disable_anon_res is changed or plug_installed is changed
+
+
+ - name: job main exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_main}}/"
+   register: job_main_res
+
+ - name: job docker exist
+   stat:
+     path: "{{jenkins_home}}/jobs/{{job_name_docker}}/"
+   register: job_docker_res
+
+ - name:
+   set_fact:
+    side_mode: "double"
+   when: ("{{lookup('file', '{{side_mode_file_path}}')}} == 2") and (job_main_res.stat.exists == False)
+
+ - name: gen main job
+   template:
+    src: main.j2
+    dest: /home/tomcat/main.xml
+   when: job_main_res.stat.exists == False
+
+ - name: gen docker job
+   template:
+    src: docker.j2
+    dest: /home/tomcat/docker_bild.xml
+   when: job_docker_res.stat.exists == False
+
+ - name: create main job
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_main}} < /home/tomcat/main.xml"
+    chdir: "{{jenkins_home}}"
+   when: job_main_res.stat.exists == False
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
+
+ - name: create job monitoring
+   shell:
+    cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
+    chdir: "{{jenkins_home}}"
+   when: job_docker_res.stat.exists == False
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
+
+ - name: add info to log file
+   lineinfile:
+    dest: "{{docker_logs_path}}logs.txt"
+    line: "install_jenkins {{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }} Jenkins_Server"
+    state: present
+    insertafter: EOF
+    create: True
