@@ -53,7 +53,7 @@
    with_items:
    - { name: timestamper }
    - { name: ansicolor }
-   - { name: git1 }
+   - { name: git }
    - { name: ansible }
    - { name: workflow-aggregator }
    register: plug_installed
