@@ -30,7 +30,6 @@
      state: present
      update_password: on_create
      priv: "{{wp_db_name}}.*:ALL"
-     priv: "{{wp_db_name}}.*:ALL"
      host: "{{wp_db_host}}"
      login_user: root
      login_password: "{{new_root_pass}}"
