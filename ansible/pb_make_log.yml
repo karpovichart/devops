@@ -6,8 +6,3 @@
    become_user: tomcat
    roles:
    - make_log
-
- - import_playbook: pb_make_log.yml
-   vars:
-    actions: install_monitoring_app
-    where:  Jenkins_Server
