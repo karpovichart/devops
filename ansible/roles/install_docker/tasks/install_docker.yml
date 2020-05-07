@@ -7,7 +7,7 @@
     retries: 3
     delay: 3
     register: result
-    until: is not failed
+    until: result is not failed
 
   - name: install key for docker
     apt_key:
@@ -32,7 +32,7 @@
     retries: 3
     delay: 3
     register: result
-    until: is not failed
+    until: result is not failed
 
   - name: add info to log file
     lineinfile:
