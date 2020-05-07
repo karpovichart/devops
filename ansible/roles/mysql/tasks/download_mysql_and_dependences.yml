@@ -6,9 +6,18 @@
      name: python3, mysql-server, python3-pip 
      state: latest
      update_cache: yes
+    retries: 3
+    delay: 3
+    register: result
+    until: result.rc == 0
+
   - name: Make sure pymysql is present
     become: yes
     become_user: root
     pip:
      name: pymysql
      state: present
+    retries: 3
+    delay: 3
+    register: result
+    until: result.rc == 0

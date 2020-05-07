@@ -5,6 +5,10 @@
     name: software-properties-common
     state: latest
     update_cache: yes
+   retries: 3
+   delay: 3
+   register: result
+   until: result.rc == 0
 
  - name: add repot ansible
    apt_repository:
@@ -15,6 +19,10 @@
     name: ansible
     state: latest
     update_cache: yes
+   retries: 3
+   delay: 3
+   register: result
+   until: result.rc == 0
 
  - name: add info to log file
    lineinfile:

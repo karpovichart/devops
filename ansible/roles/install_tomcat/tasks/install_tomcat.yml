@@ -6,6 +6,10 @@
       update_cache: yes
       name: "{{ tomcat_dependencies }}"
       state: present
+    retries: 3
+    delay: 3
+    register: result
+    until: result.rc == 0
 
   - name: Change file ownership, group and permissions #root
     become: yes
@@ -23,6 +27,10 @@
       dest : "{{ tomcat_dir }}" 
       owner: tomcat
       group: tomcat
+    retries: 3
+    delay: 3
+    register: result
+    until: result.rc == 0
 
   - name: Extract tomcat archive
     become: yes

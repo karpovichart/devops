@@ -6,3 +6,7 @@
       name: "{{programs}}"
       state: latest
       update_cache: yes
+     retries: 3
+     delay: 3
+     register: result
+     until: result.rc == 0
