@@ -63,6 +63,10 @@
      group: tomcat
      timeout: 60
    when: not stat_result.stat.exists
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
 
  - name: start tomcat
    become: yes

@@ -57,6 +57,9 @@
    - { name: ansible }
    - { name: workflow-aggregator }
    register: plug_installed
+   retries: 3
+   delay: 3
+   until: plug_installed is not failed
 
 
  - name: check disable anon sing in
@@ -130,12 +133,23 @@
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_main}} < /home/tomcat/main.xml"
     chdir: "{{jenkins_home}}"
    when: job_main_res.stat.exists == False
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
 
  - name: create job monitoring
    shell:
     cmd: "java -jar jenkins-cli.jar -auth {{jenkins_username}}:{{jenkins_password}} -s {{url_for_jenkins_cli}} create-job {{job_name_docker}} < /home/tomcat/docker_bild.xml"
     chdir: "{{jenkins_home}}"
    when: job_docker_res.stat.exists == False
+   retries: 3
+   delay: 3
+   register: result
+   until: result is not failed
+
+
  - name: add info to log file
    lineinfile:
     dest: "{{docker_logs_path}}logs.txt"

@@ -4,6 +4,10 @@
       update_cache: yes
       name: "{{ docker_dependencies }}"
       state: present
+    retries: 3
+    delay: 3
+    register: result
+    until: result is not failed
 
   - name: install key for docker
     apt_key:
@@ -25,6 +29,10 @@
       name: "{{ docker_app }}"
       state: present
       update_cache: yes
+    retries: 3
+    delay: 3
+    register: result
+    until: result is not failed
 
   - name: add info to log file
     lineinfile:
