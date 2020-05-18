@@ -1,7 +1,7 @@
 ---
 # defaults file for install_tomcat
- tomcat_url: "https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-9/v9.0.33/bin/apache-tomcat-9.0.33.tar.gz"
- tomcat_dir: "/tmp/apache-tomcat-9.0.33.tar.gz"
+ tomcat_url: "https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz"
+ tomcat_dir: "/tmp/apache-tomcat-9.0.34.tar.gz"
  tomcat_home: "/home/tomcat/"
  tomcat_srv_path: "/opt/tomcat/"
  tomcat_dependencies: "wget, python3-pip, openjdk-8-jdk"
